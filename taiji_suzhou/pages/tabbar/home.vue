@@ -101,7 +101,7 @@
 					case '热门事项':
 						{
 							uni.navigateTo({
-								url: '../address/add_address'
+								url: '../address/address_list'
 							})
 							break;
 						}

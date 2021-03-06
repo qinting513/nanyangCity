@@ -4,7 +4,7 @@
 			<u-form :model="form" ref="uForm" :error-type="errorType">
 				<view class="add-cell">
 					<u-form-item label="姓名" prop="name">
-						<u-input v-model="form.name" />
+						<u-input v-model="form.name" maxlength="20" />
 					</u-form-item>
 				</view>
 				<view class="add-cell">
@@ -15,6 +15,9 @@
 				<view class="add-cell">
 					<u-form-item label="所在地区" prop="region">
 						<u-input v-model="form.region" placeholder="请选择所在地区" :disabled="true" @click="isShowRegion = true" />
+						<view class="right-arrow">
+
+						</view>
 					</u-form-item>
 				</view>
 
@@ -44,23 +47,24 @@
 		mapState
 	} from "vuex";
 	export default {
-		name: 'mine',
+		name: 'add-address',
 		components: {
 			InputCell
 		},
 		data() {
 			return {
+				editIndex: -1,
 				type: 'textarea',
 				height: 150,
 				autoHeight: true,
 				isShowRegion: false,
 				errorType: ['toast'],
 				form: {
-					name: '',
-					mobile: "",
+					name: 'qinting',
+					mobile: "13058053850",
 					region: '',
-					detail: "",
-					isDefault: false,
+					detail: "999",
+					isDefault: true,
 				},
 				rules: {
 					name: [{
@@ -87,6 +91,15 @@
 				}
 			}
 		},
+		onLoad(options) {
+			let index = parseInt(options.id);
+			this.editIndex = index;
+			console.log("index:", index);
+			if (index > 0) {
+				let addressList = JSON.parse(uni.getStorageSync("addressList") || '[]');
+				this.form = addressList[index];
+			}
+		},
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
@@ -105,15 +118,28 @@
 			},
 			saveAction() {
 				uni.showLoading({
-					mask: true,
+					title: '正在保存中'
 				})
-				let list = localStorage.getItem("addressList");
-				list.push(list);
-				localStorage.setItem('addressList', list);
+				let addressList = JSON.parse(uni.getStorageSync("addressList") || '[]');
+				if (this.form.isDefault) { // 先清除默认地址
+					addressList.forEach(item => {
+						item.isDefault = false;
+					})
+				}
+				if (this.editIndex > 0) {
+					addressList[this.editIndex] = this.form;
+				} else {
+					addressList.push(this.form);
+				}
+
+				uni.setStorageSync('addressList', JSON.stringify(addressList));
 				uni.hideLoading();
 				uni.showToast({
 					title: '保存成功!'
 				})
+				setTimeout(() => {
+					uni.navigateBack();
+				}, 1000)
 			},
 			getItemData(data) {
 				this.form[data.field] = data.value;
@@ -127,10 +153,23 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.add-address {
+
 		background-color: #f2f5f5;
 		height: 100vh;
+
+		.u-form-item--left {
+			width: 100px !important;
+		}
+
+		.u-form-item--left__content__label {
+			width: 100px !important;
+		}
+
+		.u-form-item--right {
+			margin-left: 40upx !important;
+		}
 
 		.add-container {
 			background-color: #FFFFFF;
@@ -167,20 +206,5 @@
 			border-radius: 10upx;
 		}
 
-	}
-</style>
-<style lang="scss">
-	.add-address {
-		.u-form-item--left {
-			width: 100px !important;
-		}
-
-		.u-form-item--left__content__label {
-			width: 100px !important;
-		}
-
-		.u-form-item--right {
-			margin-left: 40upx !important;
-		}
 	}
 </style>
