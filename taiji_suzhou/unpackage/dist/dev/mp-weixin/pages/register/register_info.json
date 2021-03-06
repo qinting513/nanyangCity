@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "input-view": "/pages/login/login_input",
+    "normal-btn": "/pages/login/normal_button"
+  }
+}

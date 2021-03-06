@@ -1,0 +1,1 @@
+<view class="contaner"><view class="date">2020-06-30 17:44</view><view data-event-opts="{{[['tap',[['$emit',['click','$0'],['item']]]]]}}" class="content" bindtap="__e"><block wx:for="{{itemInfo}}" wx:for-item="v" wx:for-index="k" wx:key="*this"><view class="item"><view class="item-title">{{k}}</view>：<view class="item-detail">{{v}}</view></view></block></view></view>

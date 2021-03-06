@@ -1,0 +1,22 @@
+{
+  "name": "taiji_suzhou",
+  "version": "1.0.0",
+  "description": "``` 1、组件的生命周期 beforeCreate      实例已经开始初始化之后调用 【数据初始化未完成，页面没有开始渲染】 created           实例创建完成之后调用 【组件创建完成，不代表组件已挂载到页面】 beforeMount       在挂载开始之前被调用。         mounted           挂载到实例上去之后调用。 注意：此处并不能确定子组件被全部挂载， 　　　　　　　　　　 如果需要子组件完全挂载之后在执行操作可以使用$nextTickVue官方文档",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@dcloudio/uni-ui": "^1.2.11"
+  },
+  "devDependencies": {
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1"
+  }
+}

@@ -1,0 +1,29 @@
+.topNav {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 10px;
+	.navItem {
+		font-size: 16px;
+		height: 35px;
+	}
+	.check {
+		$check-color :rgb(62,118,255);
+		color: $check-color;
+		border-bottom: 2px solid $check-color;
+	}
+}
+
+.swiper {
+	height: calc(100vh - 45px - 44px);
+	.list {
+		height: 100%;
+		&::-webkit-scrollbar{display: none;}
+	}
+}
+
+.no-data-view {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 80%;
+}

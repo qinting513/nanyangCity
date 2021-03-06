@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "base-form": "/pages/base_apply/base_form_uni",
+    "base-form-web": "/pages/base_apply/base_form_web",
+    "material-page": "/pages/base_apply/material_page",
+    "mail-express-page": "/pages/base_apply/mail_express_page",
+    "comfirm-page": "/pages/base_apply/comfirm_page"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "政务服务",
+  "usingComponents": {
+    "business-page": "/pages/government_service/business_page",
+    "department-page": "/pages/government_service/department_page",
+    "network-list": "/pages/government_service/network_list",
+    "news-list": "/pages/government_service/news_list"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我要预约",
+  "usingComponents": {
+    "appointment-cell": "/pages/appointment/appointment_cell",
+    "normal-btn": "/pages/login/normal_button"
+  }
+}

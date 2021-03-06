@@ -1,0 +1,64 @@
+.government-service {
+		background-color: #F1F1F1;
+	}
+
+	.slider-tab {
+		position: relative;
+
+		.scroll-view-x {
+			background-color: #fff;
+			white-space: nowrap;
+			position: fixed;
+			z-index: 9999;
+			top: 0
+		}
+
+		.scroll-view-x .scroll-view-item {
+			display: inline-block;
+			margin: 0 35rpx;
+			line-height: 45px;
+			cursor: pointer;
+		}
+
+		.on {
+			border-bottom: 2px solid #4280e7;
+			color: #4280e7;
+		}
+	}
+	.seperator {
+		margin-top: 92upx; // 用小程序打开的时候 要设置这个，用网页打开可以不用设置这个
+		height: 20upx;
+		width: 100%;
+		background-color: #F1F1F1;
+	}
+	.service-container {
+		background-color: #fff;
+		padding-top: 20upx;
+		padding-bottom: 30upx;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+
+		.service-cell {
+			box-sizing: border-box;
+			width: 25vw;
+			height: 25vw;
+			text-align: center;
+
+			.cell-img {
+				width: 80upx;
+				height: 80upx;
+			}
+
+			.title {
+				padding: 8upx;
+				font-size: 29upx;
+				color: #333333;
+			}
+		}
+
+	}
+	
+	.swiper-item {
+		width: 100%;
+		height: 100%;
+	}
