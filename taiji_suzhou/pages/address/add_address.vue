@@ -1,18 +1,15 @@
 <template>
 	<view class="add-address">
 		<view class="add-container">
-			<u-form :model="form" ref="uForm" :error-type="errorType">
+			<u-form :model="form" label-width="200" ref="uForm" :error-type="errorType">
 				<view class="add-cell">
 					<u-form-item label="姓名" prop="name">
 						<u-input v-model="form.name" maxlength="20" />
 					</u-form-item>
-				</view>
-				<view class="add-cell">
 					<u-form-item label="手机号码" prop="mobile">
 						<u-input v-model="form.mobile" />
 					</u-form-item>
-				</view>
-				<view class="add-cell">
+
 					<u-form-item label="所在地区" prop="region">
 						<u-input v-model="form.region" placeholder="请选择所在地区" :disabled="true" @click="isShowRegion = true" />
 						<view class="right-arrow">
@@ -20,7 +17,6 @@
 						</view>
 					</u-form-item>
 				</view>
-
 				<u-picker mode="region" v-model="isShowRegion" @confirm="confirmPicker"></u-picker>
 
 				<view class="default-cell">
@@ -153,19 +149,6 @@
 	}
 </script>
 
-<style lang="scss">
-	.add-cell>>>.u-form-item--left {
-		width: 100px !important;
-	}
-
-	.add-cell>>>.u-form-item--left__content__label {
-		width: 100px !important;
-	}
-
-	.add-cell>>>.u-form-item--right {
-		margin-left: 40upx !important;
-	}
-</style>
 <style lang="scss" scoped>
 	.add-address {
 		background-color: #f2f5f5;
@@ -175,7 +158,7 @@
 			background-color: #FFFFFF;
 
 			.seperator-cell {
-				width: 100%;
+				width: 100vw;
 				background-color: #f2f5f5;
 				height: 20upx;
 
