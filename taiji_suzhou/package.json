@@ -12,11 +12,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@dcloudio/uni-ui": "^1.2.11"
-  },
   "devDependencies": {
-    "sass": "^1.32.8",
+    "node-sass": "^5.0.0",
     "sass-loader": "^11.0.1"
+  },
+  "dependencies": {
+    "uview-ui": "^1.8.3"
   }
 }

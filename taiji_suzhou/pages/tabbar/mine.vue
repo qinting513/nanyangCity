@@ -29,35 +29,25 @@
 					<image src="../../static/images/mine/my_space_title.png" mode="aspectFit"></image>
 					<text>{{ section.title }}</text>
 				</view>
-				<uni-list>
-					<view v-for="(item, index2) in section.subs" :key="index2">
-						<uni-list-item @click="click(index1, index2)" :title="item.name" :thumb="item.icon"></uni-list-item>
-					</view>
-				</uni-list>
+					<u-cell-group>
+						<view v-for="(item, index2) in section.subs" :key="index2">
+							<u-cell-item @click="click(index1, index2)"  :title="item.name" :thumb="item.icon"></u-cell-item>
+						</view>
+						
+					</u-cell-group>
 			</view>
 		</view>
-
-		<!-- <uni-list>
-			<view v-for="(item,index) in dataList" :key="index">
-				
-			</view>
-			<uni-list-item title="" note=""></uni-list-item>
-			<uni-list-item title="" note=""></uni-list-item>
-		</uni-list> -->
 	</view>
 </template>
 
 <script>
 import Api from '../../static/js/api.js';
 import Http from '../../static/js/http.js';
-import { uniList, uniListItem } from '@dcloudio/uni-ui';
 import {mapState} from 'vuex'
 
 export default {
 	name: 'mine',
 	components: {
-		uniList,
-		uniListItem
 	},
 	computed:{
 		...mapState(['userInfo', 'hasLogin']),
