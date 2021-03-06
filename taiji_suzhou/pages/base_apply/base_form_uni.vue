@@ -2,13 +2,15 @@
 	<view class="base-form-uni">
 		<view class="input-list">
 			<form>
-				<input-cell title='联系人:' field='realName' placeholder='请输入联系人' @getItemData="getItemData" :isNeed="true" :initValue="inputData.realName"></input-cell>
-				<input-cell title='移动电话:' field='mobile' placeholder='请输入移动电话' @getItemData="getItemData" :isNeed="true" :initValue="inputData.mobile"></input-cell>
-				<input-cell title='证件类型:' field='certificateTypesCode' placeholder='请选择证件类型' type="select" :itemList="itemList"
+				<input-cell title='姓名' field='realName' placeholder='请输入姓名' @getItemData="getItemData" :isNeed="true" :initValue="inputData.realName"></input-cell>
+				<input-cell title='性别' field='realName' placeholder='请输入姓名' @getItemData="getItemData" :isNeed="true" :initValue="inputData.realName"></input-cell>
+				
+				<input-cell title='移动电话' field='mobile' placeholder='请输入移动电话' @getItemData="getItemData" :isNeed="true" :initValue="inputData.mobile"></input-cell>
+				<input-cell title='证件类型' field='certificateTypesCode' placeholder='请选择证件类型' type="select" :itemList="itemList"
 				 @getItemData="getItemData" :isNeed="true" :initValue="itemList[0]"></input-cell>
-				<input-cell title='证件号码:' field='code' placeholder='请输入证件号码' @getItemData="getItemData" :isNeed="true" :initValue="inputData.code"></input-cell>
-				<input-cell title='电子邮件:' field='userEmail' placeholder='请输入电子邮件' @getItemData="getItemData" :initValue="inputData.userEmail"></input-cell>
-				<input-cell title='联系地址:' field='userAddress' placeholder='请输入联系地址' @getItemData="getItemData"></input-cell
+				<input-cell title='证件号码' field='code' placeholder='请输入证件号码' @getItemData="getItemData" :isNeed="true" :initValue="inputData.code"></input-cell>
+				<input-cell title='电子邮件' field='userEmail' placeholder='请输入电子邮件' @getItemData="getItemData" :initValue="inputData.userEmail"></input-cell>
+				<input-cell title='联系地址' field='userAddress' placeholder='请输入联系地址' @getItemData="getItemData"></input-cell
 				 :initValue="inputData.userAddress">
 				<input-cell title='项目名称:' field='itemName' type="readOnly" :initValue="inputData.itemName" :isNeed="true"></input-cell>
 			</form>

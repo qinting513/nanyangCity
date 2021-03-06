@@ -154,22 +154,22 @@
 </script>
 
 <style lang="scss">
-	.add-address {
+	.add-cell>>>.u-form-item--left {
+		width: 100px !important;
+	}
 
+	.add-cell>>>.u-form-item--left__content__label {
+		width: 100px !important;
+	}
+
+	.add-cell>>>.u-form-item--right {
+		margin-left: 40upx !important;
+	}
+</style>
+<style lang="scss" scoped>
+	.add-address {
 		background-color: #f2f5f5;
 		height: 100vh;
-
-		.u-form-item--left {
-			width: 100px !important;
-		}
-
-		.u-form-item--left__content__label {
-			width: 100px !important;
-		}
-
-		.u-form-item--right {
-			margin-left: 40upx !important;
-		}
 
 		.add-container {
 			background-color: #FFFFFF;

@@ -29,4 +29,8 @@
 	/*每个页面公共css */
 	@import "static/css/common.css";
 	@import "static/css/reset.css";
+	
+	page {
+		background-color: #f2f5f5;
+	}
 </style>
