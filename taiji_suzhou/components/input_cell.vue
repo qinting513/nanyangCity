@@ -1,5 +1,5 @@
 <template>
-	<view class="input-cell">
+	<view class="input-cell" :style="cellStyle">
 		<view class="flex-row title-box">
 			<text class="title-star" v-if="isNeed">*</text>
 			<view :style="titleStyle" class="cell-title">{{title}}</view>
@@ -104,6 +104,12 @@
 			isShowRightArrow: {
 				type: Boolean,
 				default: true,
+			},
+			cellStyle:{
+				type: Object,
+				default: function(){
+					return {}
+				}
 			}
 		},
 		data() {
@@ -171,10 +177,11 @@
 		height: 110upx;
 		align-items: center;
 		font-size: 30upx;
-		color: rgb(49, 49, 49);
+		color: #000000;
 		
 		.cell-title {
 			width: 220upx;
+			color: #666;
 		}
 		
 		.title-box {
@@ -244,6 +251,8 @@
 	}
 
 	.textView {
+		height: 100upx;
+		width: 100%;
 		text-align: right;
 		text-overflow: -o-ellipsis-lastline;
 		overflow: hidden;

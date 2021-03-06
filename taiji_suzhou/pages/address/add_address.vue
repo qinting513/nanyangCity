@@ -1,36 +1,38 @@
 <template>
-	<view class="base-form-uni">
-		<view class="input-list">
-			<form>
-				<input-cell title='收货人' :isShowRightArrow="false" field='realName' placeholder='请输入收货人' @getItemData="getItemData"
-				 :isNeed="false" :initValue="inputData.realName"></input-cell>
-				<input-cell title='联系电话' :isShowRightArrow="false" field='mobile' placeholder='请输入联系电话' @getItemData="getItemData"
-				 :isNeed="false" :initValue="inputData.mobile"></input-cell>
-				<input-cell title='所在地区' :isShowRightArrow="false" field='certificateTypesCode' placeholder='请选择所在地区' type="select"
-				 :itemList="itemList" @getItemData="getItemData" :isNeed="false" :initValue="itemList[0]"></input-cell>
-				<input-cell title='详细地址:' :isShowRightArrow="false" field='code' placeholder='请输入详细地址' @getItemData="getItemData"
-				 :isNeed="false" :initValue="inputData.code"></input-cell>
-				<view>
-					<uni-data-picker placeholder="请选择地址" popup-title="请选择城市" collection="opendb-city-china" field="code as value, name as text"
-					 orderby="value asc" :step-searh="true" :self-field="code" parent-field="parent_code" @change="onchange"
-					 @nodeclick="onnodeclick">
-					</uni-data-picker>
+	<view class="add-address">
+		<view class="add-container">
+			<u-form :model="form" ref="uForm" :error-type="errorType">
+				<view class="add-cell">
+					<u-form-item label="姓名" prop="name">
+						<u-input v-model="form.name" />
+					</u-form-item>
+				</view>
+				<view class="add-cell">
+					<u-form-item label="手机号码" prop="mobile">
+						<u-input v-model="form.mobile" />
+					</u-form-item>
+				</view>
+				<view class="add-cell">
+					<u-form-item label="所在地区" prop="region">
+						<u-input v-model="form.region" placeholder="请选择所在地区" :disabled="true" @click="isShowRegion = true" />
+					</u-form-item>
 				</view>
 
-	   <view class="uni-list-cell uni-list-cell-pd">
-	                <view class="uni-list-cell-db">设置为默认</view>
-	                <switch />
-	            </view>
-			</form>
+				<u-picker mode="region" v-model="isShowRegion" @confirm="confirmPicker"></u-picker>
+
+				<view class="default-cell">
+					<u-input v-model="form.detail" :type="type" :auto-height="autoHeight" placeholder="请输入详细地址" />
+				</view>
+
+				<view class="seperator-cell"></view>
+				<view class="default-cell">
+					<view class="">设置为默认</view>
+					<u-switch v-model="form.isDefault"></u-switch>
+				</view>
+			</u-form>
 		</view>
-		<view class="flex-row bottom-btns">
-			<view class="tempstore" @click="tempStore">
-				暂存
-			</view>
-			<view class="next" @click="next">
-				下一步
-			</view>
-		</view>
+		<view class="seperator-cell"></view>
+		<view class="save-button" @click="save">保 存</view>
 	</view>
 </template>
 
@@ -48,130 +50,137 @@
 		},
 		data() {
 			return {
-				itemList: [],
-				inputData: {
-					realName: '',
+				type: 'textarea',
+				height: 150,
+				autoHeight: true,
+				isShowRegion: false,
+				errorType: ['toast'],
+				form: {
+					name: '',
 					mobile: "",
-					certificateTypesCode: "",
-					code: "",
-					userEmail: "",
-					userAddress: "",
-					itemName: ""
+					region: '',
+					detail: "",
+					isDefault: false,
+				},
+				rules: {
+					name: [{
+						required: true,
+						message: '请填写收货人姓名',
+						// 可以单个或者同时写两个触发验证方式 
+						// trigger: ['change', 'blur'],
+					}],
+					mobile: [{
+							required: true,
+							message: '请填写手机号',
+						},
+						{
+							// 自定义验证函数，见上说明
+							validator: (rule, value, callback) => {
+								// 上面有说，返回true表示校验通过，返回false表示不通过
+								// this.$u.test.mobile()就是返回true或者false的
+								return this.$u.test.mobile(value);
+							},
+							message: '手机号码不正确',
+						}
+					]
+
 				}
 			}
 		},
-		computed: mapState(['applyItemInfo', 'userInfo', 'businessModel', 'formsModel', 'materialsModel', 'postModel']),
-		created() {
-			let items = [];
-			let cers = Api.certificateTypes;
-			for (let key in cers) {
-				items.push(cers[key]);
-			}
-			this.itemList = items;
-		},
-		mounted() {
-			this.updateInputData(this.formsModel)
+		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
+		onReady() {
+			this.$refs.uForm.setRules(this.rules);
 		},
 		methods: {
-			onchange(e) {
-				const value = e.detail.value
+			save() {
+				console.log("form:", this.form);
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log('验证通过');
+						this.saveAction();
+					} else {
+						console.log('验证失败');
+					}
+				});
 			},
-			onnodeclick(node) {},
-			updateInputData(formsModel) {
-				this.inputData.realName = formsModel.realName;
-				this.inputData.mobile = formsModel.mobile;
-				this.inputData.certificateTypesCode = formsModel.certificateTypesCode;
-				this.inputData.code = formsModel.code;
-				this.inputData.userEmail = formsModel.userEmail;
-				this.inputData.userAddress = formsModel.userAddress;
-				this.inputData.itemName = formsModel.itemName;
-				console.log("基本表单页面:", this.inputData);
-			},
-			//   showTip 表示是否要显示提示
-			checkBaseInfo(showTip) {
-				if (Util.isEmpty(this.inputData.realName) ||
-					Util.isEmpty(this.inputData.mobile) ||
-					Util.isEmpty(this.inputData.code) ||
-					Util.isEmpty(this.inputData.itemName)) {
-					if (showTip) {
-						uni.showToast({
-							icon: 'none',
-							title: "基本表单带*的选项为必填内容"
-						})
-					}
-					return false;
-				}
-				// if (!Util.isMobileExact(this.inputData.mobile)) {
-				// 	if (showTip) {
-				// 		uni.showToast({
-				// 			icon:'none',
-				// 			title: "请填写正确的移动电话"
-				// 		})
-				// 	}
-				// 	return false;
-				// }
-
-				if (!Util.checkIDCard(this.inputData.certificateTypesCode, this.inputData.code)) {
-					if (showTip) {
-						uni.showToast({
-							icon: 'none',
-							title: "请填写正确的证件号码"
-						})
-					}
-					return false;
-				}
-				if (!Util.isEmpty(this.inputData.userEmail)) {
-					if (!Util.isEmail(this.inputData.userEmail)) {
-						if (showTip) {
-							uni.showToast({
-								icon: 'none',
-								title: "请填写正确的邮箱地址"
-							})
-						}
-						return false;
-					}
-				}
-				this.formsModel.stateBaseForm = true;
-				this.$store.commit('updateFormsModel', this.formsModel);
-				return true;
+			saveAction() {
+				uni.showLoading({
+					mask: true,
+				})
+				let list = localStorage.getItem("addressList");
+				list.push(list);
+				localStorage.setItem('addressList', list);
+				uni.hideLoading();
+				uni.showToast({
+					title: '保存成功!'
+				})
 			},
 			getItemData(data) {
-				let form = this.formsModel;
-				if (data.field == 'certificateTypesCode') {
-					this.inputData['certificateTypesCode'] = data.value;
-					form.certificateType = data.value;
-					let cers = Api.certificateTypes;
-					for (let key in cers) {
-						if (data.value === cers[key]) {
-							form.certificateTypesCode = key;
-							break;
-						}
-					}
-				} else {
-					this.inputData[data.field] = data.value;
-					form[data.field] = data.value;
-				}
-				console.log("mine data:", data);
-				this.$store.commit('updateFormsModel', form);
+				this.form[data.field] = data.value;
+				console.log("form:", this.form);
 			},
-			tempStore: function() {
-				this.$emit('tempStore', {
-					page: 'baseFormPage'
-				});
-			},
-			next: function() {
-				this.$emit('next', {
-					page: 'baseFormPage'
-				});
-			},
+			confirmPicker(e) {
+				this.form.region = `${e.province.label} ${e.city.label} ${e.area.label}`
+				console.log("form:", this.form);
+			}
 		}
 	}
 </script>
 
-<style lang="scss">
-	.base-form-uni {
-		background-color: #FFFFFF;
-	}
+<style lang="scss" scoped>
+	.add-address {
+		background-color: #f2f5f5;
+		height: 100vh;
 
-	@import "../../static/css/apply/apply.scss";
+		.add-container {
+			background-color: #FFFFFF;
+
+			.seperator-cell {
+				width: 100%;
+				background-color: #f2f5f5;
+				height: 20upx;
+
+			}
+
+			.add-cell {
+				padding: 0 30upx;
+				font-size: 30upx;
+			}
+
+			.default-cell {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				padding: 30upx 30upx;
+				font-size: 30upx;
+			}
+		}
+
+		.save-button {
+			background: linear-gradient(90deg, rgba(103, 134, 228, 1), rgba(77, 112, 217, 1));
+			padding: 34upx 0upx;
+			margin: 50upx 30upx 30upx;
+			text-align: center;
+			color: #FFFFFF;
+			font-size: 36upx;
+			border-radius: 10upx;
+		}
+
+	}
+</style>
+<style lang="scss">
+	.add-address {
+		.u-form-item--left {
+			width: 100px !important;
+		}
+
+		.u-form-item--left__content__label {
+			width: 100px !important;
+		}
+
+		.u-form-item--right {
+			margin-left: 40upx !important;
+		}
+	}
 </style>
