@@ -285,7 +285,7 @@
 						this.selectedGuiShuDiModel = returnValue.PARENTS[0];
 						let titles = [];
 						for (let i in returnValue.PARENTS) {
-							console.log("归属地model: ", i);
+							// console.log("归属地model: ", i);
 							titles.push(returnValue.PARENTS[i].AREANAME || "");
 						}
 						this.guishudiTitlesList = titles;

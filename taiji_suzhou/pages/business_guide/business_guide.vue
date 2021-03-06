@@ -21,6 +21,20 @@
 				</view>
 			</view>
 		</view>
+		<view class="flex-row bottom-btns">
+			<view class="btn left left-line" @click="gotoZixun">
+				 咨询
+			</view>
+			<view class="btn left" @click="gotoPingjia">
+				 评价
+			</view>
+			<view class="btn r-gray" @click="gotoYuyue">
+				在线预约
+			</view>
+			<view class="btn r-blue" @click="gotoDeclare">
+				在线办理
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -44,7 +58,7 @@
 			const itemInfo = JSON.parse(decodeURIComponent(option.itemInfo));
 			console.log("itemInfo:", itemInfo);
 			if (itemInfo != null) {
-				this.itemInfo = option.itemInfo;
+				this.itemInfo = itemInfo;
 			}
 			this.loadData(itemInfo.ID);
 		},
@@ -172,12 +186,27 @@
 				];
 				console.log("dataList:", this.dataList);
 			},
+			gotoZixun() {},
+			gotoPingjia() {},
+			gotoYuyue() {},
+			gotoDeclare() {
+				console.log("banshi:",this.itemInfo);
+				let url = '../base_apply/base_apply_page'
+				url += `?itemName=${this.itemInfo.SXZXNAME}`;
+				url += `&permId=${this.itemInfo.ID}`;
+				this.$store.commit('updateApplyItemInfo', this.itemInfo);
+				uni.navigateTo({
+					url: url
+				});
+			},
 		},
 	}
 </script>
 
 <style lang="scss" scoped>
 	.business-guide {
+		background-color: #fff;
+
 		.cell-border {
 			border-top: 1upx solid #f1f1f1;
 			border-bottom: 1upx solid #f1f1f1;
@@ -210,6 +239,52 @@
 					padding: 16upx;
 				}
 			}
+		}
+
+		.bottom-btns {
+			background-color: #fff;
+			position: fixed;
+			bottom: 0;
+			height: 140upx;
+			width: 100%;
+			font-size: 34upx;
+			justify-content: space-evenly;
+
+			.btn {
+				padding: 16upx 24upx;
+			}
+
+			.left {
+				color: #007AFF;
+			}
+
+			.left-line {
+				position: relative;
+			}
+
+			.left-line::after {
+				content: "";
+				width: 2px;
+				height: 36upx;
+				border-right: 1px solid #007AFF;
+				position: absolute;
+				right: -16upx;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+
+			.r-gray {
+				color: #FFFFFF;
+				background-color: #777777;
+				border-radius: 80upx;
+			}
+
+			.r-blue {
+				color: #FFFFFF;
+				background-color: #007AFF;
+				border-radius: 80upx;
+			}
+
 		}
 	}
 </style>

@@ -69,14 +69,14 @@
 		},
 		methods: {
 			updateInputData(formsModel){
-				this.inputData.realName = formsModel.realName;
-				this.inputData.mobile = formsModel.mobile;
-				this.inputData.certificateTypesCode = formsModel.certificateTypesCode;
-				this.inputData.code = formsModel.code;
-				this.inputData.userEmail = formsModel.userEmail;
-				this.inputData.userAddress = formsModel.userAddress;
-				this.inputData.itemName = formsModel.itemName;
-				console.log("基本表单页面:", this.inputData);
+				// this.inputData.realName = formsModel.realName;
+				// this.inputData.mobile = formsModel.mobile;
+				// this.inputData.certificateTypesCode = formsModel.certificateTypesCode;
+				// this.inputData.code = formsModel.code;
+				// this.inputData.userEmail = formsModel.userEmail;
+				// this.inputData.userAddress = formsModel.userAddress;
+				// this.inputData.itemName = formsModel.itemName;
+				console.log("基本表单页面:", formsModel);
 			},
 			//   showTip 表示是否要显示提示
 			checkBaseInfo(showTip) {
