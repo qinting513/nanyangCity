@@ -8,7 +8,7 @@ const regionName = "肃州区";
 // 域名
 // const rootUrl = "http://61.178.200.43:443";
 const rootUrl = "http://61.178.200.43:8200"; // 肃州的
-// const rootUrl = "http://111.6.77.4:9001"  // 南阳的
+
 // baseUrl
 const baseUrl = rootUrl + "/services/";
 

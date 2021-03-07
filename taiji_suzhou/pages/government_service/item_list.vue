@@ -31,9 +31,7 @@
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Http from '../../static/js/http.js';
-
+	import Http from '../../static/js/nanyang_http.js';
 	export default {
 		name: "ItemList",
 		data() {

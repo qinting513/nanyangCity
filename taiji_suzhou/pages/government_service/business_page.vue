@@ -2,24 +2,24 @@
 	<view class="business-page">
 		<view class="flex-row service-container">
 			<view class="flex-column service-cell" v-for="(item,index) in dataList" :key="index" @click="gotoDetail(item)">
-				<image :src="item.PICTUREPATH" mode="scaleToFill" class="cell-img"></image>
-				<view class="title">{{item.PICTURENAME}}</view>
+				<image :src="item.PIC" mode="scaleToFill" class="cell-img"></image>
+				<view class="ellipsis title">{{item.SORTNAME}}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Http from '../../static/js/http.js';
-
+	import Http from '../../static/js/nanyang_http.js';
 	export default {
 		name: "businessPage",
 		props: {
 			// 1个人办事 2法人办事
 			userType: {
 				type: String,
-				value: '1'
+				default: ()=>{
+					return '1'
+				}
 			},
 			//  是组件还是页面
 			isComponent: {
@@ -35,23 +35,24 @@
 		},
 		created(options) {
 			if (this.isComponent) {
-				this.loadData();
+				this.userTypeFlag = this.userType;
 				uni.setNavigationBarTitle({
 					title: (this.userType == 1 ? '个人办事' : '法人办事')
 				});
+				this.loadData();
 			}
 			
 		},
 		onLoad(options) {
 			if (!this.isComponent) {
 				this.userTypeFlag = options.userType
-				this.loadData();
 				uni.setNavigationBarTitle({
 					title: (options.userType == 1 ? '个人办事' : '法人办事')
 				});
 			} else{
 				this.userTypeFlag = this.userType;
 			}
+			this.loadData();
 			console.log("start load", this.userTypeFlag, options);
 			console.log("isComponent", this.isComponent);
 
@@ -60,9 +61,12 @@
 			loadData(index) {
 				if (this.dataList == null || this.dataList.length == 0) {
 					Http.getBusinessItems(this.userTypeFlag).then(res => {
+						console.log("事项列表", res);
 						let result = res.ReturnValue;
 						result.forEach(item => {
-							item.PICTUREPATH = Api.rootUrl + item.PICTUREPATH;
+							if(item.PIC) {
+								item.PIC = Http.rootUrl + item.PIC;
+							}
 						});
 						console.log("getBusinessItems:", result);
 						this.dataList = result;
@@ -76,7 +80,7 @@
 					// 如果是组件则需要在其所在的页面调用uni.navigateTo才有用
 					this.$emit('gotoDetail', {item: item, userType: this.userTypeFlag});
 				} else {
-					let url = `./item_list?userType=${this.userTypeFlag}&pictureCode=${item.PICTURECODE}&pictureName=${item.PICTURENAME}`;
+					let url = `./item_list?userType=${this.userTypeFlag}&pictureCode=${item.SORTCODE}&pictureName=${item.SORTNAME}`;
 					console.log("item url:", item, url);
 					uni.navigateTo({
 						url: url
@@ -112,6 +116,7 @@
 			}
 
 			.title {
+				max-width: 24vw;
 				padding: 8upx;
 				font-size: 29upx;
 				color: #333333;

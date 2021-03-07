@@ -4,7 +4,7 @@
 			<view v-for="(item, index) in dataList" :key="index" class="flex-row cell"
 			@click="gotoDetail(item)">
 				<view>
-					{{item.SHORTNAME || ''}}({{item.PERMNUM || '0'}})
+					{{item.SHORTNAME || ''}}({{item.CNUM || '0'}})
 				</view>
 				<view class="right-arrow"></view>
 			</view>
@@ -13,9 +13,7 @@
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Http from '../../static/js/http.js';
-
+	import Http from '../../static/js/nanyang_http.js';
 	export default {
 		name: "departmentPage",
 		props: {

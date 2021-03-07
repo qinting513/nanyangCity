@@ -22,6 +22,7 @@ function soup(url, soupAction, requestBody, requestType) {
 	uni.showLoading({
 		title: '数据加载中...'
 	});
+	console.log("请求的url：",url, soupAction, requestBody)
 	return new Promise(function(resolve, reject) {
 		if (requestType == null || requestType == '') {
 			requestType = "POST";
