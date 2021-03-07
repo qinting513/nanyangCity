@@ -27,8 +27,8 @@
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Apply from '../../static/js/apply.js';
+	import Http from '../../static/js/nanyang_http.js';
+	import Apply from '../../static/js/nanyang_apply.js';
 	import Util from '../../static/js/util.js';
 	import BaseForm from './base_form_uni.vue';
 	import BaseFormWeb from './base_form_web.vue';
@@ -119,7 +119,7 @@
 						}
 					}
 					uni.request({
-						url: Api.rootUrl + "/mobile/login.jspx",
+						url: Http.rootUrl + "/mobile/login.jspx",
 						method: "GET",
 						data: param,
 						success: function(resource) {
@@ -186,12 +186,13 @@
 			goApply: function(type) {
 				// 1.先检查各个状态
 				let formData = this.cacheBaseInfo();
+				
 				let stateBaseForm = this.$refs.baseForm.checkBaseInfo(true);
 				if (stateBaseForm === false) {
-					uni.showToast({
-						icon: 'none',
-						title: '基本表单带*的选项为必填内容'
-					});
+					// uni.showToast({
+					// 	icon: 'none',
+					// 	title: '基本表单带*的选项为必填内容'
+					// });
 					return;
 				}
 
@@ -344,10 +345,12 @@
 					console.log('getFormByPermidV2 res:', res);
 					if (res['code'] == 200 && res['ReturnValue'] != null) {
 						let form = res['ReturnValue'][0];
-						this.formsModel.version = form['FORMVER'] || '';
-						this.formsModel.formtype = form['FORMTYPE'] || '10';
-						this.formsModel.formid = form['ID'] || 'A';
-						this.$store.commit('updateFormsModel', this.formsModel);
+						if (form){
+							this.formsModel.version = form['FORMVER'] || '';
+							this.formsModel.formtype = form['FORMTYPE'] || '10';
+							this.formsModel.formid = form['ID'] || 'A';
+							this.$store.commit('updateFormsModel', this.formsModel);
+						}
 					} else {
 						uni.showToast({
 							title: '基本表单加载失败'
@@ -434,7 +437,7 @@
 									filedel: '',
 									fileid: file.fileid,
 									filename: file.filename,
-									filepath: Api.downloadFileURL + file.fileid,
+									filepath: Http.downloadFileURL + file.fileid,
 									fileNo: file.fileid,
 									filetype: 'img',
 									id: file.fileid,

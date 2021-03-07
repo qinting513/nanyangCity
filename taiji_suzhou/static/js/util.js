@@ -252,7 +252,13 @@ function checkIDCard(type, id) {
 function isEmail(s) {
 	return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(s);
 }
-
+function checkMobile(value) {
+  if (!(/^1[3456789]\d{9}$/.test(value))) {
+    return false;
+  } else {
+    return true;
+  }
+}
 module.exports = {
 	checkResponse: checkResponse,
 	base64Decode,
@@ -264,4 +270,5 @@ module.exports = {
 	isEmail,
 	formDealWithData,
 	materialDealWithData,
+	checkMobile,
 }

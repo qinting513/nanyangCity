@@ -235,6 +235,7 @@ const materialNameList = [
 	"资料",
 	"材料"
 ];
+
 const certificateTypes = {
 	"10": "身份证",
 	"20": "护照",

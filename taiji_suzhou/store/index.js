@@ -41,7 +41,7 @@ const store = new Vuex.Store({
 			state.businessModel = business
 		},
 		updateFormsModel(state, form) {
-			console.log("update formsModel:", form);
+			// console.log("update formsModel:", form);
 			state.formsModel = form
 		},
 		updateApplyItemInfo(state, itemInfo) {

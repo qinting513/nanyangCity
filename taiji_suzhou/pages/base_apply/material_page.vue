@@ -9,7 +9,7 @@
 					<view class="title">{{ m.CLMC }}</view>
 				</view>
 				<view class="flex-row center">
-					<view class="upload-img" v-for="(imgObj, imgIndex) in materials ? materials[m.ID] : []" :key="imgIndex">
+					<view class="upload-img" v-for="(imgObj, imgIndex) in (materials ? materials[m.ID] : [])" :key="imgIndex" @click="previewImg(materials[m.ID], imgIndex)">
 						<image :src="imgObj.filepath || imgObj.localImg" mode="scaleToFill"></image>
 					</view>
 					<view class="flex-column add-btn" @click="addImages(m)"><view class="add">+</view></view>
@@ -25,15 +25,15 @@
 
 		<view class="flex-row bottom-btns">
 			<view class="pre" @click="pre">上一步</view>
-			<view class="tempstore" @click="tempStore">暂存</view>
+			<view class="tempstore" @click="tempStore">存为草稿</view>
 			<view class="next" @click="next">下一步</view>
 		</view>
 	</view>
 </template>
 
 <script>
-import Api from '../../static/js/api.js';
-import Apply from '../../static/js/apply.js';
+import Http from '../../static/js/nanyang_http.js';
+import Apply from '../../static/js/nanyang_apply.js';
 import Util from '../../static/js/util.js';
 import { mapState } from 'vuex';
 
@@ -231,7 +231,7 @@ export default {
 			let name = '材料';
 			if (model.CLMC != null) {
 				// console.log('====start', model.CLMC);
-				let nameList = Api.materialNameList;
+				let nameList = Http.materialNameList;
 				nameList.forEach(temp => {
 					// console.log('========', temp);
 					if (model.CLMC.indexOf(temp) != -1) {
@@ -253,7 +253,7 @@ export default {
 			// 提交文件
 			let that = this;
 			uni.uploadFile({
-				url: Api.uploadFileURL,
+				url: Http.uploadFileURL,
 				filePath: imgPath,
 				name: 'file',
 				formData: {
@@ -268,7 +268,7 @@ export default {
 						return;
 					}
 					let responseFileID = data.ReturnValue.FILEID;
-					let fileId = Api.downloadFileURL + responseFileID;
+					let fileId = Http.downloadFileURL + responseFileID;
 					console.log('===>after upload responseFileID:', responseFileID);
 
 					let materials = that.materials || {};
@@ -373,6 +373,13 @@ export default {
 				this.$store.commit('updateFormsModel', this.formsModel);
 			}
 			return ret;
+		},
+		previewImg(imgArr, imgIndex) {
+			console.log("previewImg:", imgIndex);
+			uni.previewImage({
+				urls: imgArr,
+				current: imgIndex,
+			})
 		}
 	}
 };

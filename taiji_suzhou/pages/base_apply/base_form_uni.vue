@@ -2,24 +2,20 @@
 	<view class="base-form-uni">
 		<view class="input-list">
 			<form>
-				<input-cell title='姓名' field='realName' placeholder='请输入姓名' @getItemData="getItemData" :isNeed="true" :initValue="inputData.realName"></input-cell>
-				<input-cell title='性别' field='sex' placeholder='请选择性别' type="select" :itemList="sexList"
-				 @getItemData="getItemData" :isNeed="true" :initValue="sexList[0]"></input-cell>
-				<input-cell title='证件号码' field='code' placeholder='请输入证件号码' @getItemData="getItemData" :isNeed="true" :initValue="inputData.code"></input-cell>
-				<input-cell title='移动电话' field='mobile' placeholder='请输入移动电话' @getItemData="getItemData" :isNeed="true" :initValue="inputData.mobile"></input-cell>
-				
-				<!-- <input-cell title='证件类型' field='certificateTypesCode' placeholder='请选择证件类型' type="select" :itemList="itemList"
+				<input-cell title='联系人:' field='realName' placeholder='请输入联系人' @getItemData="getItemData" :isNeed="true" :initValue="inputData.realName"></input-cell>
+				<input-cell title='移动电话:' field='mobile' placeholder='请输入移动电话' @getItemData="getItemData" :isNeed="true" :initValue="inputData.mobile"></input-cell>
+				<input-cell title='证件类型:' field='certificateTypesCode' placeholder='请选择证件类型' type="select" :itemList="itemList"
 				 @getItemData="getItemData" :isNeed="true" :initValue="itemList[0]"></input-cell>
-				
-				<input-cell title='电子邮件' field='userEmail' placeholder='请输入电子邮件' @getItemData="getItemData" :initValue="inputData.userEmail"></input-cell>
-				<input-cell title='联系地址' field='userAddress' placeholder='请输入联系地址' @getItemData="getItemData"></input-cell
-				 :initValue="inputData.userAddress"> -->
-				<!-- <input-cell title='项目名称:' field='itemName' type="readOnly" :initValue="inputData.itemName" :isNeed="true"></input-cell> -->
+				<input-cell title='证件号码:' field='code' placeholder='请输入证件号码' @getItemData="getItemData" :isNeed="true" :initValue="inputData.code"></input-cell>
+				<input-cell title='电子邮件:' field='userEmail' placeholder='请输入电子邮件' @getItemData="getItemData" :initValue="inputData.userEmail"></input-cell>
+				<input-cell title='联系地址:' field='userAddress' placeholder='请输入联系地址' @getItemData="getItemData"></input-cell
+				 :initValue="inputData.userAddress">
+				<input-cell title='项目名称:' field='itemName' type="readOnly" :initValue="inputData.itemName" :isNeed="true"></input-cell>
 			</form>
 		</view>
 		<view class="flex-row bottom-btns">
 			<view class="tempstore" @click="tempStore">
-				暂存
+				存为草稿
 			</view>
 			<view class="next" @click="next">
 				下一步
@@ -43,7 +39,6 @@
 		data() {
 			return {
 				itemList: [],
-				sexList:['男', '女'],
 				inputData: {
 					realName: '',
 					mobile: "",
@@ -69,17 +64,18 @@
 		},
 		methods: {
 			updateInputData(formsModel){
-				// this.inputData.realName = formsModel.realName;
-				// this.inputData.mobile = formsModel.mobile;
-				// this.inputData.certificateTypesCode = formsModel.certificateTypesCode;
-				// this.inputData.code = formsModel.code;
-				// this.inputData.userEmail = formsModel.userEmail;
-				// this.inputData.userAddress = formsModel.userAddress;
-				// this.inputData.itemName = formsModel.itemName;
-				console.log("基本表单页面:", formsModel);
+				this.inputData.realName = formsModel.realName;
+				this.inputData.mobile = formsModel.mobile;
+				this.inputData.certificateTypesCode = formsModel.certificateTypesCode;
+				this.inputData.code = formsModel.code;
+				this.inputData.userEmail = formsModel.userEmail;
+				this.inputData.userAddress = formsModel.userAddress;
+				this.inputData.itemName = formsModel.itemName;
+				console.log("基本表单页面:", this.inputData);
 			},
 			//   showTip 表示是否要显示提示
 			checkBaseInfo(showTip) {
+				
 				if (Util.isEmpty(this.inputData.realName) ||
 					Util.isEmpty(this.inputData.mobile) ||
 					Util.isEmpty(this.inputData.code) ||
@@ -92,15 +88,15 @@
 					}
 					return false;
 				}
-				// if (!Util.isMobileExact(this.inputData.mobile)) {
-				// 	if (showTip) {
-				// 		uni.showToast({
-				// 			icon:'none',
-				// 			title: "请填写正确的移动电话"
-				// 		})
-				// 	}
-				// 	return false;
-				// }
+				if (!Util.checkMobile(this.inputData.mobile)) {
+					if (showTip) {
+						uni.showToast({
+							icon:'none',
+							title: "请填写正确的手机号码"
+						})
+					}
+					return false;
+				}
 
 				if (!Util.checkIDCard(this.inputData.certificateTypesCode, this.inputData.code)) {
 					if (showTip) {

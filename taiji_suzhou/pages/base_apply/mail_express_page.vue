@@ -8,7 +8,7 @@
 			<view class="right">
 				<picker :range='guishudiTitlesList' mode='selector' @change="getItemData">
 					<view class="flex-row picker-area">
-						<view class="">{{selectedGuiShuDiModel.AREANAME}}</view>
+						<view class="">{{selectedGuiShuDiModel.AREANAME || '暂无'}}</view>
 						<view class="right-arrow"></view>
 					</view>
 				</picker>
@@ -127,8 +127,7 @@
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Apply from '../../static/js/apply.js';
+	import Apply from '../../static/js/nanyang_apply.js';
 	import InputCell from '../../components/input_cell.vue';
 	import Util from '../../static/js/util.js';
 	import {
@@ -281,12 +280,14 @@
 					// console.log("归属地model: ", res);
 					if (res.code == '200' && res['ReturnValue'] != null) {
 						let returnValue = res['ReturnValue'];
-						this.guishudiModelList = returnValue.PARENTS;
-						this.selectedGuiShuDiModel = returnValue.PARENTS[0];
+						this.guishudiModelList = returnValue.PARENTS || [];
+						this.selectedGuiShuDiModel = returnValue.PARENTS[0] || {};
 						let titles = [];
 						for (let i in returnValue.PARENTS) {
 							// console.log("归属地model: ", i);
-							titles.push(returnValue.PARENTS[i].AREANAME || "");
+							if (returnValue.PARENTS[i]) {
+							    titles.push(returnValue.PARENTS[i].AREANAME || "");
+							}
 						}
 						this.guishudiTitlesList = titles;
 						// console.log("titles:", titles);

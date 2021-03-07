@@ -25,7 +25,7 @@
 				上一步
 			</view>
 			<view class="tempstore" @click="tempStore">
-				暂存
+				存为草稿
 			</view>
 			<view class="next" @click="apply">
 				申报
@@ -35,8 +35,6 @@
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Apply from '../../static/js/apply.js';
 	import Util from '../../static/js/util.js';
 	import {
 		mapState
