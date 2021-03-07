@@ -39,8 +39,7 @@
 </template>
 
 <script>
-	import Api from '../../static/js/api.js';
-	import Http from '../../static/js/http.js';
+	import Http from '../../static/js/nanyang_http.js';
 
 	export default {
 		name: "BusinessGuide",
@@ -55,31 +54,23 @@
 		},
 		onLoad: function(option) {
 			console.log(option);
-			const itemInfo = JSON.parse(decodeURIComponent(option.itemInfo));
-			console.log("itemInfo:", itemInfo);
-			if (itemInfo != null) {
-				this.itemInfo = itemInfo;
+			// const itemInfo = JSON.parse(decodeURIComponent(option.itemInfo));
+			const itemInfo = uni.getStorageSync('guide__item');
+			// console.log("itemInfo:", itemInfo);
+			if (itemInfo != null && itemInfo != '') {
+				this.itemInfo = JSON.parse(itemInfo);
+			    this.loadData(this.itemInfo.ID);
 			}
-			this.loadData(itemInfo.ID);
 		},
 		methods: {
 			expendCell(index) {
 				this.$set(this.expends, index, !this.expends[index]);
 				console.log("expends:", this.expends);
 			},
-			btnClick(index) {
-				console.log("index:", index);
-				if (index == 0) {
-
-				} else if (index == 1) {
-					console.log("apply");
-				} else {
-					console.log("预约");
-				}
-			},
 			loadData(permId) {
 				Http.getBusinessGuideData(permId).then(res => {
 					// console.log("getBusinessGuideData", res);
+					// debugger
 					if (res.ReturnValue != null) {
 						let model = res.ReturnValue;
 						this.businessGuideModel = model;
@@ -190,14 +181,22 @@
 			gotoPingjia() {},
 			gotoYuyue() {},
 			gotoDeclare() {
-				console.log("banshi:",this.itemInfo);
-				let url = '../base_apply/base_apply_page'
-				url += `?itemName=${this.itemInfo.SXZXNAME}`;
-				url += `&permId=${this.itemInfo.ID}`;
-				this.$store.commit('updateApplyItemInfo', this.itemInfo);
-				uni.navigateTo({
-					url: url
-				});
+				console.log("banshi:", this.itemInfo);
+				if (this.itemInfo.SFYDSB) {
+					let url = '../base_apply/base_apply_page'
+					url += `?itemName=${this.itemInfo.SXZXNAME}`;
+					url += `&permId=${this.itemInfo.ID}`;
+					this.$store.commit('updateApplyItemInfo', this.itemInfo);
+					uni.navigateTo({
+						url: url
+					});
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: '该事项暂不支持在线申报'
+					})
+				}
+
 			},
 		},
 	}

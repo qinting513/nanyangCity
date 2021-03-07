@@ -111,7 +111,7 @@
 					// 部门userType为3
 					url += `&pictureCode=${data.item.DEPTID}&pictureName=${data.item.SHORTNAME}`;
 				} else { // 个人、法人办事
-					url += `&pictureCode=${data.item.PICTURECODE}&pictureName=${data.item.PICTURENAME}`;
+					url += `&pictureCode=${data.item.SORTCODE}&pictureName=${data.item.SORTNAME}`;
 
 				}
 				console.log("item url:", url);

@@ -74,7 +74,7 @@ function getItemList(pictureCode, userType, pageNo, pageSize) {
 		pageNo = pageNo || "1";
 		pageSize = pageSize || "1000";
 
-		if (userType == '3') {
+		if (userType == '3') { // 获取部门的事项列表
 			url = "RestSysDeptService";
 			method = "getPermlistByDeptid";
 			params = {
@@ -98,9 +98,9 @@ function getItemList(pictureCode, userType, pageNo, pageSize) {
 			method = "getPermlistBySortcode";
 		}
 		url = baseUrl + url
-		debugger
+		// debugger
 		WebApi.soup(url, method, params).then(res => {
-			debugger
+			// debugger
 			resolve(res);
 		}).catch((err) => {
 			reject(err);
@@ -108,6 +108,22 @@ function getItemList(pictureCode, userType, pageNo, pageSize) {
 	});
 }
 
+
+// 获取办事指南
+function getBusinessGuideData(permId) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"PERMID": permId
+		};
+		console.log("请求参数:", params);
+		let url = baseUrl + 'RestPermissionitemService'
+		WebApi.soup( url, "getPermissionByPermid", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
 
 
 
@@ -118,8 +134,10 @@ module.exports = {
 	downloadFileURL,
 	uploadFileURL,
 	
+	
 	getBusinessItems,
 	getDepartmentItems,
 	getItemList,
+	getBusinessGuideData
 
 }

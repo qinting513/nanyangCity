@@ -114,6 +114,7 @@ function getItemList(pictureCode, userType, pageNo, pageSize) {
 		});
 	});
 }
+
 // 获取办事指南
 function getBusinessGuideData(permId) {
 	return new Promise(function(resolve, reject) {

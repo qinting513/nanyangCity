@@ -78,26 +78,35 @@
 			},
 			btnClick(index, item) {
 				console.log("index:", index, item);
-				if (index == 0) {
-					let itemInfo = encodeURIComponent(JSON.stringify(item));
+				if (index == 0) { // 办事指南
+					// let itemInfo = encodeURIComponent(JSON.stringify(item));
+					uni.setStorageSync('guide__item', JSON.stringify(item));
 					uni.navigateTo({
-						url: '../business_guide/business_guide?itemInfo='+itemInfo
+						url: '../business_guide/business_guide' // ?itemInfo='+itemInfo
 					});
-				} else if (index == 1) {
-					let url = '../base_apply/base_apply_page'
-					url += `?itemName=${item.SXZXNAME}`;
-					url += `&permId=${item.ID}`;
-					this.$store.commit('updateApplyItemInfo', item);
-					uni.navigateTo({
-						url: url
-					});
+				} else if (index == 1) { // 申报
+				 if(item.SFYDSB) {
+					 let url = '../base_apply/base_apply_page'
+					 url += `?itemName=${item.SXZXNAME}`;
+					 url += `&permId=${item.ID}`;
+					 this.$store.commit('updateApplyItemInfo', item);
+					 uni.navigateTo({
+					 	url: url
+					 });
+				 } else {
+					 uni.showToast({
+						 icon:'none',
+					 	title: '该事项暂不支持在线申报'
+					 })
+				 }
+				 
 				} else {
 					console.log("预约");
 				}
 			},
 			loadData() {
 				Http.getItemList(this.pictureCode, this.userType).then(res => {
-					console.log("getNewsList:", JSON.stringify(res));
+					// console.log("getItemList:", JSON.stringify(res));
 					if (res.ReturnValue != null) {
 						this.dataList = res.ReturnValue;
 					}
