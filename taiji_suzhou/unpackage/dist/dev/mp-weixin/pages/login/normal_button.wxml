@@ -1,1 +1,0 @@
-<view class="button-container data-v-5cac6c7b"><button class="normal-button data-v-5cac6c7b" hover-class="normal-button-hover" type="default" data-event-opts="{{[['tap',[['$emit',['click']]]]]}}" bindtap="__e">{{''+text+''}}</button></view>

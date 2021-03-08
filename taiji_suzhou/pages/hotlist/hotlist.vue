@@ -5,9 +5,11 @@
 				<icon type="search" size="16" />
 				<input type="text" placeholder="请输入事项名称" />
 			</view>
-
+			<view class="no-data">
+				暂无数据
+			</view>
 			<view class="item" v-for="(item, i) in dataList" :key="i">
-				<view class="">{{item.title}}</view>
+				<view class="">{{item.SXZXNAME}}</view>
 				<view class='right-arrow'></view>
 			</view>
 		</view>
@@ -15,110 +17,27 @@
 </template>
 
 <script>
+	import Http from '../../static/js/nanyang_http.js';
 	export default {
 		data() {
 			return {
-				dataList: [{
-						id: 0,
-						title: '会计人员信息采集'
-					},
-					{
-						id: 1,
-						title: '住房公积金信息查询'
-					},
-					{
-						id: 2,
-						title: '身份证办理进度查询'
-					},
-					{
-						id: 3,
-						title: '河南旅游查询'
-					},
-					{
-						id: 4,
-						title: '新冠定点医疗机构'
-					},
-					{
-						id: 5,
-						title: '婚姻预约登记'
-					},
-					{
-						id: 0,
-						title: '会计人员信息采集'
-					},
-					{
-						id: 1,
-						title: '住房公积金信息查询'
-					},
-					{
-						id: 2,
-						title: '身份证办理进度查询'
-					},
-					{
-						id: 3,
-						title: '河南旅游查询'
-					},
-					{
-						id: 4,
-						title: '新冠定点医疗机构'
-					},
-					{
-						id: 5,
-						title: '婚姻预约登记'
-					},
-					{
-						id: 0,
-						title: '会计人员信息采集'
-					},
-					{
-						id: 1,
-						title: '住房公积金信息查询'
-					},
-					{
-						id: 2,
-						title: '身份证办理进度查询'
-					},
-					{
-						id: 3,
-						title: '河南旅游查询'
-					},
-					{
-						id: 4,
-						title: '新冠定点医疗机构'
-					},
-					{
-						id: 5,
-						title: '婚姻预约登记'
-					},
-					{
-						id: 0,
-						title: '会计人员信息采集'
-					},
-					{
-						id: 1,
-						title: '住房公积金信息查询'
-					},
-					{
-						id: 2,
-						title: '身份证办理进度查询'
-					},
-					{
-						id: 3,
-						title: '河南旅游查询'
-					},
-					{
-						id: 4,
-						title: '新冠定点医疗机构'
-					},
-					{
-						id: 5,
-						title: '婚姻预约登记'
-					},
-				]
+				dataList: []
 			}
 		},
+		created(options) {
+			this.loadData();
+		},
 		methods: {
-
+			loadData() {
+				if (this.dataList == null || this.dataList.length == 0) {
+					Http.getHotPermList().then(res => {
+						console.log("getHotPermList:", res);
+						if (res.code == 200) {
+							this.dataList = res.ReturnValue.Items || [];
+						}
+					});
+				}
+			},
 		}
 	}
 </script>
@@ -130,6 +49,7 @@
 
 		.list {
 			background-color: #FFFFFF;
+			padding-top: 30upx;
 
 			.search {
 				margin: 20upx 30upx;
@@ -158,6 +78,11 @@
 
 			.item:last-child {
 				border-bottom: none;
+			}
+			.no-data {
+				padding: 50upx 0;
+				text-align: center;
+				color: #999999;
 			}
 		}
 	}

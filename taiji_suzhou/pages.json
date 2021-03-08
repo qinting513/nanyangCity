@@ -14,7 +14,13 @@
 		{
 			"path": "pages/government_service/business_page",
 			"style": {
-				"navigationBarTitleText": "办事"
+				"navigationBarTitleText": "办事服务"
+			}
+		},
+		{
+			"path": "pages/government_service/department_page",
+			"style": {
+				"navigationBarTitleText": "部门办事"
 			}
 		},
 		{
@@ -167,12 +173,6 @@
 				"iconPath": "static/images/tabbar/tabbar_gov.png",
 				"selectedIconPath": "static/images/tabbar/tabbar_gov_selected.png",
 				"text": "政务服务"
-			},
-			{
-				"pagePath": "pages/tabbar/convenient_service",
-				"iconPath": "static/images/tabbar/tabbar_com.png",
-				"selectedIconPath": "static/images/tabbar/tabbar_com_selected.png",
-				"text": "便民服务"
 			},
 			{
 				"pagePath": "pages/tabbar/mine",

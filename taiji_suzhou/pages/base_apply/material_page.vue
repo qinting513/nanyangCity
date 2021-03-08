@@ -5,7 +5,7 @@
 			<view v-for="(m, i) in materialList" :key="i" class="flex-column cell">
 				<view class="flex-row top">
 					<view v-if="m.SFBY == '1'" class="star">*</view>
-					<view class="paper">纸</view>
+					<!-- <view class="paper">纸</view> -->
 					<view class="title">{{ m.CLMC }}</view>
 				</view>
 				<view class="flex-row center">

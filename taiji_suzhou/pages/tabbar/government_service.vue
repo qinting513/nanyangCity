@@ -16,14 +16,14 @@
 				<business-page userType="2" :isComponent="true" @gotoDetail="gotoDetail"></business-page>
 			</swiper-item>
 			<swiper-item>
-				<department-page :heightStyle="heightStyle" @gotoDetail="gotoDetail"></department-page>
+				<department-page :isComponent="true" :heightStyle="heightStyle" @gotoDetail="gotoDetail"></department-page>
 			</swiper-item>
-			<swiper-item>
+			<!-- <swiper-item>
 				<news-list :heightStyle="heightStyle"></news-list>
-			</swiper-item>
-			<swiper-item>
+			</swiper-item> -->
+			<!-- <swiper-item>
 				<network-list :heightStyle="heightStyle" @gotoNetworkDetail="gotoNetworkDetail"></network-list>
-			</swiper-item>
+			</swiper-item> -->
 		</swiper>
 	</view>
 </template>
@@ -62,14 +62,14 @@
 						id: 2,
 						name: "部门办事",
 					},
-					{
-						id: 3,
-						name: "新闻资讯",
-					},
-					{
-						id: 4,
-						name: "网点导航",
-					},
+					// {
+					// 	id: 3,
+					// 	name: "新闻资讯",
+					// },
+					// {
+					// 	id: 4,
+					// 	name: "网点导航",
+					// },
 				],
 			}
 		},

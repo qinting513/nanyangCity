@@ -9,17 +9,18 @@
 				<input type="text" placeholder="请输入事项名称" />
 			</view>
 			<!-- 常办事项 -->
-			<view class="common">
+			<view class="common" >
 				<view class="flex-row items">
-					<view v-for="(item, index) in items" :key="index" class="flex-column cell" @click="commonItemsClick(item)">
+					<view v-for="(item, index) in items" :key="index" class="flex-column cell"
+						@click="commonItemsClick(item)">
 						<image :src="item.img" mode="scaleToFill" class="cell-img"></image>
 						<view>{{item.title}}</view>
 					</view>
 				</view>
 			</view>
-			<view class="notice">
+			<!-- <view class="notice">
 				<news-list></news-list>
-			</view>
+			</view> -->
 		</scroll-view>
 	</view>
 </template>
@@ -42,76 +43,70 @@
 			}
 		},
 		onLoad() {
-			this.login();
+			// this.login();
 		},
 		methods: {
-			login() {
-				loginHttp.login('renjingtaogr', 'Xbb319826').then(res => {
-					console.log("login:", res);
-					if (res['code'] == 200) {
-						uni.showToast({
-							title: '登录成功',
-						});
-						this.$store.commit('updateUserInfo', res.ReturnValue);
-					} else {
-						uni.showToast({
-							title: '登录失败'
-						});
-					}
-				});
-			},
+			// login() {
+			// 	loginHttp.login('renjingtaogr', 'Xbb319826').then(res => {
+			// 		console.log("login:", res);
+			// 		if (res['code'] == 200) {
+			// 			uni.showToast({
+			// 				title: '登录成功',
+			// 			});
+			// 			this.$store.commit('updateUserInfo', res.ReturnValue);
+			// 		} else {
+			// 			uni.showToast({
+			// 				title: '登录失败'
+			// 			});
+			// 		}
+			// 	});
+			// },
 			commonItemsClick(item) {
 				console.log("click item:", item.title);
 				switch (item.title) {
-					case '常办事项':
-						{
+					case '常办事项': {
+						break;
+					}
+					case '个人办事': {
+						uni.navigateTo({
+							url: '../government_service/business_page?userType=1',
+						});
+						break;
+					}
+					case '法人办事': {
+						uni.navigateTo({
+							url: '../government_service/business_page?userType=2',
+						});
+						break;
+					}
+					case '部门办事': {
+						uni.navigateTo({
+							url: '../government_service/department_page'
+						})
+						break;
+					}
+					case '网上预约': {
+						uni.navigateTo({
+							url: '../appointment/appointment'
+						})
+						break;
+					}
+					case '进度查询': {
 
-						}
-					case '个人办事':
-						{
-							uni.navigateTo({
-								url: '../government_service/business_page?userType=1',
-							});
-							break;
-						}
-					case '法人办事':
-						{
-							uni.navigateTo({
-								url: '../government_service/business_page?userType=2',
-							});
-							break;
-						}
-					case '常用证照':
-						{
-
-							break;
-						}
-					case '网上预约':
-						{
-							uni.navigateTo({
-								url: '../appointment/appointment'
-							})
-							break;
-						}
-					case '进度查询':
-						{
-
-							break;
-						}
-					case '热门事项':
-						{
-							uni.navigateTo({
-								url: '../address/address_list'
-							})
-							break;
-						}
-					case '网点导航':
-						{
-							uni.navigateTo({
-								url: '../government_service/network_list',
-							});
-							break;
-						}
+						break;
+					}
+					case '热门事项': {
+						uni.navigateTo({
+							url: '../hotlist/hotlist'
+						})
+						break;
+					}
+					case '网点导航': {
+						uni.navigateTo({
+							url: '../government_service/network_list',
+						});
+						break;
+					}
 				}
 			}
 		},

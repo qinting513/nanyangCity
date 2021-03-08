@@ -39,10 +39,9 @@
 				uni.setNavigationBarTitle({
 					title: (this.userType == 1 ? '个人办事' : '法人办事')
 				});
-				this.loadData();
-			}
-			
-		},
+			} 
+			this.loadData();
+		},	
 		onLoad(options) {
 			if (!this.isComponent) {
 				this.userTypeFlag = options.userType
@@ -53,9 +52,8 @@
 				this.userTypeFlag = this.userType;
 			}
 			this.loadData();
-			console.log("start load", this.userTypeFlag, options);
-			console.log("isComponent", this.isComponent);
-
+			// console.log("start load", this.userTypeFlag, options);
+			// console.log("isComponent", this.isComponent);
 		},
 		methods: {
 			loadData(index) {

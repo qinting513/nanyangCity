@@ -1,9 +1,0 @@
-
-.next.data-v-64a9a99e {
-	background-color: #FFFF00;
-	position: fixed;
-	z-index: 99999;
-	height: 100rpx;
-	width: 100vw;
-}
-

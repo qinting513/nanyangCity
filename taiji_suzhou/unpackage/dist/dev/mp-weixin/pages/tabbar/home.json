@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "首页",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "news-list": "/pages/government_service/news_list"
-  }
-}

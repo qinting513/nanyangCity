@@ -1,5 +1,5 @@
 {
-    "name" : "taiji_suzhou",
+    "name" : "nanyang",
     "appid" : "__UNI__647770C",
     "description" : "",
     "versionName" : "1.0.0",
@@ -64,7 +64,7 @@
             "mode" : "hash",
             "base" : "./"
         },
-        "title" : "suzhou",
-        "domain" : "61.178.200.43:8200"
+        "title" : "nanyang",
+        "domain" : ""
     }
 }

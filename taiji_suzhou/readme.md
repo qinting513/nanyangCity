@@ -55,3 +55,39 @@ onTabItemTap 当前是 tab 页时，点击 tab 时触发
 1. 有时候有缓存问题，新建的文件不生成，则删除unpackage下的文件 重新编译生成新的
 2. 申报部分 基本表单多出一两个字段，需要在暂存时表单的xml里增加对应的字段 现在没有添加
 ```
+
+
+```
+页面汇总: 
+1.个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=1
+2.法人办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=2
+3.部门办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/department_page
+4.热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/hotlist/hotlist
+
+
+"list": [{
+				"pagePath": "pages/tabbar/home",
+				"iconPath": "static/images/tabbar/tabbar_home.png",
+				"selectedIconPath": "static/images/tabbar/tabbar_home_selected.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/tabbar/government_service",
+				"iconPath": "static/images/tabbar/tabbar_gov.png",
+				"selectedIconPath": "static/images/tabbar/tabbar_gov_selected.png",
+				"text": "政务服务"
+			},
+			{
+				"pagePath": "pages/tabbar/convenient_service",
+				"iconPath": "static/images/tabbar/tabbar_com.png",
+				"selectedIconPath": "static/images/tabbar/tabbar_com_selected.png",
+				"text": "便民服务"
+			},
+			{
+				"pagePath": "pages/tabbar/mine",
+				"iconPath": "static/images/tabbar/tabbar_me.png",
+				"selectedIconPath": "static/images/tabbar/tabbar_me_selected.png",
+				"text": "我的"
+			}
+		]
+```

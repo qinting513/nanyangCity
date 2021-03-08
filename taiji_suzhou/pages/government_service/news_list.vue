@@ -52,7 +52,7 @@
 
 <style lang="scss">
 	.news-list {
-
+	    margin-top: 20upx;
 		.list-container {
 			background-color: #fff;
 

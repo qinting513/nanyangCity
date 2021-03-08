@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "我的预约",
-  "usingComponents": {
-    "no-data-view": "/pages/mine/others/no_data"
-  }
-}

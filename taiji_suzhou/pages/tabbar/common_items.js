@@ -13,7 +13,7 @@ const items = [{
 		"img": '../../static/images/itemIcon/icon_item_qybs.png'
 	}, {
 		"id": 3,
-		"title": "常用证照",
+		"title": "部门办事",
 		"img": '../../static/images/itemIcon/icon_item_cyzz.png'
 	}, {
 		"id": 4,

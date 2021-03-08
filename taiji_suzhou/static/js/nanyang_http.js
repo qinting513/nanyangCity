@@ -5,14 +5,16 @@ import Util from './util.js';
 const regionId = "411300";
 const regionName = "南阳市";
 
-const rootUrl = "http://111.6.77.4:9001"  // 南阳的
-const baseUrl = rootUrl + "/services/";
+// const rootUrl = "http://111.6.77.4:9001" // 南阳的
+const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/services/"
+// const baseUrl = rootUrl + "/services/";
+const baseUrl = rootUrl;
 
 // 图片的baseURL
 const downloadFileURL =
 	rootUrl + "/servlet/downloadFileServlet?fileNo=";
 const uploadFileURL =
-		rootUrl + "/servlet/uploadMobileFileServlet";
+	rootUrl + "/servlet/uploadMobileFileServlet";
 
 // SOAP 协议格式 固定不变的常量
 const soap_format_top =
@@ -41,7 +43,11 @@ function getBusinessItems(userType, areaId) {
 		WebApi.soup(url, "getSortlistBySortcode", params).then(res => {
 			resolve(res);
 		}).catch((err) => {
-			reject(err);
+			// reject(err);  
+			uni.showToast({
+				title: '网络异常，请稍后重试',
+				icon: 'none'
+			});
 		});
 	});
 }
@@ -58,7 +64,11 @@ function getDepartmentItems() {
 		WebApi.soup(url, "getDeptlistByAreaid", params).then(res => {
 			resolve(res);
 		}).catch((err) => {
-			reject(err);
+			// reject(err);  
+			uni.showToast({
+				title: '网络异常，请稍后重试',
+				icon: 'none'
+			});
 		});
 	})
 }
@@ -84,8 +94,7 @@ function getItemList(pictureCode, userType, pageNo, pageSize) {
 				"PAGENO": pageNo,
 				"PAGESIZE": pageSize
 			};
-		}
-		else {
+		} else {
 			// 个人、企业办事
 			params = {
 				"SORTCODE": pictureCode,
@@ -103,7 +112,11 @@ function getItemList(pictureCode, userType, pageNo, pageSize) {
 			// debugger
 			resolve(res);
 		}).catch((err) => {
-			reject(err);
+			// reject(err);  
+			uni.showToast({
+				title: '网络异常，请稍后重试',
+				icon: 'none'
+			});
 		});
 	});
 }
@@ -117,13 +130,38 @@ function getBusinessGuideData(permId) {
 		};
 		console.log("请求参数:", params);
 		let url = baseUrl + 'RestPermissionitemService'
-		WebApi.soup( url, "getPermissionByPermid", params).then(res => {
+		WebApi.soup(url, "getPermissionByPermid", params).then(res => {
 			resolve(res);
 		}).catch((err) => {
-			reject(err);
+			// reject(err);  
+			uni.showToast({
+				title: '网络异常，请稍后重试',
+				icon: 'none'
+			});
 		});
 	})
 }
+
+// 获取热门事项列表
+function getHotPermList(permId) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"AREAID": regionId,
+		};
+		console.log("请求参数:", params);
+		let url = baseUrl + 'RestPermissionitemService'
+		WebApi.soup(url, "getHotPermList", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			// reject(err); 
+			uni.showToast({
+				title: '网络异常，请稍后重试',
+				icon: 'none'
+			});
+		});
+	})
+}
+
 
 
 
@@ -200,12 +238,12 @@ module.exports = {
 	baseUrl,
 	downloadFileURL,
 	uploadFileURL,
-	
-	
+
+
 	getBusinessItems,
 	getDepartmentItems,
 	getItemList,
 	getBusinessGuideData,
 	materialNameList,
-	
+	getHotPermList,
 }

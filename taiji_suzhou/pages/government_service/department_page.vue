@@ -23,21 +23,35 @@
 					height: '600px'
 				}
 			},
+			//  是组件还是页面
+			isComponent: {
+				type: Boolean,
+				value: false
+			}
 		},
 		data() {
 			return {
 				dataList: [],
 			}
 		},
-		created() {
+		created(options) {
 			this.loadData();
 		},
 		methods: {
 			gotoDetail(item) {
-				// 如果是组件则需要在其所在的页面调用uni.navigateTo才有用
-				this.$emit('gotoDetail', {item: item, userType: '3'});
+				if (this.isComponent) {
+					// 如果是组件则需要在其所在的页面调用uni.navigateTo才有用
+					this.$emit('gotoDetail', {item: item, userType: '3'});
+				} else {
+					let url = `/pages/government_service/item_list?userType=3`;
+						url += `&pictureCode=${item.DEPTID}&pictureName=${item.SHORTNAME}`;
+					console.log("item url:", url);
+					uni.navigateTo({
+						url: url
+					})
+				}
 			},
-			loadData(index) {
+			loadData() {
 				if (this.dataList == null || this.dataList.length == 0) {
 					Http.getDepartmentItems().then(res => {
 				       console.log("getDepartmentItems:", res);
