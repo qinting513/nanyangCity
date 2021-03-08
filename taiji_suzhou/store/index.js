@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		hasLogin: false, //是否已登录
-		userInfo: {}, // 用户信息
+		userInfo: null, // 用户信息
 
 		applyItemInfo: {}, // 要申报的是哪个事项,从事项列表点击则设置它
 		businessModel: {},
@@ -18,6 +18,7 @@ const store = new Vuex.Store({
 		uploadMaterialsNum: {}, // 上传的材料数据数量
 	},
 	getters: {
+		hasLogin: state => state.hasLogin,
 		userInfo: state => state.userInfo,
 		applyItemInfo: state => state.applyItemInfo,
 		businessModel: state => state.businessModel,

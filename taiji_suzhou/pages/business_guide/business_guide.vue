@@ -183,13 +183,23 @@
 			gotoDeclare() {
 				console.log("banshi:", this.itemInfo);
 				if (this.itemInfo.SFYDSB) {
-					let url = '../base_apply/base_apply_page'
-					url += `?itemName=${this.itemInfo.SXZXNAME}`;
-					url += `&permId=${this.itemInfo.ID}`;
-					this.$store.commit('updateApplyItemInfo', this.itemInfo);
-					uni.navigateTo({
-						url: url
-					});
+					// 先检查登录
+					console.log("userInfo", this.$store.getters.userInfo)
+					// debugger
+					if(this.$store.getters.hasLogin) {
+						let url = '../base_apply/base_apply_page'
+						url += `?itemName=${this.itemInfo.SXZXNAME}`;
+						url += `&permId=${this.itemInfo.ID}`;
+						this.$store.commit('updateApplyItemInfo', this.itemInfo);
+						uni.navigateTo({
+							url: url
+						});
+					} else {
+						uni.navigateTo({
+							url: '../login/login'
+						});
+					}
+					
 				} else {
 					uni.showToast({
 						icon: 'none',

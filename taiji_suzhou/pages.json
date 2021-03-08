@@ -12,6 +12,20 @@
 			}
 		},
 		{
+			"path": "pages/tabbar/appIndex",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tabbar/appForward",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/government_service/business_page",
 			"style": {
 				"navigationBarTitleText": "办事服务"

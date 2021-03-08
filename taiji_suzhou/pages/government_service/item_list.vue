@@ -78,30 +78,46 @@
 			},
 			btnClick(index, item) {
 				console.log("index:", index, item);
-				if (index == 0) { // 办事指南
-					// let itemInfo = encodeURIComponent(JSON.stringify(item));
-					uni.setStorageSync('guide__item', JSON.stringify(item));
-					uni.navigateTo({
-						url: '../business_guide/business_guide' // ?itemInfo='+itemInfo
-					});
-				} else if (index == 1) { // 申报
-				 if(item.SFYDSB) {
-					 let url = '../base_apply/base_apply_page'
-					 url += `?itemName=${item.SXZXNAME}`;
-					 url += `&permId=${item.ID}`;
-					 this.$store.commit('updateApplyItemInfo', item);
-					 uni.navigateTo({
-					 	url: url
-					 });
-				 } else {
-					 uni.showToast({
-						 icon:'none',
-					 	title: '该事项暂不支持在线申报'
-					 })
-				 }
-				 
-				} else {
-					console.log("预约");
+				switch (index) {
+					case 0: {
+						// 办事指南
+						// let itemInfo = encodeURIComponent(JSON.stringify(item));
+						uni.setStorageSync('guide__item', JSON.stringify(item));
+						uni.navigateTo({
+							url: '../business_guide/business_guide' // ?itemInfo='+itemInfo
+						});
+						break;
+					}
+					case 1: {
+						// 申报
+						if (item.SFYDSB) {
+							// 先检查登录
+							// console.log("userInfo", this.$store.getters.userInfo)
+							if (this.$store.getters.hasLogin) {
+								let url = '../base_apply/base_apply_page'
+								url += `?itemName=${item.SXZXNAME}`;
+								url += `&permId=${item.ID}`;
+								this.$store.commit('updateApplyItemInfo', item);
+								uni.navigateTo({
+									url: url
+								});
+							} else {
+								uni.navigateTo({
+									url: '../login/login'
+								})
+							}
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '该事项暂不支持在线申报'
+							})
+						}
+						break;
+					}
+					case 2: {
+						console.log("预约");
+						break;
+					}
 				}
 			},
 			loadData() {

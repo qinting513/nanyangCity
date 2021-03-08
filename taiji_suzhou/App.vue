@@ -1,14 +1,8 @@
 <script>
-	import Http from 'static/js/nanyang_normal_http.js'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-			let accessToken = uni.getStorageSync('nanyang__accessToken');
-			if (null != accessToken && undefined != accessToken && '' != accessToken) {
-				Http.getAppAuthUserInfo(accessToken);
-			} else {
-				Http.getUserInfo();
-			}
+			
 		},
 		onShow: function() {
 			console.log('App Show');

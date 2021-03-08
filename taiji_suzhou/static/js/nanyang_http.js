@@ -164,6 +164,35 @@ function getHotPermList(permId) {
 
 
 
+//登录
+function login(userName, pwd) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			'USERNAME': userName,
+			'PASSWORD': pwd,
+			"TYPE": "1"
+		};
+		let url = baseUrl + 'RestUserService'
+		WebApi.soup(url, "login", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+function checkRes(res) {
+	if (res.code == 200) {
+		return true
+	} else {
+		uni.showToast({
+			title: res.error,
+			icon: 'none'
+		})
+		return false
+	}
+}
+
 
 const materialNameList = [
 	"身份证",
@@ -246,4 +275,6 @@ module.exports = {
 	getBusinessGuideData,
 	materialNameList,
 	getHotPermList,
+	login,
+	checkRes,
 }

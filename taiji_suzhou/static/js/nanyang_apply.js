@@ -165,6 +165,7 @@ function tempStore(params) {
 	return new Promise(function(resolve, reject) {
 		console.log("申报参数:", params);
 		const url_submit_apply = Http.baseUrl + "RestOnlineDeclareService";
+		return;
 		WebApi.soup(url_submit_apply, "submit", params).then(res => {
 			resolve(res);
 		}).catch((err) => {

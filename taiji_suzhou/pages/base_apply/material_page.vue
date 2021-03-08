@@ -69,6 +69,7 @@ export default {
 			};
 			console.log('other materialStyle:', this.materialStyle);
 		}
+		console.log("upload Url", Http.uploadFileURL, Http.downloadFileURL);
 	},
 	methods: {
 		updateMaterials(data, materialsNumber) {
