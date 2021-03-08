@@ -1,17 +1,14 @@
 <script>
+	import Http from 'static/js/nanyang_normal_http.js'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-
-			// setTimeout(() => {
-			// 	uni.setTabBarBadge({
-			// 		index: 1,
-			// 		text: '31'
-			// 	});
-			// 	uni.showTabBarRedDot({
-			// 		index: 3
-			// 	});
-			// }, 1000);
+			let accessToken = uni.getStorageSync('nanyang__accessToken');
+			if (null != accessToken && undefined != accessToken && '' != accessToken) {
+				Http.getAppAuthUserInfo(accessToken);
+			} else {
+				Http.getUserInfo();
+			}
 		},
 		onShow: function() {
 			console.log('App Show');
@@ -29,7 +26,7 @@
 	/*每个页面公共css */
 	@import "static/css/common.css";
 	@import "static/css/reset.css";
-	
+
 	page {
 		background-color: #f2f5f5;
 	}

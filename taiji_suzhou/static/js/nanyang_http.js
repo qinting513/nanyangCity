@@ -5,16 +5,16 @@ import Util from './util.js';
 const regionId = "411300";
 const regionName = "南阳市";
 
-// const rootUrl = "http://111.6.77.4:9001" // 南阳的
-const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/services/"
-// const baseUrl = rootUrl + "/services/";
-const baseUrl = rootUrl;
+// 注意一个斜扛已经写在后面了
+// const rootUrl = "http://111.6.77.4:9001/" // 南阳的
+const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/"
+const baseUrl = rootUrl + "services/";
 
 // 图片的baseURL
 const downloadFileURL =
-	rootUrl + "/servlet/downloadFileServlet?fileNo=";
+	rootUrl + "servlet/downloadFileServlet?fileNo=";
 const uploadFileURL =
-	rootUrl + "/servlet/uploadMobileFileServlet";
+	rootUrl + "servlet/uploadMobileFileServlet";
 
 // SOAP 协议格式 固定不变的常量
 const soap_format_top =
