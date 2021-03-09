@@ -1,19 +1,16 @@
 import Http from './nanyang_http.js'
 import store from '../../store/index.js'
 
-// 测试的
-const authUrl = "http://59.61.216.120:18891/"  // 获取AccessToken的
+const authUrl = "http://59.61.216.120:18891/"
 const authUserUrl = "http://59.61.216.120:18892/"  //获取用户信息是92端口
-const redirectBaseUrl = "http://192.168.100.59:8080"  // 回调地址
-const client_id = ''
-const client_secret = '';
+
+// const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/"
+// const authUserUrl = "https://rtxxdj.linewell.com/nanyang-authUser/" //获取用户信息是92端口
 
 // 正式的
-// const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/"  // 可能有跨域问题 所以在南威代理，但是代理未成功
-// const authUserUrl = "https://rtxxdj.linewell.com/nanyang-authUser/" //获取用户信息是92端口
-// const redirectBaseUrl = "https://rtxxdj.linewell.com/nanyang" // 回调地址
-// const client_id = '82075c234fdc4e5eb5cf138de91b8acf'
-// const client_secret = 'a2b39ed9d3904c5faaa7c301877aacd4';
+const redirectBaseUrl = "https://rtxxdj.linewell.com/nanyang"
+const client_id = '82075c234fdc4e5eb5cf138de91b8acf'
+const client_secret = 'a2b39ed9d3904c5faaa7c301877aacd4';
 
 // 封装的get方法
 function getMethod(url) {
@@ -126,8 +123,8 @@ function gotoPage(page) {
 		console.log("page 为空")
 		return;
 	}
-	// let fullUrl = redirectBaseUrl; // 打包到南威服务器的
-	let fullUrl = "http://localhost:8080/#/" // 本地调试的
+	let fullUrl = redirectBaseUrl; // 打包到南威服务器的
+	// let fullUrl = "http://localhost:8080/#/" // 本地调试的
 	switch (page) {
 		case 'grbs': { // 个人办事
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=1'

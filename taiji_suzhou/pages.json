@@ -28,19 +28,22 @@
 		{
 			"path": "pages/government_service/business_page",
 			"style": {
-				"navigationBarTitleText": "办事服务"
+				"navigationBarTitleText": "办事服务",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/government_service/department_page",
 			"style": {
-				"navigationBarTitleText": "部门办事"
+				"navigationBarTitleText": "部门办事",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/tabbar/government_service",
 			"style": {
-				"navigationBarTitleText": "政务服务"
+				"navigationBarTitleText": "政务服务",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -71,7 +74,8 @@
 		{
 			"path": "pages/business_guide/business_guide",
 			"style": {
-				"navigationBarTitleText": "办事指南"
+				"navigationBarTitleText": "办事指南",
+				"navigationStyle": "custom"
 			}
 		},
 		{

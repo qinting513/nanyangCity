@@ -58,7 +58,7 @@ onTabItemTap 当前是 tab 页时，点击 tab 时触发
 
 
 ```
-页面汇总: 
+没有单点登录的页面汇总: 
 1.个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=1
 2.法人办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=2
 3.部门办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/department_page

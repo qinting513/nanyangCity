@@ -18,6 +18,8 @@
 	部门办事: http://localhost:8080/#/pages/tabbar/appIndex?page=bmbs
 	热门事项: http://localhost:8080/#/pages/tabbar/appIndex?page=rmsx
 	
+	
+	
 	1.先加载appIndex页面，onLoad中，
 	    1.1 先获取accessToken, 获取到则根据accessToken获取用户信息，
 		1.2 否则先 window.location.href = "http://59.61.216.120:18891/oauth/authorize?client_id=d30778ad7ff04bf389e747cf5ceb3e6c&response_type=code&grant_type=authorization_code&scope=snsapi_base&redirect_uri=redirect_uri" 去打开新页面去登录先，登录成功后回到重定向的地址 redirect_uri并且附带了Code（返回示例：redirect_uri?code=CODE&state=STATE ），设定重定向的地址为：https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appForward?source=${this.page}   重定向的地址要加上page字段
