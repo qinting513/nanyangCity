@@ -1,5 +1,9 @@
 <template>
 	<view class="item-list">
+		<view class="search">
+			<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
+				v-model="searchKeyWord" @search="startSearch"></u-search>
+		</view>
 		<view v-for="(item, index) in dataList" :key="index" class="flex-column cell">
 			<view class="flex-row top-section" @click="expendCell(index)">
 				<view>
@@ -36,6 +40,10 @@
 		name: "ItemList",
 		data() {
 			return {
+				searchKeyWord: '',
+				autoFocus: false,
+				dataState: 'noData',
+
 				dataList: [],
 				userType: '1', // 1是个人 2是企业 3是部门
 				pictureCode: '', // 用于网络请求的ID(部门办事时就是departmentId)
@@ -93,7 +101,7 @@
 						if (item.SFYDSB) {
 							// 先检查登录
 							// console.log("userInfo", this.$store.getters.userInfo)
-							
+
 							if (this.$store.getters.hasLogin) {
 								let url = '../base_apply/base_apply_page'
 								url += `?itemName=${item.SXZXNAME}`;
@@ -130,6 +138,27 @@
 				});
 
 			},
+			startSearch() {
+				console.log("searchWord:", this.searchKeyWord);
+				if (this.searchKeyWord.trim().length == 0) {
+					uni.showToast({
+						icon: 'none',
+						title: '请输入关键词'
+					})
+					return;
+				}
+				Http.searchByName(this.searchKeyWord).then(res => {
+					console.log("searchByName list:", res);
+					if (res.code == 200) {
+						this.dataList = res.ReturnValue;
+					}
+					if (this.dataList.length == 0) {
+						this.dataState = 'noData'
+					} else {
+						this.dataState = 'hasData'
+					}
+				});
+			},
 		},
 	}
 </script>
@@ -137,6 +166,15 @@
 <style lang="scss" scoped>
 	.item-list {
 		background-color: #fff;
+		padding: 10upx 0;
+		.search {
+			margin: 20upx 30upx;
+			border-radius: 50upx;
+			background-color: #F1F1F1;
+			border: 1upx solid #F1F1F1;
+			padding: 20upx 30upx;
+			font-size: 29upx;
+		}
 
 		.cell {
 			align-items: flex-start;
