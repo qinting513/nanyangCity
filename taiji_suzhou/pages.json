@@ -3,14 +3,6 @@
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/tabbar/home",
-			"style": {
-				"navigationBarTitleText": "首页",
-				"navigationStyle": "custom"
-			}
-		},
 		{
 			"path": "pages/tabbar/appIndex",
 			"style": {
@@ -22,6 +14,14 @@
 			"path": "pages/tabbar/appForward",
 			"style": {
 				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		
+		{
+			"path": "pages/tabbar/home",
+			"style": {
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom"
 			}
 		},

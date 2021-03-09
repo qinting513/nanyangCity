@@ -36,9 +36,10 @@ const store = new Vuex.Store({
 			// userInfo为null则表示退出登录，需设置为null
 			state.hasLogin = userInfo == null ? false : true;
 			state.userInfo = userInfo;
+			uni.setStorageSync('nanyang__user', userInfo);
 		},
 		updateBusinessModel(state, business) {
-			console.log("update business:", business);
+			// console.log("update business:", business);
 			state.businessModel = business
 		},
 		updateFormsModel(state, form) {
@@ -46,11 +47,11 @@ const store = new Vuex.Store({
 			state.formsModel = form
 		},
 		updateApplyItemInfo(state, itemInfo) {
-			console.log("update itemInfo:", itemInfo);
+			// console.log("update itemInfo:", itemInfo);
 			state.applyItemInfo = itemInfo
 		},
 		updateMaterialList(state, list) {
-			console.log("update materialList:", list);
+			// console.log("update materialList:", list);
 			state.materialList = list
 		},
 		updateUploadMaterials(state, m){

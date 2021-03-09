@@ -53,7 +53,6 @@
 			}
 			this.loadData();
 			// console.log("start load", this.userTypeFlag, options);
-			// console.log("isComponent", this.isComponent);
 		},
 		methods: {
 			loadData(index) {
@@ -66,7 +65,7 @@
 								item.PIC = Http.rootUrl + item.PIC;
 							}
 						});
-						console.log("getBusinessItems:", result);
+						// console.log("getBusinessItems:", result);
 						this.dataList = result;
 					}, err => {
 						
@@ -79,7 +78,7 @@
 					this.$emit('gotoDetail', {item: item, userType: this.userTypeFlag});
 				} else {
 					let url = `./item_list?userType=${this.userTypeFlag}&pictureCode=${item.SORTCODE}&pictureName=${item.SORTNAME}`;
-					console.log("item url:", item, url);
+					// console.log("item url:", item, url);
 					uni.navigateTo({
 						url: url
 					})

@@ -7,8 +7,8 @@ const regionName = "南阳市";
 
 // 注意一个斜扛已经写在后面了
 // const rootUrl = "http://111.6.77.4:9001/" // 南阳的
-const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/"
-const baseUrl = rootUrl + "services/";
+const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/"  // 映射的地址是 http://111.6.77.4:9001/
+const baseUrl = rootUrl + "services/"; 
 
 // 图片的baseURL
 const downloadFileURL =
