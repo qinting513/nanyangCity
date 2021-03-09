@@ -2,15 +2,18 @@
 	<view class="hotlist">
 		<view class="list">
 			<view class="search flex-row">
-				<icon type="search" size="16" />
-				<input type="text" placeholder="请输入事项名称" />
+				<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
+					v-model="searchKeyWord" @search="startSearch"></u-search>
+			</view>
+
+			<view class="">
+				<view class="item" v-for="(item, i) in dataList" :key="i" @click="gotoDetail(item)">
+					<view class="">{{item.SXZXNAME}}</view>
+					<view class='right-arrow'></view>
+				</view>
 			</view>
 			<view class="no-data">
-				暂无数据
-			</view>
-			<view class="item" v-for="(item, i) in dataList" :key="i">
-				<view class="">{{item.SXZXNAME}}</view>
-				<view class='right-arrow'></view>
+				<nodata-view :dataState="dataState"></nodata-view>
 			</view>
 		</view>
 	</view>
@@ -21,11 +24,22 @@
 	export default {
 		data() {
 			return {
-				dataList: []
+				dataList: [],
+				searchKeyWord: '',
+				autoFocus: false,
+				dataState: 'noData',
 			}
 		},
-		created(options) {
-			this.loadData();
+		onLoad(options) {
+			let type = options.type;
+			if (type == 'search') {
+				this.autofocus = true
+				uni.setNavigationBarTitle({
+					title: '智能搜索'
+				})
+			} else {
+				this.loadData();
+			}
 		},
 		methods: {
 			loadData() {
@@ -35,9 +49,41 @@
 						if (res.code == 200) {
 							this.dataList = res.ReturnValue.Items || [];
 						}
+						if (this.dataList.length == 0) {
+							this.dataState = 'noData'
+						} else {
+							this.dataState = 'hasData'
+						}
 					});
 				}
 			},
+			startSearch() {
+				console.log("searchWord:", this.searchKeyWord);
+				if (this.searchKeyWord.trim().length == 0) {
+					uni.showToast({
+						icon: 'none',
+						title: '请输入关键词'
+					})
+					return;
+				}
+				Http.searchByName(this.searchKeyWord).then(res => {
+					console.log("searchByName list:", res);
+					if (res.code == 200) {
+						this.dataList = res.ReturnValue;
+					}
+					if (this.dataList.length == 0) {
+						this.dataState = 'noData'
+					} else {
+						this.dataState = 'hasData'
+					}
+				});
+			},
+			gotoDetail(item) {
+				uni.setStorageSync('guide__item', JSON.stringify(item));
+				uni.navigateTo({
+					url: '../business_guide/business_guide' // ?itemInfo='+itemInfo
+				});
+			}
 		}
 	}
 </script>
@@ -49,7 +95,8 @@
 
 		.list {
 			background-color: #FFFFFF;
-			padding-top: 30upx;
+			padding-top: 10upx;
+			padding-bottom: 10upx;
 
 			.search {
 				margin: 20upx 30upx;
@@ -78,11 +125,6 @@
 
 			.item:last-child {
 				border-bottom: none;
-			}
-			.no-data {
-				padding: 50upx 0;
-				text-align: center;
-				color: #999999;
 			}
 		}
 	}

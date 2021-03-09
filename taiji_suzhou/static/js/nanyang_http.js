@@ -193,6 +193,21 @@ function checkRes(res) {
 	}
 }
 
+function searchByName(name, deptId) {
+	// getPermByPermname
+	return new Promise(function(resolve, reject) {
+		let params = {"PERMNAME": name, "AREAID": "411300"};
+		if(deptId) {
+			params['DEPTID'] = deptId;
+		}
+		let url = baseUrl + 'RestPermissionitemService'
+		WebApi.soup(url, "getPermByPermname", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
 
 const materialNameList = [
 	"身份证",
@@ -277,4 +292,5 @@ module.exports = {
 	getHotPermList,
 	login,
 	checkRes,
+	searchByName,
 }

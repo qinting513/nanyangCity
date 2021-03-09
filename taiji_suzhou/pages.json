@@ -28,22 +28,19 @@
 		{
 			"path": "pages/government_service/business_page",
 			"style": {
-				"navigationBarTitleText": "办事服务",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "办事服务"
 			}
 		},
 		{
 			"path": "pages/government_service/department_page",
 			"style": {
-				"navigationBarTitleText": "部门办事",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "部门办事"
 			}
 		},
 		{
 			"path": "pages/tabbar/government_service",
 			"style": {
-				"navigationBarTitleText": "政务服务",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "政务服务"
 			}
 		},
 		{

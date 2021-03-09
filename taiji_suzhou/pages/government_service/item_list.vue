@@ -93,6 +93,7 @@
 						if (item.SFYDSB) {
 							// 先检查登录
 							// console.log("userInfo", this.$store.getters.userInfo)
+							
 							if (this.$store.getters.hasLogin) {
 								let url = '../base_apply/base_apply_page'
 								url += `?itemName=${item.SXZXNAME}`;

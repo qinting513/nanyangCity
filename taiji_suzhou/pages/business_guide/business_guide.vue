@@ -53,10 +53,10 @@
 			}
 		},
 		onLoad: function(option) {
-			console.log(option);
 			// const itemInfo = JSON.parse(decodeURIComponent(option.itemInfo));
 			const itemInfo = uni.getStorageSync('guide__item');
 			// console.log("itemInfo:", itemInfo);
+			// debugger
 			if (itemInfo != null && itemInfo != '') {
 				this.itemInfo = JSON.parse(itemInfo);
 			    this.loadData(this.itemInfo.ID);
@@ -69,7 +69,7 @@
 			},
 			loadData(permId) {
 				Http.getBusinessGuideData(permId).then(res => {
-					// console.log("getBusinessGuideData", res);
+					console.log("getBusinessGuideData", res);
 					// debugger
 					if (res.ReturnValue != null) {
 						let model = res.ReturnValue;

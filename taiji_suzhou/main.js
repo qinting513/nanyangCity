@@ -10,6 +10,9 @@ App.mpType = 'app'
 import uView from "uview-ui";
 Vue.use(uView);
 
+import nodataView from './components/nodata_view.vue'
+Vue.component('nodata-view',nodataView)
+
 const app = new Vue({
     ...App
 })

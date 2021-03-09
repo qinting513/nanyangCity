@@ -5,8 +5,7 @@
 				<image class="bg-img" src="../../static/images/home/home_banner_bg.png" mode="scaleToFill"></image>
 			</view>
 			<view class="search flex-row">
-				<icon type="search" size="16" />
-				<input type="text" placeholder="请输入事项名称" />
+					<u-search height="40"  :disabled="true" @click="gotoSearch"></u-search>
 			</view>
 			<!-- 常办事项 -->
 			<view class="common" >
@@ -61,6 +60,11 @@
 			// 		}
 			// 	});
 			// },
+			gotoSearch(){
+				uni.navigateTo({
+					url: '../hotlist/hotlist?type=search'
+				})
+			},
 			commonItemsClick(item) {
 				console.log("click item:", item.title);
 				switch (item.title) {

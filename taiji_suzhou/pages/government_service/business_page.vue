@@ -58,7 +58,7 @@
 			loadData(index) {
 				if (this.dataList == null || this.dataList.length == 0) {
 					Http.getBusinessItems(this.userTypeFlag).then(res => {
-						console.log("事项列表", res);
+						// console.log("事项列表", res);
 						let result = res.ReturnValue;
 						result.forEach(item => {
 							if(item.PIC) {

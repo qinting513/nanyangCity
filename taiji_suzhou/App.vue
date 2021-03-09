@@ -1,7 +1,11 @@
 <script>
 	export default {
 		onLaunch: function(options) {
-			console.log('App Launch options:', options);
+			console.log('App Launch options:', this.page, options);
+			let user = uni.getStorageSync('nuser');
+			if (null != user && undefined != user && '' != user) { 
+				this.$store.commit('updateUserInfo', JSON.parse(user));
+			}
 		},
 		onShow: function() {
 			console.log('App Show');
