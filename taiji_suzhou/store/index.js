@@ -36,7 +36,7 @@ const store = new Vuex.Store({
 			// userInfo为null则表示退出登录，需设置为null
 			state.hasLogin = userInfo == null ? false : true;
 			state.userInfo = userInfo;
-			uni.setStorageSync('nanyang__user', userInfo);
+			uni.setStorageSync('nuser', JSON.stringify(userInfo));
 		},
 		updateBusinessModel(state, business) {
 			// console.log("update business:", business);

@@ -45,11 +45,13 @@
 		},
 		methods: {
 			getUserInfo() {
-				let accessToken = uni.getStorageSync('nanyang__accessToken');
+				let accessToken = uni.getStorageSync('ntoken');
+				console.log("本地token:", accessToken);
 				if (null != accessToken && undefined != accessToken && '' != accessToken) {
 					// 如果有accessToken则直接通过accessToken获取信息即可
 					let that = this;
 					Http.getAppAuthUserInfo(accessToken, () => {
+						console.log("page....:", that.page);
 						Http.gotoPage(that.page);
 					});
 				} else {

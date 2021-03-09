@@ -2,11 +2,11 @@ import Http from './nanyang_http.js'
 import store from '../../store/index.js'
 
 // 测试的
-const authUrl = "http://59.61.216.120:18891/"  // 获取AccessToken的
-const authUserUrl = "http://59.61.216.120:18892/"  //获取用户信息是92端口
-const redirectBaseUrl = "http://192.168.100.59:8080"  // 回调地址
-const client_id = ''
-const client_secret = '';
+const authUrl = "http://59.61.216.120:18891/" // 获取AccessToken的
+const authUserUrl = "http://59.61.216.120:18892/" //获取用户信息是92端口
+const redirectBaseUrl = "http://192.168.100.59:8080" // 回调地址
+const client_id = 'd30778ad7ff04bf389e747cf5ceb3e6c'
+const client_secret = '5610cbdcf959486da22796d64e82f82e';
 
 // 正式的
 // const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/"  // 可能有跨域问题 所以在南威代理，但是代理未成功
@@ -89,7 +89,7 @@ function getAccessToken(code, redirect_uri, callback) {
 	postMethod(url).then(res => {
 		console.log("res:", res);
 		if (res.access_token && res.access_token.length > 0) {
-			uni.setStorageSync('nanyang__accessToken', res.access_token);
+			uni.setStorageSync('ntoken', res.access_token);
 			getAppAuthUserInfo(res.access_token, callback);
 		}
 	}).catch(err => {
@@ -110,6 +110,7 @@ function getAppAuthUserInfo(accessToken, callback) {
 			console.log("userInfo:", userInfo);
 			store.commit('updateUserInfo', userInfo); // 保存用户信息
 		}
+		// debugger
 		if (callback) {
 			callback();
 		}
@@ -126,8 +127,7 @@ function gotoPage(page) {
 		console.log("page 为空")
 		return;
 	}
-	// let fullUrl = redirectBaseUrl; // 打包到南威服务器的
-	let fullUrl = "http://localhost:8080/#/" // 本地调试的
+	let fullUrl = redirectBaseUrl;
 	switch (page) {
 		case 'grbs': { // 个人办事
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=1'
@@ -146,16 +146,14 @@ function gotoPage(page) {
 			break;
 		}
 		default: {
-			uni.showToast({
-				title: '没有找到该页面',
-				icon: 'none'
-			});
+			// uni.showToast({
+			// 	title: '没有找到该页面',
+			// 	icon: 'none'
+			// });
 		}
 	}
 	// 处理好跳转的页面 进行跳转
-	uni.redirectTo({
-		url: fullUrl
-	});
+	window.location.replace(fullUrl)
 }
 
 module.exports = {
