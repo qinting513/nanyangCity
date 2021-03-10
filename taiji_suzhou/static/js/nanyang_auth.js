@@ -102,7 +102,7 @@ function getAccessToken(code, redirect_uri, callback) {
 
 // 三大步获取用户信息 第三步：根据access_token获取用户信息
 function getAppAuthUserInfo(accessToken, callback) {
-	let url = `${authUserUrl}resource/user/base?access_token=${accessToken}`
+	let url = `${authUserUrl}resource/user/userinfo?access_token=${accessToken}`
 	postMethod(url).then(res => {
 		console.log("res:", res);
 		if (res && res.content) {
@@ -133,16 +133,20 @@ function gotoPage(page) {
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=1'
 			break;
 		}
-		case 'frbs': { // 法人办事
+		case 'qybs': { // 法人办事
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=2'
 			break;
 		}
-		case 'bmbs': {
+		case 'bmbs': {  // 部门办事
 			fullUrl = fullUrl + '/#/pages/government_service/department_page'
 			break;
 		}
-		case 'rmsx': {
-			fullUrl = fullUrl + '/#/pages/government_service/department_page'
+		case 'rmsx': { // 热门事项
+			fullUrl = fullUrl + '/#/pages/hotlist/hotlist'
+			break;
+		}
+		case 'znss': { // 智能搜索
+			fullUrl = fullUrl + '/#/pages/hotlist/hotlist?type=search'
 			break;
 		}
 		default: {

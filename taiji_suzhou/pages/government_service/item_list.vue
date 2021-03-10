@@ -88,11 +88,8 @@
 				console.log("index:", index, item);
 				switch (index) {
 					case 0: {
-						// 办事指南
-						// let itemInfo = encodeURIComponent(JSON.stringify(item));
-						uni.setStorageSync('guide__item', JSON.stringify(item));
 						uni.navigateTo({
-							url: '../business_guide/business_guide' // ?itemInfo='+itemInfo
+							url: `../business_guide/business_guide?ID=${item.ID}`
 						});
 						break;
 					}
@@ -147,8 +144,8 @@
 					})
 					return;
 				}
-				Http.searchByName(this.searchKeyWord).then(res => {
-					console.log("searchByName list:", res);
+				Http.getPermByPermname(this.searchKeyWord).then(res => {
+					console.log("getPermByPermname list:", res);
 					if (res.code == 200) {
 						this.dataList = res.ReturnValue;
 					}

@@ -154,6 +154,12 @@
 			}
 		},
 		{
+			"path": "pages/hotservice/hotservice",
+			"style": {
+				"navigationBarTitleText": "热门服务"
+			}
+		},
+		{
 			"path": "pages/address/add_address",
 			"style": {
 				"navigationBarTitleText": "添加新地址"

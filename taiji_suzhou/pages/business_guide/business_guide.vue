@@ -47,30 +47,27 @@
 			return {
 				dataList: [], //组装后要显示的数据
 				files: [], // 表格文件数据
-				itemInfo: null, // 从上一个页面传递过来的
+				itemInfo: null, 
 				businessGuideModel: null,
 				expends: [],
+				ID: '',
 			}
 		},
-		onLoad: function(option) {
-			// const itemInfo = JSON.parse(decodeURIComponent(option.itemInfo));
-			const itemInfo = uni.getStorageSync('guide__item');
-			// console.log("itemInfo:", itemInfo);
-			// debugger
-			if (itemInfo != null && itemInfo != '') {
-				this.itemInfo = JSON.parse(itemInfo);
-			    this.loadData(this.itemInfo.ID);
-			}
+		onLoad: function(options) {
+			this.ID = options.ID;
+			console.log("事项ID：", this.ID);
+			this.loadData();
+			// 获取事项信息 保存起来
+			this.getItemInfo();
 		},
 		methods: {
 			expendCell(index) {
 				this.$set(this.expends, index, !this.expends[index]);
 				console.log("expends:", this.expends);
 			},
-			loadData(permId) {
-				Http.getBusinessGuideData(permId).then(res => {
+			loadData() {
+				Http.getBusinessGuideData(this.ID).then(res => {
 					console.log("getBusinessGuideData", res);
-					// debugger
 					if (res.ReturnValue != null) {
 						let model = res.ReturnValue;
 						this.businessGuideModel = model;
@@ -78,7 +75,14 @@
 						this.handleDatas(model);
 					}
 				});
-
+			},
+			getItemInfo(){
+				Http.getPermByPermname(this.ID).then(res => {
+					console.log("事项信息:", res);
+					if (res.code == 200) {
+						this.itemInfo = res.ReturnValue;
+					}
+				});
 			},
 			// 处理表格数据
 			handleFiles(forms) {
@@ -188,8 +192,8 @@
 					// debugger
 					if(this.$store.getters.hasLogin) {
 						let url = '../base_apply/base_apply_page'
-						url += `?itemName=${this.itemInfo.SXZXNAME}`;
-						url += `&permId=${this.itemInfo.ID}`;
+						url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
+						url += `&permId=${this.ID}`;
 						this.$store.commit('updateApplyItemInfo', this.itemInfo);
 						uni.navigateTo({
 							url: url

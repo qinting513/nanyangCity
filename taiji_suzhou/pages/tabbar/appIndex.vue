@@ -17,6 +17,7 @@
 	企业办事: http://localhost:8080/#/pages/tabbar/appIndex?page=qybs
 	部门办事: http://localhost:8080/#/pages/tabbar/appIndex?page=bmbs
 	热门事项: http://localhost:8080/#/pages/tabbar/appIndex?page=rmsx
+	智能搜索: http://localhost:8080/#/pages/tabbar/appIndex?page=znss
 	
 	
 	
@@ -41,7 +42,11 @@
 			let local = location.href;
 			console.log("appIndex options:", options, local);
 			this.page = options.page
-			this.getUserInfo();
+			// debugger
+			setTimeout(() => {
+				this.getUserInfo();
+			}, 300)
+
 		},
 		methods: {
 			getUserInfo() {
@@ -55,12 +60,13 @@
 						Http.gotoPage(that.page);
 					});
 				} else {
+					// debugger
 					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${this.page}`;
-					 // redirect_uri = encodeURIComponent(redirect_uri)
+					// redirect_uri = encodeURIComponent(redirect_uri)
 					// 否则先打开一个地址 来重定向
 					location.replace(
 						`${Http.authUrl}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_base&redirect_uri=${redirect_uri}`
-						);
+					);
 				}
 			},
 		}

@@ -59,12 +59,18 @@ onTabItemTap 当前是 tab 页时，点击 tab 时触发
 
 ```
 没有单点登录的页面汇总: 
-1.个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=1
-2.法人办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=2
-3.部门办事: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/department_page
+
+1.个人办事(个人主题导航): https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=1
+2.法人办事(法人主题导航): https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=2
+3.部门导航: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/department_page
 4.热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/hotlist/hotlist
+5.热门服务: https://rtxxdj.linewell.com/nanyang/#/pages/hotservice/hotservice
+6.事项搜索  https://rtxxdj.linewell.com/nanyang/#/pages/hotlist/hotlist?type=search
 
-
+主题导航缺少的图标： 1.热门宗教、社会保障、司法公正、国土和规划建设、应对气候变化、文体教育 其他
+事项跳转到办事指南的格式: "https://rtxxdj.linewell.com/nanyang/#/pages/business_guide/business_guide?ID=" + 事项ID
+个人办事点击某一个进到的事项列表: (userType)
+     https://rtxxdj.linewell.com/nanyang/#/pages/government_service/item_list?userType=1&pictureCode=root_gr_ztfl_01&pictureName=生育收养
 "list": [{
 				"pagePath": "pages/tabbar/home",
 				"iconPath": "static/images/tabbar/tabbar_home.png",

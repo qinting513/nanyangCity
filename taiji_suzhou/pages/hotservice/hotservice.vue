@@ -1,5 +1,5 @@
 <template>
-	<view class="hotlist">
+	<view class="hotservice">
 		<view class="list">
 			<view class="search">
 				<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
@@ -8,7 +8,10 @@
 
 			<view class="">
 				<view class="item" v-for="(item, i) in dataList" :key="i" @click="gotoDetail(item)">
-					<view class="">{{item.SXZXNAME}}</view>
+					<view class="">
+						<image src="../../static/images/business/交通出行.png" mode=""></image>
+						<view class="">{{item.SXZXNAME}}</view>
+					</view>
 					<view class='right-arrow'></view>
 				</view>
 			</view>
@@ -31,15 +34,10 @@
 			}
 		},
 		onLoad(options) {
-			let type = options.type;
-			if (type == 'search') {
-				this.autofocus = true
-				uni.setNavigationBarTitle({
-					title: '事项搜索'
-				})
-			} else {
-				this.loadData();
-			}
+			uni.setNavigationBarTitle({
+				title: '热门服务'
+			})
+			this.loadData();
 		},
 		methods: {
 			loadData() {
@@ -88,7 +86,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.hotlist {
+	.hotservice {
 		background-color: #F2F5F5;
 		height: 100vh;
 
