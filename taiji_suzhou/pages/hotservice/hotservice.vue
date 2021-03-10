@@ -1,5 +1,5 @@
 <template>
-	<view class="hotservice">
+	<view class="hot-service">
 		<view class="list">
 			<view class="search">
 				<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
@@ -8,9 +8,9 @@
 
 			<view class="">
 				<view class="item" v-for="(item, i) in dataList" :key="i" @click="gotoDetail(item)">
-					<view class="">
-						<image src="../../static/images/business/交通出行.png" mode=""></image>
-						<view class="">{{item.SXZXNAME}}</view>
+					<view class="flex-row item-left">
+						<image :src="item.PIC" mode="aspectFill" class="item-icon"></image>
+						<view class="">{{item.SORTNAME}}</view>
 					</view>
 					<view class='right-arrow'></view>
 				</view>
@@ -42,51 +42,55 @@
 		methods: {
 			loadData() {
 				if (this.dataList == null || this.dataList.length == 0) {
-					Http.getHotPermList().then(res => {
-						console.log("getHotPermList:", res);
-						if (res.code == 200) {
-							this.dataList = res.ReturnValue.Items || [];
-						}
+					//  个人办事 传1
+					Http.getBusinessItems('1').then(res => {
+						console.log("事项列表", res);
+						let result = res.ReturnValue;
+						result.forEach(item => {
+							item.PIC = `../../static/images/business/${item.SORTNAME}.png`
+						});
+						this.dataList = result;
 						if (this.dataList.length == 0) {
 							this.dataState = 'noData'
 						} else {
 							this.dataState = 'init'
 						}
+					}, err => {
+
 					});
 				}
 			},
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);
 				if (this.searchKeyWord.trim().length == 0) {
-					uni.showToast({
-						icon: 'none',
-						title: '请输入关键词'
-					})
+					this.dataList = [];
+					this.loadData();
 					return;
 				}
-				Http.getPermByPermname(this.searchKeyWord).then(res => {
-					console.log("getPermByPermname list:", res);
-					if (res.code == 200) {
-						this.dataList = res.ReturnValue;
+
+				// 直接本地的搜索即可
+				let result = []
+				for (let i = 0; i < this.dataList.length; i++) {
+					let item = this.dataList[i];
+					if (item.SORTNAME.indexOf(this.searchKeyWord) > -1) {
+						result.push(item)
 					}
-					if (this.dataList.length == 0) {
-						this.dataState = 'noData'
-					} else {
-						this.dataState = 'init'
-					}
-				});
+				}
+				this.dataList = result;
 			},
 			gotoDetail(item) {
+				let url =
+					`/pages/government_service/item_list?userType=${this.userTypeFlag}&pictureCode=${item.SORTCODE}&pictureName=${item.SORTNAME}`;
 				uni.navigateTo({
-					url: `../business_guide/business_guide?ID=${item.ID}`
-				});
+					url: url
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.hotservice {
+	.hot-service {
 		background-color: #F2F5F5;
 		height: 100vh;
 
@@ -118,11 +122,24 @@
 				margin: 0 30upx;
 				border-bottom: 1px solid #F1F1F1;
 				color: #222;
+
+				.item-left {
+					align-items: center;
+				}
+
+				.item-icon {
+					width: 90upx;
+					height: 90upx;
+					margin-right: 20upx;
+					flex-shrink: 0;
+				}
 			}
 
 			.item:last-child {
 				border-bottom: none;
 			}
+
+
 		}
 	}
 </style>

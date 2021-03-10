@@ -57,8 +57,7 @@
 			this.ID = options.ID;
 			console.log("事项ID：", this.ID);
 			this.loadData();
-			// 获取事项信息 保存起来
-			this.getItemInfo();
+			
 		},
 		methods: {
 			expendCell(index) {
@@ -73,12 +72,15 @@
 						this.businessGuideModel = model;
 						this.handleFiles(model.FORMS);
 						this.handleDatas(model);
+						this.getItemInfo();
 					}
 				});
 			},
 			getItemInfo(){
-				Http.getPermByPermname(this.ID).then(res => {
+				// 获取事项信息 保存起来 申报页面用到
+				Http.getPermByPermname(this.businessGuideModel.SXZXNAME).then(res => {
 					console.log("事项信息:", res);
+					debugger
 					if (res.code == 200) {
 						this.itemInfo = res.ReturnValue;
 					}

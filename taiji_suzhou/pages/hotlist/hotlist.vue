@@ -60,10 +60,12 @@
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);
 				if (this.searchKeyWord.trim().length == 0) {
-					uni.showToast({
-						icon: 'none',
-						title: '请输入关键词'
-					})
+					// uni.showToast({
+					// 	icon: 'none',
+					// 	title: '请输入关键词'
+					// })
+					this.dataList = [];
+					this.loadData();
 					return;
 				}
 				Http.getPermByPermname(this.searchKeyWord).then(res => {

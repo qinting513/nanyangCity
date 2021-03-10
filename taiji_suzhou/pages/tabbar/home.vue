@@ -105,9 +105,9 @@
 						})
 						break;
 					}
-					case '网点导航': {
+					case '热门服务': {
 						uni.navigateTo({
-							url: '../government_service/network_list',
+							url: '../hotservice/hotservice',
 						});
 						break;
 					}

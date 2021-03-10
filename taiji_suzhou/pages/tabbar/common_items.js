@@ -36,7 +36,7 @@ const items = [{
 	}, 
 	{
 		"id": 7,
-		"title": "网点导航",
+		"title": "热门服务",
 		"img": '../../static/images/itemIcon/icon_item_wddh.png'
 	}
 ];

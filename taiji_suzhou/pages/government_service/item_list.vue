@@ -57,10 +57,10 @@
 						name: '申报',
 						img: "../../static/images/home/icon_banshi_shenbao.png"
 					},
-					{
-						name: '预约',
-						img: "../../static/images/home/icon_banshi_yuyue.png"
-					},
+					// {
+					// 	name: '预约',
+					// 	img: "../../static/images/home/icon_banshi_yuyue.png"
+					// },
 				]
 			}
 		},
@@ -222,9 +222,9 @@
 			}
 
 			.cell-bottom {
-				justify-content: space-between;
+				justify-content: space-around;
 				height: 120upx;
-				width: 80%;
+				width: 100%;
 				padding: 0 40upx;
 				margin-top: 30upx;
 
