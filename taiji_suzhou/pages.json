@@ -2,8 +2,7 @@
 	"easycom": {
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/tabbar/home",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -23,7 +22,7 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
-		},		
+		},
 		{
 			"path": "pages/government_service/business_page",
 			"style": {
@@ -174,6 +173,18 @@
 			"path": "pages/base_apply/apply_result",
 			"style": {
 				"navigationBarTitleText": "事项业务办理"
+			}
+		},
+		{
+			"path": "pages/mine/schedule_query",
+			"style": {
+				"navigationBarTitleText": "进度查询"
+			}
+		},
+		{
+			"path": "pages/mine/schedule_query_result",
+			"style": {
+				"navigationBarTitleText": "进度查询结果"
 			}
 		}
 	],

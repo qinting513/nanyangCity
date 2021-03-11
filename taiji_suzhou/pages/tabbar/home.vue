@@ -5,10 +5,10 @@
 				<image class="bg-img" src="../../static/images/home/home_banner_bg.png" mode="scaleToFill"></image>
 			</view>
 			<view class="search flex-row">
-					<u-search height="40"  :disabled="true" @click="gotoSearch"></u-search>
+				<u-search height="40" :disabled="true" @click="gotoSearch"></u-search>
 			</view>
 			<!-- 常办事项 -->
-			<view class="common" >
+			<view class="common">
 				<view class="flex-row items">
 					<view v-for="(item, index) in items" :key="index" class="flex-column cell"
 						@click="commonItemsClick(item)">
@@ -60,7 +60,7 @@
 			// 		}
 			// 	});
 			// },
-			gotoSearch(){
+			gotoSearch() {
 				uni.navigateTo({
 					url: '../hotlist/hotlist?type=search'
 				})
@@ -96,7 +96,9 @@
 						break;
 					}
 					case '进度查询': {
-
+						uni.navigateTo({
+							url: '/pages/mine/schedule_query'
+						})
 						break;
 					}
 					case '热门事项': {

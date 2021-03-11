@@ -88,6 +88,7 @@
 				console.log("index:", index, item);
 				switch (index) {
 					case 0: {
+						uni.setStorageSync('nItemInfo', JSON.stringify(item));
 						uni.navigateTo({
 							url: `../business_guide/business_guide?ID=${item.ID}`
 						});

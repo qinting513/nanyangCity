@@ -7,8 +7,8 @@ const regionName = "南阳市";
 
 // 注意一个斜扛已经写在后面了
 // const rootUrl = "http://111.6.77.4:9001/" // 南阳的
-const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/"  // 映射的地址是 http://111.6.77.4:9001/
-const baseUrl = rootUrl + "services/"; 
+const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/" // 映射的地址是 http://111.6.77.4:9001/
+const baseUrl = rootUrl + "services/";
 
 // 图片的baseURL
 const downloadFileURL =
@@ -24,6 +24,75 @@ const soap_format_envelop_start =
 const soap_format_body_start = '<soap:Body>';
 const soap_format_body_end = '</soap:Body>';
 const soap_format_envelop_end = '</soap:Envelope>';
+
+
+const materialNameList = [
+	"身份证",
+	"护照",
+	"军官证",
+	"士兵证",
+	"警官证",
+	"通行证",
+	"香港身份证",
+	"澳门身份证",
+	"台湾身份证",
+	"结婚证",
+	"户口本",
+	"资格证",
+	"毕业证",
+	"学位证",
+	"残疾证",
+	"退休证",
+	"许可证",
+	"执业证",
+	"营业执照",
+	"执照",
+	"证书",
+	"证件",
+	"证明材料",
+	"证明",
+	"意见书",
+	"意见",
+	"通知书",
+	"通知",
+	"委托书",
+	"说明书",
+	"说明",
+	"方案",
+	"原件",
+	"复印件",
+	"审核表",
+	"审核",
+	"手册",
+	"进编单",
+	"规范",
+	"照片",
+	"相片",
+	"章程",
+	"报告书",
+	"报告",
+	"申请表",
+	"登记表",
+	"储蓄卡",
+	"审批表",
+	"合同",
+	"名册",
+	"协议",
+	"决议",
+	"规划",
+	"大纲",
+	"制度",
+	"招标文件",
+	"报纸",
+	"文本",
+	"申请",
+	"承诺书",
+	"推荐书",
+	"申报书",
+	"资料",
+	"材料"
+];
+
 
 // 获取个人办事或法人办事事项
 function getBusinessItems(userType, areaId) {
@@ -196,8 +265,11 @@ function checkRes(res) {
 function getPermByPermname(name, deptId) {
 	// getPermByPermname
 	return new Promise(function(resolve, reject) {
-		let params = {"PERMNAME": name, "AREAID": "411300"};
-		if(deptId) {
+		let params = {
+			"PERMNAME": name,
+			"AREAID": "411300"
+		};
+		if (deptId) {
 			params['DEPTID'] = deptId;
 		}
 		let url = baseUrl + 'RestPermissionitemService'
@@ -210,88 +282,92 @@ function getPermByPermname(name, deptId) {
 }
 
 //  单点登录获得的用户数据，进行提交到我们的库
-function registerUserInfo(){
+function registerUser(user) {
 	return new Promise(function(resolve, reject) {
-		let params = {"PERMNAME": name, "AREAID": "411300"};
-		if(deptId) {
-			params['DEPTID'] = deptId;
+		let method;
+		if (user.userAuth) { // 个人注册
+			// 从南威库里获取： 1:男 2:女 3:未知
+			// 南阳库： 性别，0女，1男，空表示保密
+			if (user.gender == 2) {
+				user.gender = 0;
+			}
+			let params = {
+				"USERNAME": user.id,
+				"PASSWORD": "123456",
+				"EMAIL": user.email,
+				"REALNAME": user.userAuth.realName,
+				"USER_GENDER": user.gender,
+				"CERTIFICATETYPE": '1', // 证件类型
+				"USER_PID": user.userAuth.cardId, // 证件号码
+				"USER_PHONE": user.phone,
+				"USER_MOBILE": user.phone,
+				"USER_ADDRESS": user.address,
+				"USER_SOURCE": "2",
+				"AUTH_MSG": JSON.stringify(user.userAuth),
+			}
+			method = 'registerUser'
+		} else {
+			// 法人注册
+			if (user.gender == 2) {
+				user.gender = 0;
+			}
+
+			let params = {
+				"USERNAME": user.id,
+				"PASSWORD": "123456",
+				"EMAIL": user.email,
+				"INC_NAME": user.enterAuth.enterName, // 企业名称
+				"INC_TYPE": user.enterAuth.orgType, //"企业类型，1国有，2民营，3外资，4港澳台资，5其他",
+				"INC_PERMIT": user.enterAuth.licenseId, // 营业执照
+				"INC_ZZJGDM": user.enterAuth.orgId, // 组织机构代码
+				"TYSHXYDM": user.enterAuth.licenseId,
+				"INC_DEPUTY": "法人代表",
+				"INC_PID": user.enterAuth.corporationCardId, // 法人身份证号码
+				"INC_ADDR": user.enterAuth.address,
+				"INC_INDICIA": "000000",
+				"INC_PHONE": user.enterAuth.contactTelephone,
+				"INC_FAX": "",
+				"INC_NETWORK": "",
+				"INC_EMAIL": "",
+				"AGE_NAME": user.name, // 经办人姓名
+				"AGE_PID": user.enterAuth.corporationCardId, // 经办人身份证
+				"AGE_EMAIL": user.email,
+				"AGE_MOBILE": user.enterAuth.contactTelephone,
+				"AGE_PHONE": user.enterAuth.contactTelephone,
+				"AGE_INDICIA": "000000",
+				"USER_SOURCE": "2",
+				"AUTH_TYPE": "1,2",
+				"AUTH_MSG": JSON.stringify(user.enterAuth),
+				"INC_DEPUTY_TYPE": "1", // "法人类型，1企业法人，2事业单位，3行政机关，4社团，5其他",
+				"INC_DEPUTY_MOBILE": user.phone,
+				"INC_CARDTYPE": user.enterAuth.corporationCardId,
+				"AGE_CARDTYPE": user.enterAuth.corporationCardType,
+			}
+			method = 'registerInc'
 		}
-		
+		debugger
 		let url = baseUrl + 'RestUserService'
 		WebApi.soup(url, "registerUser", params).then(res => {
+			console.log("用户信息提交成功:", res);
 			resolve(res);
 		}).catch((err) => {
+			console.log("用户信息提交失败:", err);
 			reject(err);
 		});
 	})
 }
 
-const materialNameList = [
-	"身份证",
-	"护照",
-	"军官证",
-	"士兵证",
-	"警官证",
-	"通行证",
-	"香港身份证",
-	"澳门身份证",
-	"台湾身份证",
-	"结婚证",
-	"户口本",
-	"资格证",
-	"毕业证",
-	"学位证",
-	"残疾证",
-	"退休证",
-	"许可证",
-	"执业证",
-	"营业执照",
-	"执照",
-	"证书",
-	"证件",
-	"证明材料",
-	"证明",
-	"意见书",
-	"意见",
-	"通知书",
-	"通知",
-	"委托书",
-	"说明书",
-	"说明",
-	"方案",
-	"原件",
-	"复印件",
-	"审核表",
-	"审核",
-	"手册",
-	"进编单",
-	"规范",
-	"照片",
-	"相片",
-	"章程",
-	"报告书",
-	"报告",
-	"申请表",
-	"登记表",
-	"储蓄卡",
-	"审批表",
-	"合同",
-	"名册",
-	"协议",
-	"决议",
-	"规划",
-	"大纲",
-	"制度",
-	"招标文件",
-	"报纸",
-	"文本",
-	"申请",
-	"承诺书",
-	"推荐书",
-	"申报书",
-	"资料",
-	"材料"
-];
+
+function getBusinessProcess(params) {
+	return new Promise(function(resolve, reject) {
+		let url = baseUrl + 'RestBussinessService'
+		WebApi.soup(url, "search", params).then(res => {
+			resolve(res);
+		}).catch(err => {
+			reject(err)
+		})
+	})
+}
 
 module.exports = {
 	regionId,
@@ -310,4 +386,6 @@ module.exports = {
 	login,
 	checkRes,
 	getPermByPermname,
+	registerUser,
+	getBusinessProcess,
 }

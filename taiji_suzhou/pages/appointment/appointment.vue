@@ -63,7 +63,7 @@
 import appointmentCell from './appointment_cell.vue'
 import normalBtn from '../login/normal_button.vue'
 import {mapState} from 'vuex'
-import http from '../../static/js/mine.js'
+import Http from '../../static/js/mine.js'
 export default {
 	components:{
 		appointmentCell,
@@ -187,7 +187,7 @@ export default {
 				})
 				return;
 			}
-			http.submitAppointment(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.nowSelectTime, this.userInfo.userTOKEN, this.userInfo.USER_ID).then(res => {
+			Http.submitAppointment(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.nowSelectTime, this.userInfo.userTOKEN, this.userInfo.USER_ID).then(res => {
 				if (res.code == 200) {
 					uni.showToast({
 						title:'预约成功!',
@@ -231,7 +231,7 @@ export default {
 		},
 		getDeptList(){
 			this.tipsText = "请选择部门"
-			http.getDeptList().then(res => {
+			Http.getDeptList().then(res => {
 				if (res.code == 200) {
 					this.deptList = res.ReturnValue
 				}
@@ -260,7 +260,7 @@ export default {
 				this.showBusinessView = true
 				return
 			}
-			http.getBusinessList(this.nowSelectDept.DEPTID).then(res => {
+			Http.getBusinessList(this.nowSelectDept.DEPTID).then(res => {
 				if (res.code == 200) {
 					this.businessList = res.ReturnValue
 					this.showPopupview = true
@@ -292,7 +292,7 @@ export default {
 				this.showDateView = true
 				return
 			}
-			http.getAppointmentDate(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.userInfo.userTOKEN).then(res => {
+			Http.getAppointmentDate(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.userInfo.userTOKEN).then(res => {
 				if (res.code == 200) {
 					this.dateList = res.ReturnValue.Items
 					this.showPopupview = true
@@ -323,7 +323,7 @@ export default {
 				this.showTimeView = true
 				return
 			}
-			http.getAppointmentTime(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.userInfo.userTOKEN).then(res => {
+			Http.getAppointmentTime(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.userInfo.userTOKEN).then(res => {
 				if (res.code == 200) {
 					this.timeList = res.ReturnValue.Items
 					this.showPopupview = true

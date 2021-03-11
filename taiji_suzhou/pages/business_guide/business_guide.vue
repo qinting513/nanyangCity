@@ -55,7 +55,8 @@
 		},
 		onLoad: function(options) {
 			this.ID = options.ID;
-			console.log("事项ID：", this.ID);
+			this.itemInfo = JSON.parse(uni.getStorageSync('nItemInfo') || "{}");
+			console.log("事项ID：", this.itemInfo);
 			this.loadData();
 			
 		},
@@ -74,15 +75,15 @@
 						this.$store.commit('updateApplyItemInfo', this.itemInfo);
 						this.handleFiles(model.FORMS);
 						this.handleDatas(model);
-						this.getItemInfo(model.SXZXNAME)
+						// this.getItemInfo(model.SXZXNAME)
 					}
 				});
 			},
 			getItemInfo(name){
 				Http.getPermByPermname(name).then(res => {
 					console.log("事项信息:", res);
-					if (res.code == 200) {
-						this.dataList = res.ReturnValue;
+					if (res.code == 200 && res.ReturnValue.length > 0) {
+						this.itemInfo = res.ReturnValue[0];
 					}
 				});
 			},
@@ -101,7 +102,7 @@
 						let filename = forms.substring(
 							forms.indexOf("<name>") + 6, forms.indexOf("</name>"));
 						forms = forms.substring(forms.indexOf("</name>") + 1, forms.length);
-						console.log("=========== filename:", id, filename);
+						// console.log("=========== filename:", id, filename);
 						if (filename.indexOf("CDATA[]") == -1) {
 							// 过滤掉这些空内容的东西
 							files.push({
@@ -113,7 +114,7 @@
 					if (files.length > 0) {
 						this.files = files;
 					}
-					console.log("forms:", this.files);
+					// console.log("forms:", this.files);
 				}
 			},
 			replaceStr(str) {
@@ -182,7 +183,7 @@
 						"data": model.PERMISSION.bLDD || '暂无数据'
 					}
 				];
-				console.log("dataList:", this.dataList);
+				// console.log("dataList:", this.dataList);
 			},
 			gotoZixun() {},
 			gotoPingjia() {},

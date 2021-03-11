@@ -109,6 +109,11 @@ function getAppAuthUserInfo(accessToken, callback) {
 			let userInfo = res.content;
 			console.log("userInfo:", userInfo);
 			store.commit('updateUserInfo', userInfo); // 保存用户信息
+			try {
+				Http.registerUser(userInfo);
+			} catch (e) {
+				console.log("提交用户信息报错", e);
+			}
 		}
 		// debugger
 		if (callback) {
@@ -137,7 +142,7 @@ function gotoPage(page) {
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=2'
 			break;
 		}
-		case 'bmbs': {  // 部门办事
+		case 'bmbs': { // 部门办事
 			fullUrl = fullUrl + '/#/pages/government_service/department_page'
 			break;
 		}

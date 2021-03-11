@@ -52,7 +52,7 @@
 		methods: {
 			getUserInfo() {
 				let accessToken = uni.getStorageSync('ntoken');
-				console.log("本地token:", accessToken);
+				// console.log("本地token:", accessToken);
 				if (null != accessToken && undefined != accessToken && '' != accessToken) {
 					// 如果有accessToken则直接通过accessToken获取信息即可
 					let that = this;
@@ -61,7 +61,7 @@
 						Http.gotoPage(that.page);
 					});
 				} else {
-					// debugger
+					debugger
 					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${this.page}`;
 					// redirect_uri = encodeURIComponent(redirect_uri)
 					// 否则先打开一个地址 来重定向
