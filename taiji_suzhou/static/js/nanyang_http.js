@@ -209,6 +209,23 @@ function getPermByPermname(name, deptId) {
 	})
 }
 
+//  单点登录获得的用户数据，进行提交到我们的库
+function registerUserInfo(){
+	return new Promise(function(resolve, reject) {
+		let params = {"PERMNAME": name, "AREAID": "411300"};
+		if(deptId) {
+			params['DEPTID'] = deptId;
+		}
+		
+		let url = baseUrl + 'RestUserService'
+		WebApi.soup(url, "registerUser", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
 const materialNameList = [
 	"身份证",
 	"护照",

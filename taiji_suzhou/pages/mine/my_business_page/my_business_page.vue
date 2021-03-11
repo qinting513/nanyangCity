@@ -43,12 +43,13 @@ export default {
 			return false;
 		}
 		
-		if (this.isFromMine) {
-			this.back();
+		if (this.isFromMine) { // 如果是从申报进入到我的办件页面，再返回的时候 不仅仅是返回到申报页面
+			uni.navigateBack({
+				delta: 2
+			});
 		} else {
 			uni.navigateBack({})
 		}
-		
 		return true;
 	},
 	data() {
@@ -77,9 +78,7 @@ export default {
 	computed: mapState(['userInfo']),
 	methods: {
 		back() {
-			uni.navigateBack({
-				delta: 2
-			});
+			
 		},
 		getZancunjian() {
 			// console.log(this.userInfo)

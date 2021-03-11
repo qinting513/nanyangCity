@@ -70,22 +70,23 @@
 					if (res.ReturnValue != null) {
 						let model = res.ReturnValue;
 						this.businessGuideModel = model;
+						// this.itemInfo = model.PERMISSION;
+						this.$store.commit('updateApplyItemInfo', this.itemInfo);
 						this.handleFiles(model.FORMS);
 						this.handleDatas(model);
-						this.getItemInfo();
+						this.getItemInfo(model.SXZXNAME)
 					}
 				});
 			},
-			getItemInfo(){
-				// 获取事项信息 保存起来 申报页面用到
-				Http.getPermByPermname(this.businessGuideModel.SXZXNAME).then(res => {
+			getItemInfo(name){
+				Http.getPermByPermname(name).then(res => {
 					console.log("事项信息:", res);
-					debugger
 					if (res.code == 200) {
-						this.itemInfo = res.ReturnValue;
+						this.dataList = res.ReturnValue;
 					}
 				});
 			},
+			
 			// 处理表格数据
 			handleFiles(forms) {
 				var files = [];

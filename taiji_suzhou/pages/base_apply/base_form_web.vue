@@ -14,9 +14,9 @@
 		},
 		onLoad() { 
 			//这里对要传入到webview中的参数进行encodeURIComponent编码否则中文乱码
-			   let userInfo = {REALNAME:"任我行"};
-				userInfo = JSON.stringify(userInfo);
-				this.url += encodeURIComponent(userInfo);
+			 //   let userInfo = {REALNAME:"任我行"};
+				// userInfo = JSON.stringify(userInfo);
+				// this.url += encodeURIComponent(userInfo);
 		},
 		methods: {},
 	}

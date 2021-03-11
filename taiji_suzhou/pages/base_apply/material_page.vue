@@ -148,14 +148,14 @@ export default {
 				// 成功的回调
 				function(res) {
 					success++;
-					console.log('successBlock', res);
-					console.log(i);
+					console.log('successBlock:', i, res.ReturnValue.FILEID);
+					// console.log(i);
 				},
 				// 失败的回调
 				function(err) {
 					fail++;
-					console.log('failBlock fail index:', i);
-					console.log('failBlock fail err:', err);
+					// console.log('failBlock fail index:', i);
+					// console.log('failBlock fail err:', err);
 					uni.showToast({
 						icon: 'none',
 						title: `第${i + 1}张上传失败`
@@ -174,7 +174,7 @@ export default {
 				},
 				// 完成的回调
 				function() {
-					console.log('completeBlock:', i);
+					// console.log('completeBlock:', i);
 					i++;
 					if (i == data.localImgPaths.length) {
 						//当图片传完时，停止调用
@@ -189,7 +189,7 @@ export default {
 						that.$store.commit('updateUploadMaterials', that.materials);
 						that.$store.commit('updateUploadMaterialsNum', that.materialsNumber);
 					} else {
-						console.log(i);
+						// console.log(i);
 						data.i = i;
 						data.success = success;
 						data.fail = fail;
@@ -258,19 +258,19 @@ export default {
 				filePath: imgPath,
 				name: 'file',
 				formData: {
-					USERID: this.userInfo.USER_ID,
+					USERID: this.userInfo.id,
 					SXID: this.businessModel.permId,
 					FILENAME: fileName
 				},
 				success: function(res) {
 					let data = JSON.parse(res.data);
-					console.log('上传返回数据:', data);
+					// console.log('上传返回数据:', data);
 					if (data.code != 200) {
 						return;
 					}
 					let responseFileID = data.ReturnValue.FILEID;
 					let fileId = Http.downloadFileURL + responseFileID;
-					console.log('===>after upload responseFileID:', responseFileID);
+					// console.log('===>after upload responseFileID:', responseFileID);
 
 					let materials = that.materials || {};
 					let itemMaterials = materials[model.ID] || [];
@@ -298,7 +298,7 @@ export default {
 
 					materials[model.ID] = itemMaterials;
 					that.materials = materials;
-					console.log('===>after upload materials:', that.materials);
+					// console.log('===>after upload materials:', that.materials);
 					let uploading = (that.materialsNumber[model.ID] || {}).uploading || 0;
 					uploading = uploading + 1;
 					that.updateMaterialNumber({

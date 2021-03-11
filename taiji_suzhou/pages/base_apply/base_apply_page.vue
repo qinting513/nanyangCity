@@ -87,12 +87,12 @@
 			this.initModels(options);
 		},
 		onShow() {
-			let pagearr = getCurrentPages(); //获取应用页面栈
-			let currentPage = pagearr[pagearr.length - 1]; //获取当前页面信息
-			console.log('option:', currentPage.options) //获取页面传递的信息
+			// let pagearr = getCurrentPages(); //获取应用页面栈
+			// let currentPage = pagearr[pagearr.length - 1]; //获取当前页面信息
+			// console.log('option:', currentPage.options) //获取页面传递的信息
 
 			//省统一身份认证对接
-			this.handleToken(currentPage.options);
+			// this.handleToken(currentPage.options);
 		},
 		methods: {
 			handleToken: function(options) {
@@ -136,7 +136,7 @@
 									// 		userInfo.EMAIL = '';
 									// 		userInfo.MOBILE = "19889897878";
 									// 		userInfo.TYPE = "1";
-									// 		userInfo.CODE = "312345199809090909";
+									// 		userInfo.CODE = "312345199809090909"; // 身份证号码
 									// 		userInfo.AUTHLEVE = '4';
 									// 		userInfo.USER_IMG = '';
 									// 		userInfo.COMPANY = '';
@@ -150,10 +150,7 @@
 								} else {
 									uni.showToast("用户信息获取失败")
 								}
-
-
 							}
-
 						},
 						fail: function(error) {
 							// 初始化数据
@@ -213,7 +210,7 @@
 
 				// 拼接参数进行申报
 				let params = {
-					token: this.userInfo.TOKEN,
+					token: this.userInfo.userToken,
 					BUSINESS: businessXml,
 					FORMS: formXml,
 					MATERIALS: materialXml,
@@ -226,9 +223,9 @@
 							icon: 'success',
 							title: type == 9 ? '暂存成功!' : '申报成功!',
 							complete() {
-								if (that.hasToken) {
-									return;
-								}
+								// if (that.hasToken) {
+								// 	return;
+								// }
 								var url = "../mine/my_business_page/my_business_page"
 								if (that.businessModel.bsnum) {
 									url += `?isFromMine=1`
@@ -287,10 +284,13 @@
 				} else {
 					this.businessModel.bsnum = null;
 				}
-				this.businessModel.applicantid = this.userInfo.USER_ID;
+				// TODO： applicantid 应该传递什么
+				this.businessModel.applicantid = this.userInfo.id;
+				// debugger
 				this.$store.commit('updateBusinessModel', this.businessModel);
 			},
 			initModels(options) {
+				// debugger
 				// 加载材料列表数据
 				this.loadMaterialData();
 				// 获取表单URL
@@ -309,13 +309,13 @@
 					this.getInsMaterialInfo();
 				} else {
 					// 读取缓存的用户信息进行显示 有bsnum的 则网络请求后赋值
-					this.formsModel.realName = this.userInfo.REALNAME;
-					this.formsModel.mobile = this.userInfo.MOBILE;
-					this.formsModel.code = this.userInfo.CODE;
-					this.formsModel.userEmail = this.userInfo.EMAIL;
-					this.formsModel.certificateTypesCode = '10'; // "身份证",
-					this.formsModel.userPhone = this.userInfo.MOBILE;
-					this.formsModel.userAddress = this.userInfo.ADDRESS || '';
+					this.formsModel.realName = this.userInfo.userAuth.realName || ""; // 真实名字
+					this.formsModel.mobile = this.userInfo.phone || ""; // 手机号码
+					this.formsModel.code = this.userInfo.userAuth.cardId; // 身份证号码
+					this.formsModel.userEmail = this.userInfo.email || ""; 
+					this.formsModel.certificateTypesCode = '10'; // 证件类型 "身份证",
+					this.formsModel.userPhone = this.userInfo.telephone || "";
+					this.formsModel.userAddress = this.userInfo.address || '';
 					this.formsModel.bsnum = null;
 					this.$store.commit('updateFormsModel', this.formsModel);
 					this.initBusinessModel(this.applyItemInfo);
@@ -384,7 +384,7 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				Apply.getWebhallbusiness(this.userInfo.TOKEN, this.businessModel.bsnum).then(res => {
+				Apply.getWebhallbusiness(this.userInfo.userTOKEN, this.businessModel.bsnum).then(res => {
 					console.log('getWebhallbusiness result:', res);
 					if (res['code'] == 200) {
 						this.initBusinessModel(res.ReturnValue);
@@ -396,7 +396,7 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				Apply.getInsFormData(this.userInfo.TOKEN, this.businessModel.bsnum).then(res => {
+				Apply.getInsFormData(this.userInfo.userTOKEN, this.businessModel.bsnum).then(res => {
 					console.log('getInsFormData result:', res);
 					// if (res['code'] == 200) {
 					let result = res;
@@ -421,7 +421,7 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				Apply.getInsMaterialInfo(this.userInfo.TOKEN, this.businessModel.bsnum).then(res => {
+				Apply.getInsMaterialInfo(this.userInfo.userTOKEN, this.businessModel.bsnum).then(res => {
 					console.log('getInsMaterialInfo result:', res);
 					var materials = {};
 					var materialsNumber = {};

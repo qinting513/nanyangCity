@@ -264,7 +264,7 @@
 			},
 			getUserAdderssItems: function() {
 				// console.log("获取用户地址:", this.userInfo);
-				Apply.getUserPostInfo(this.userInfo.USER_ID).then(res => {
+				Apply.getUserPostInfo(this.userInfo.id).then(res => {
 					// console.log("获取用户地址 res:", res);
 					if (res.code == '200' && res['ReturnValue'] != null) {
 						let returnValue = res['ReturnValue'];

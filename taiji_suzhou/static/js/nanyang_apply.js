@@ -236,11 +236,11 @@ function getBusinessXml(type, business, userInfo) {
 		String(type) +
 		"]]></status>" +
 		"<applicantid><![CDATA[" +
-		(userInfo.USER_ID || '') +
+		(userInfo.id || '') +
 		"]]></applicantid>" +
 		"<state>5</state>" +
 		"<sqr_type><![CDATA[" +
-		(userInfo.TYPE || '') +
+		(userInfo.userAuth.cardType || '') +
 		"]]></sqr_type>" +
 		"</business>";
 	console.log("business 数据:", bxml);

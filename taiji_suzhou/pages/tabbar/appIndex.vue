@@ -5,6 +5,7 @@
 <script>
 	/*
 	访问地址: https://rtxxdj.linewell.com/nanyang/#/
+	https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/home
 	
 	服务器访问的：
 	个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=grbs
@@ -65,7 +66,7 @@
 					// redirect_uri = encodeURIComponent(redirect_uri)
 					// 否则先打开一个地址 来重定向
 					location.replace(
-						`${Http.authUrl}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_base&redirect_uri=${redirect_uri}`
+						`${Http.authUrl}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=${redirect_uri}`
 					);
 				}
 			},

@@ -4,6 +4,13 @@
 	},
 	"pages": [
 		{
+			"path": "pages/tabbar/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/tabbar/appIndex",
 			"style": {
 				"navigationBarTitleText": "",
@@ -16,15 +23,7 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
-		},
-		
-		{
-			"path": "pages/tabbar/home",
-			"style": {
-				"navigationBarTitleText": "首页",
-				"navigationStyle": "custom"
-			}
-		},
+		},		
 		{
 			"path": "pages/government_service/business_page",
 			"style": {
@@ -34,7 +33,7 @@
 		{
 			"path": "pages/government_service/department_page",
 			"style": {
-				"navigationBarTitleText": "部门办事"
+				"navigationBarTitleText": "部门导航"
 			}
 		},
 		{
@@ -169,6 +168,12 @@
 			"path": "pages/address/address_list",
 			"style": {
 				"navigationBarTitleText": "地址管理"
+			}
+		},
+		{
+			"path": "pages/base_apply/apply_result",
+			"style": {
+				"navigationBarTitleText": "事项业务办理"
 			}
 		}
 	],

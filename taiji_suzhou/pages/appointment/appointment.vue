@@ -187,7 +187,7 @@ export default {
 				})
 				return;
 			}
-			http.submitAppointment(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.nowSelectTime, this.userInfo.TOKEN, this.userInfo.USER_ID).then(res => {
+			http.submitAppointment(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.nowSelectTime, this.userInfo.userTOKEN, this.userInfo.USER_ID).then(res => {
 				if (res.code == 200) {
 					uni.showToast({
 						title:'预约成功!',
@@ -292,7 +292,7 @@ export default {
 				this.showDateView = true
 				return
 			}
-			http.getAppointmentDate(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.userInfo.TOKEN).then(res => {
+			http.getAppointmentDate(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.userInfo.userTOKEN).then(res => {
 				if (res.code == 200) {
 					this.dateList = res.ReturnValue.Items
 					this.showPopupview = true
@@ -323,7 +323,7 @@ export default {
 				this.showTimeView = true
 				return
 			}
-			http.getAppointmentTime(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.userInfo.TOKEN).then(res => {
+			http.getAppointmentTime(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this.userInfo.userTOKEN).then(res => {
 				if (res.code == 200) {
 					this.timeList = res.ReturnValue.Items
 					this.showPopupview = true

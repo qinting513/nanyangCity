@@ -30,11 +30,13 @@
 		},
 		data() {
 			return {
+				isLoading: false,
 				dataList: [],
 				userTypeFlag: '1', // 当是页面的时候 通过参数传递进来的 跟userType同一个东西
 			}
 		},
 		created(options) {
+			// debugger
 			if (this.isComponent) {
 				this.userTypeFlag = this.userType;
 				uni.setNavigationBarTitle({
@@ -44,6 +46,7 @@
 			this.loadData();
 		},
 		onLoad(options) {
+			// debugger
 			if (!this.isComponent) {
 				this.userTypeFlag = options.userType
 				uni.setNavigationBarTitle({
@@ -57,20 +60,25 @@
 		},
 		methods: {
 			loadData(index) {
+				if (this.isLoading) {
+					return;
+				}
+				this.isLoading = true;
 				if (this.dataList == null || this.dataList.length == 0) {
 					Http.getBusinessItems(this.userTypeFlag).then(res => {
+						this.isLoading = false;
 						console.log("事项列表", res);
 						let result = res.ReturnValue;
 						result.forEach(item => {
-							// if(item.PIC) {
-							// 	item.PIC = Http.rootUrl + item.PIC;
-							// }
-							item.PIC = `../../static/images/business/${item.SORTNAME}.png`
+							item.PIC = `../../static/images/business/${item.SORTCODE}.png`
 						});
-						// console.log("getBusinessItems:", result);
 						this.dataList = result;
 					}, err => {
-
+						this.isLoading = false;
+						uni.showToast({
+							title: '网络异常，请稍后重试',
+							icon: 'none'
+						})
 					});
 				}
 			},
@@ -98,6 +106,7 @@
 	.business-page {
 		width: 100%;
 		height: 100%;
+		overflow-y: scroll;
 	}
 
 	.service-container {
