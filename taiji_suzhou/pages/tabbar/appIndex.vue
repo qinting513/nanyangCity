@@ -20,19 +20,27 @@
     3.进度查询结果 https://rtxxdj.linewell.com/nanyang/#/pages/mine/schedule_query_result?id=xxx&username=用户名
 	
 	服务器访问的：
-	1个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=grbs
-	2企业办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=qybs
-	3部门办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bmbs
-	4热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmsx
-	5事项搜索: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxss
-	6热门服务: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmfw
+	1.个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=grbs
+	2.企业办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=qybs
+	3.部门导航: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bmbs
+	4.热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmsx
+	5.事项搜索: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxss
+	6.办事指南: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bszn&ID=事项ID 005998375QR13609003
+	7.事项列表: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxlb&pictureCode=主题的SORTCODE&pictureName=主题名称SORTNAME 
+	8.进度查询: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=jdcx
+	9.我的办件：https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=wdbj&index=页签枚举值(0暂存件 1在办件 2办结件)
 	
 	本地调试的
-	个人办事: http://localhost:8080/#/pages/tabbar/appIndex?page=grbs
-	企业办事: http://localhost:8080/#/pages/tabbar/appIndex?page=qybs
-	部门办事: http://localhost:8080/#/pages/tabbar/appIndex?page=bmbs
-	热门事项: http://localhost:8080/#/pages/tabbar/appIndex?page=rmsx
-	智能搜索: http://localhost:8080/#/pages/tabbar/appIndex?page=znss
+	1.个人办事: http://localhost:8080/#/pages/tabbar/appIndex?page=grbs
+	2.企业办事: http://localhost:8080/#/pages/tabbar/appIndex?page=qybs
+	3.部门导航: http://localhost:8080/#/pages/tabbar/appIndex?page=bmbs
+	4.热门事项: http://localhost:8080/#/pages/tabbar/appIndex?page=rmsx
+	5.事项搜索: http://localhost:8080/#/pages/tabbar/appIndex?page=sxss
+	6.办事指南: http://localhost:8080/#/pages/tabbar/appIndex?page=bszn&ID=事项ID 005998375QR13609003
+	7.事项列表: http://localhost:8080/#/pages/tabbar/appIndex?page=sxlb&pictureCode=主题的SORTCODE&pictureName=主题名称SORTNAME 
+	8.进度查询: http://localhost:8080/#/pages/tabbar/appIndex?page=jdcx&bsnum=411323033210311A000003&username=杜廷广
+	9.我的办件：http://localhost:8080/#/pages/tabbar/appIndex?page=wdbj&index=页签枚举值(0暂存件 1在办件 2办结件)
+	
 	
 	
 	
@@ -46,40 +54,43 @@
 	*/
 
 	import Http from '../../static/js/nanyang_auth.js';
+	import Util from '../../static/js/util.js';
 	export default {
 		name: "index",
 		data() {
 			return {
-				page: ''
+				// page: ''
 			}
 		},
 		onLoad(options) {
-			let local = location.href;
-			console.log("appIndex options:", options, local);
-			this.page = options.page
-			// debugger
-			setTimeout(() => {
-				this.getUserInfo();
-			}, 300)
-
+			// let local = location.href;
+			console.log("appIndex options:", options);
+			this.getUserInfo(options);
 		},
 		methods: {
-			getUserInfo() {
+			getUserInfo(options) {
+				// debugger
+				let params = ''
+				if (options.page != null && options.page != '') {
+					// 将传递的参数都加密一下，到appForward再解密来使用
+					params = encodeURIComponent(Util.base64Encode(Util.utf16to8(JSON.stringify(options))));
+				}
+				console.log("params:", options, params);
 				let accessToken = uni.getStorageSync('ntoken');
-				// console.log("本地token:", accessToken);
 				// debugger
 				if (null != accessToken && undefined != accessToken && '' != accessToken) {
 					// 如果有accessToken则直接通过accessToken获取信息即可
 					let that = this;
 					Http.getAppAuthUserInfo(accessToken, () => {
-						console.log("page....:", that.page);
-						Http.gotoPage(that.page);
+						console.log("page....:", that.params);
+						Http.gotoPage(params);
 					});
 				} else {
-					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${this.page}`;
-					// redirect_uri = encodeURIComponent(redirect_uri)
+					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${params}`;
+					console.log("重定向地址:",redirect_uri)
 					// 否则先打开一个地址 来重定向
-					let url = `${Http.orginAuth}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=${redirect_uri}`
+					let url =
+						`${Http.orginAuth}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=${redirect_uri}`
 					console.log('url:', url);
 					// debugger
 					location.replace(url);

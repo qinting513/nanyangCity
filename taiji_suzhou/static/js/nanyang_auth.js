@@ -1,4 +1,5 @@
 import Http from './nanyang_http.js'
+import Util from './util.js'
 import store from '../../store/index.js'
 
 // 测试的
@@ -14,7 +15,7 @@ import store from '../../store/index.js'
 const orginAuth = "http://111.6.77.67:6443/"
 // const authUrl = "http://111.6.77.67:6443/"
 // const authUserUrl = "http://111.6.77.66:6443/"
-const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/"  // http://111.6.77.67:6443/
+const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/" // http://111.6.77.67:6443/
 const authUserUrl = "https://rtxxdj.linewell.com/nanyang-authUser/" //获取用户 http://111.6.77.66:6443/
 const redirectBaseUrl = "https://rtxxdj.linewell.com/nanyang" // 回调地址
 const client_id = '5b51040cf71b4c09808dac61653d3c36'
@@ -132,31 +133,53 @@ function getAppAuthUserInfo(accessToken, callback) {
 	})
 }
 
-function gotoPage(page) {
-	if (!page) {
+function gotoPage(paramsStr) {
+	if (paramsStr == null || paramsStr == '') {
+		console.log("参数为空，不知道跳转去哪里");
+		return;
+	}
+	let params = JSON.parse(Util.base64Decode(decodeURIComponent(paramsStr)));
+	if (!params.page) {
 		console.log("page 为空")
 		return;
 	}
 	let fullUrl = redirectBaseUrl;
-	switch (page) {
-		case 'grbs': { // 个人办事
+	switch (params.page) {
+		case 'grbs': { // 1.个人办事
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=1'
 			break;
 		}
-		case 'qybs': { // 法人办事
+		case 'qybs': { // 2.企业办事
 			fullUrl = fullUrl + '/#/pages/government_service/business_page?userType=2'
 			break;
 		}
-		case 'bmbs': { // 部门办事
+		case 'bmbs': { // 3.部门导航
 			fullUrl = fullUrl + '/#/pages/government_service/department_page'
 			break;
 		}
-		case 'rmsx': { // 热门事项
+		case 'rmsx': { // 4.热门事项
 			fullUrl = fullUrl + '/#/pages/hotlist/hotlist'
 			break;
 		}
-		case 'znss': { // 智能搜索
+		case 'sxss': { // 5.事项搜索
 			fullUrl = fullUrl + '/#/pages/hotlist/hotlist?type=search'
+			break;
+		}
+		case 'bszn': { // 6.办事指南
+			fullUrl = fullUrl + `/#/pages/business_guide/business_guide?ID=${params.ID || ""}`
+			break;
+		}
+		case 'sxlb': { // 7.事项列表
+			fullUrl = fullUrl +
+				`/#/pages/government_service/item_list?pictureCode=${params.pictureCode || ''}&pictureName=${params.pictureName || ''}`
+			break;
+		}
+		case 'jdcx': { // 8.进度查询
+			fullUrl = fullUrl + '/#/pages/mine/schedule_query'
+			break;
+		}
+		case 'wdbj': { // 9.我的办件
+			fullUrl = fullUrl + `/#/pages/mine/my_business_page/my_business_page?index=${params.index || ''}`
 			break;
 		}
 		default: {

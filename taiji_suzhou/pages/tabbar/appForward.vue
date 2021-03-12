@@ -25,7 +25,7 @@
 		onLoad(options) {
 			let local = location.href;
 			console.log("forwards options:", options, local);
-			// https://rtxxdj.linewell.com/nanyang/?code=oMjB1A#/pages/tabbar/appForward?source=grbs
+			// https://rtxxdj.linewell.com/nanyang/?code=oMjB1A#/pages/tabbar/appForward?source=base64加密的信息
 			if (local.indexOf("?code=") == -1) {
 				uni.showToast({
 					title: "获取CODE失败,请检查网络",
@@ -43,19 +43,17 @@
 		},
 		methods: {
 			loadUserInfo() {
-				// debugger
+				debugger
 				if (this.code != null && this.code != '') {
 					uni.showLoading({
 						title: '数据加载中...'
 					})
 					// debugger
-					// debugger
 					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${this.source}`;
-					// redirect_uri = encodeURIComponent(redirect_uri)
 					let that = this;
 					Http.getAccessToken(this.code, redirect_uri, (res) => {
 						uni.hideLoading();
-						debugger
+						// debugger
 						/*
 							{
 							    "status": 1,
