@@ -1,10 +1,33 @@
 <script>
+	import Http from './static/js/nanyang_http.js';
 	export default {
 		onLaunch: function(options) {
 			console.log('App Launch options:', this.page, options);
 			let user = uni.getStorageSync('nuser');
-			if (null != user && undefined != user && '' != user) { 
+			if (null != user && undefined != user && '' != user) {
 				this.$store.commit('updateUserInfo', JSON.parse(user));
+				Http.registerUser(user);
+				
+				if (user && user.userAuth) { // 检测用户是否注册过
+					Http.checkUserByPid('1', user.userAuth.cardId).then((res) => {
+						console.log("检查用户信息", res);
+						if (res.ReturnValue && res.ReturnValue.ISEXIST == 0) {
+							Http.registerUser(user);
+						}
+					}).catch(err => {
+						console.log("检查用户信息")
+					})
+				}
+				if (user && user.enterAuth) { // 检测用户是否注册过
+					Http.checkUserByPid('2', user.enterAuth.corporationCardId).then((res) => {
+						console.log("检查用户信息", res);
+						if (res.ReturnValue && res.ReturnValue.ISEXIST == 0) {
+							Http.registerUser(user);
+						}
+					}).catch(err => {
+						console.log("检查用户信息")
+					})
+				}
 			}
 		},
 		onShow: function() {

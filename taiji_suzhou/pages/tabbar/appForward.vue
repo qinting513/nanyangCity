@@ -43,16 +43,19 @@
 		},
 		methods: {
 			loadUserInfo() {
+				// debugger
 				if (this.code != null && this.code != '') {
 					uni.showLoading({
 						title: '数据加载中...'
 					})
+					// debugger
 					// debugger
 					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${this.source}`;
 					// redirect_uri = encodeURIComponent(redirect_uri)
 					let that = this;
 					Http.getAccessToken(this.code, redirect_uri, (res) => {
 						uni.hideLoading();
+						debugger
 						/*
 							{
 							    "status": 1,

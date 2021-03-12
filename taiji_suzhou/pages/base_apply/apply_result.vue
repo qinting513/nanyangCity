@@ -18,7 +18,7 @@
 				</view>
 			</view>
 
-			<view class="info-num">
+			<view class="info-num" v-if="bsnum">
 				申报号 <text class="blue pd-left">{{bsnum}}</text>
 			</view>
 		</view>
@@ -37,21 +37,34 @@
 	export default {
 		data() {
 			return {
-				bsnum: '11134567890'
+				bsnum: null
 			}
 		},
 		onLoad(options) {
-
+			if (options.bsnum) {
+				this.bsnum = options.bsnum;
+			}
 		},
 		methods: {
 			goHome() {
 				// 回到App首页
+				uni.navigateBack({
+					delta: -2
+				})
 			},
 			gotoBusiness() {
-
+				let url = "/pages/mine/my_business_page/my_business_page"
+				if (this.bsnum) {
+					url += `?isFromMine=1`
+				}
+				setTimeout(() => {
+					uni.redirectTo({
+						url: url
+					});
+				}, 1500);
 			},
-			gotoMessage(){
-				
+			gotoMessage() {
+
 			},
 		}
 	}

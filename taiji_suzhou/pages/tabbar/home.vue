@@ -91,7 +91,7 @@
 					}
 					case '网上预约': {
 						uni.navigateTo({
-							url: '../appointment/appointment'
+							url: '/pages/appointment/appointment'
 						})
 						break;
 					}

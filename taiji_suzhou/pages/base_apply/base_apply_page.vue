@@ -14,13 +14,16 @@
 				<!-- <base-form-web></base-form-web> -->
 			</swiper-item>
 			<swiper-item>
-				<material-page ref="material" :pageHeight="pageHeight" @pre="preStep" @tempStore="tempStore" @next="nextStep"></material-page>
+				<material-page ref="material" :pageHeight="pageHeight" @pre="preStep" @tempStore="tempStore"
+					@next="nextStep"></material-page>
 			</swiper-item>
 			<swiper-item>
-				<mail-express-page ref="express" @pre="preStep" @tempStore="tempStore" @next="nextStep"></mail-express-page>
+				<mail-express-page ref="express" @pre="preStep" @tempStore="tempStore" @next="nextStep">
+				</mail-express-page>
 			</swiper-item>
 			<swiper-item>
-				<comfirm-page :pageHeight="pageHeight" @pre="preStep" @tempStore="tempStore" @apply="apply"></comfirm-page>
+				<comfirm-page :pageHeight="pageHeight" @pre="preStep" @tempStore="tempStore" @apply="apply">
+				</comfirm-page>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -183,7 +186,7 @@
 			goApply: function(type) {
 				// 1.先检查各个状态
 				let formData = this.cacheBaseInfo();
-				
+
 				let stateBaseForm = this.$refs.baseForm.checkBaseInfo(true);
 				if (stateBaseForm === false) {
 					// uni.showToast({
@@ -223,12 +226,17 @@
 							icon: 'success',
 							title: type == 9 ? '暂存成功!' : '申报成功!',
 							complete() {
-								// if (that.hasToken) {
-								// 	return;
-								// }
-								var url = "../mine/my_business_page/my_business_page"
-								if (that.businessModel.bsnum) {
-									url += `?isFromMine=1`
+								let url = "";
+								if (type == 9) { // 暂存直接去到我的办件 暂存列表那里
+									url = "/pages/mine/my_business_page/my_business_page"
+									if (that.businessModel.bsnum) {
+										url += `?isFromMine=1`
+									}
+								} else {
+									url = "/pages/base_apply/apply_result"
+									if (that.businessModel.bsnum) {
+										url += `?bsnum=` + that.businessModel.bsnum
+									}
 								}
 								setTimeout(() => {
 									uni.redirectTo({
@@ -309,10 +317,12 @@
 					this.getInsMaterialInfo();
 				} else {
 					// 读取缓存的用户信息进行显示 有bsnum的 则网络请求后赋值
-					this.formsModel.realName = this.userInfo.userAuth.realName || ""; // 真实名字
+					if (this.userInfo.userAuth) {
+						this.formsModel.code = this.userInfo.userAuth.cardId; // 身份证号码
+						this.formsModel.realName = this.userInfo.userAuth.realName || ""; // 真实名字
+					}
 					this.formsModel.mobile = this.userInfo.phone || ""; // 手机号码
-					this.formsModel.code = this.userInfo.userAuth.cardId; // 身份证号码
-					this.formsModel.userEmail = this.userInfo.email || ""; 
+					this.formsModel.userEmail = this.userInfo.email || "";
 					this.formsModel.certificateTypesCode = '10'; // 证件类型 "身份证",
 					this.formsModel.userPhone = this.userInfo.telephone || "";
 					this.formsModel.userAddress = this.userInfo.address || '';
@@ -345,7 +355,7 @@
 					console.log('getFormByPermidV2 res:', res);
 					if (res['code'] == 200 && res['ReturnValue'] != null) {
 						let form = res['ReturnValue'][0];
-						if (form){
+						if (form) {
 							this.formsModel.version = form['FORMVER'] || '';
 							this.formsModel.formtype = form['FORMTYPE'] || '10';
 							this.formsModel.formid = form['ID'] || 'A';

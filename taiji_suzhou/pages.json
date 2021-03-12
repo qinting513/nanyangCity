@@ -26,25 +26,29 @@
 		{
 			"path": "pages/government_service/business_page",
 			"style": {
-				"navigationBarTitleText": "办事服务"
+				"navigationBarTitleText": "办事服务",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/government_service/department_page",
 			"style": {
-				"navigationBarTitleText": "部门导航"
+				"navigationBarTitleText": "部门导航",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/tabbar/government_service",
 			"style": {
-				"navigationBarTitleText": "政务服务"
+				"navigationBarTitleText": "政务服务",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/tabbar/convenient_service",
 			"style": {
-				"navigationBarTitleText": "便民服务"
+				"navigationBarTitleText": "便民服务",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -57,13 +61,15 @@
 		{
 			"path": "pages/government_service/item_list",
 			"style": {
-				"navigationBarTitleText": "事项列表"
+				"navigationBarTitleText": "事项列表",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/government_service/network_detail",
 			"style": {
-				"navigationBarTitleText": "网点详情"
+				"navigationBarTitleText": "网点详情",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -80,32 +86,47 @@
 			}
 		},
 		{
-			"path": "pages/base_apply/base_form_uni"
+			"path": "pages/base_apply/base_form_uni",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		},
 		{
-			"path": "pages/base_apply/material_page"
+			"path": "pages/base_apply/material_page",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		},
 		{
-			"path": "pages/base_apply/mail_express_page"
+			"path": "pages/base_apply/mail_express_page",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		},
 		{
-			"path": "pages/base_apply/comfirm_page"
+			"path": "pages/base_apply/comfirm_page",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 
 		, {
 			"path": "pages/mine/my_business_page/my_business_page",
 			"style": {
-				"navigationBarTitleText": "我的办件"
+				"navigationBarTitleText": "我的办件",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/mine/my_collection_page/my_collection_page",
 			"style": {
-				"navigationBarTitleText": "我的收藏"
+				"navigationBarTitleText": "我的收藏",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/mine/my_subscribe_page/my_subscribe_page",
 			"style": {
-				"navigationBarTitleText": "我的预约"
+				"navigationBarTitleText": "我的预约",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/login/login",
@@ -142,49 +163,64 @@
 		}, {
 			"path": "pages/appointment/appointment",
 			"style": {
-				"navigationBarTitleText": "我要预约"
+				"navigationBarTitleText": "我要预约",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/appointment/appointment_list",
+			"style": {
+				"navigationBarTitleText": "我的预约",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/hotlist/hotlist",
 			"style": {
-				"navigationBarTitleText": "热门事项"
+				"navigationBarTitleText": "热门事项",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/hotservice/hotservice",
 			"style": {
-				"navigationBarTitleText": "热门服务"
+				"navigationBarTitleText": "热门服务",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/address/add_address",
 			"style": {
-				"navigationBarTitleText": "添加新地址"
+				"navigationBarTitleText": "添加新地址",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/address/address_list",
 			"style": {
-				"navigationBarTitleText": "地址管理"
+				"navigationBarTitleText": "地址管理",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/base_apply/apply_result",
 			"style": {
-				"navigationBarTitleText": "事项业务办理"
+				"navigationBarTitleText": "事项业务办理",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/mine/schedule_query",
 			"style": {
-				"navigationBarTitleText": "进度查询"
+				"navigationBarTitleText": "进度查询",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/mine/schedule_query_result",
 			"style": {
-				"navigationBarTitleText": "进度查询结果"
+				"navigationBarTitleText": "进度查询结果",
+				"navigationStyle": "custom"
 			}
 		}
 	],

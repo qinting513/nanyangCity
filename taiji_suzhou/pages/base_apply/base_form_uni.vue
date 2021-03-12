@@ -138,7 +138,7 @@
 					this.inputData[data.field] = data.value;
 					form[data.field] = data.value;
 				}
-				console.log("mine data:", data);
+				// console.log("mine data:", data);
 				this.$store.commit('updateFormsModel', form);
 			},
 			tempStore: function() {

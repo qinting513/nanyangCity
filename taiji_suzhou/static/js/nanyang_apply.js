@@ -240,7 +240,7 @@ function getBusinessXml(type, business, userInfo) {
 		"]]></applicantid>" +
 		"<state>5</state>" +
 		"<sqr_type><![CDATA[" +
-		(userInfo.userAuth.cardType || '') +
+		(userInfo.userAuth ? (userInfo.userAuth.cardType || '1') : '1') +
 		"]]></sqr_type>" +
 		"</business>";
 	console.log("business 数据:", bxml);

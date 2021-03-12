@@ -63,7 +63,7 @@
 import appointmentCell from './appointment_cell.vue'
 import normalBtn from '../login/normal_button.vue'
 import {mapState} from 'vuex'
-import Http from '../../static/js/mine.js'
+import Http from '../../static/js/nanyang_http.js'
 export default {
 	components:{
 		appointmentCell,

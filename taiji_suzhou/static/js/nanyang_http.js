@@ -283,70 +283,112 @@ function getPermByPermname(name, deptId) {
 
 //  单点登录获得的用户数据，进行提交到我们的库
 function registerUser(user) {
+	if (user == null || user == undefined) {
+		return;
+	}
 	return new Promise(function(resolve, reject) {
-		let method;
-		if (user.userAuth) { // 个人注册
-			// 从南威库里获取： 1:男 2:女 3:未知
-			// 南阳库： 性别，0女，1男，空表示保密
-			if (user.gender == 2) {
-				user.gender = 0;
-			}
-			let params = {
-				"USERNAME": user.id,
-				"PASSWORD": "123456",
-				"EMAIL": user.email,
-				"REALNAME": user.userAuth.realName,
-				"USER_GENDER": user.gender,
-				"CERTIFICATETYPE": '1', // 证件类型
-				"USER_PID": user.userAuth.cardId, // 证件号码
-				"USER_PHONE": user.phone,
-				"USER_MOBILE": user.phone,
-				"USER_ADDRESS": user.address,
-				"USER_SOURCE": "2",
-				"AUTH_MSG": JSON.stringify(user.userAuth),
-			}
-			method = 'registerUser'
-		} else {
+		let method = "";
+		let params = {};
+		if (user && user.enterAuth) { // 一般进到我们系统的都是有认证信息了的 要么有enterAuth 要么有userAuth
 			// 法人注册
 			if (user.gender == 2) {
 				user.gender = 0;
 			}
 
-			let params = {
-				"USERNAME": user.id,
+			params = {
+				"USERNAME": user.id || "",
 				"PASSWORD": "123456",
-				"EMAIL": user.email,
-				"INC_NAME": user.enterAuth.enterName, // 企业名称
-				"INC_TYPE": user.enterAuth.orgType, //"企业类型，1国有，2民营，3外资，4港澳台资，5其他",
-				"INC_PERMIT": user.enterAuth.licenseId, // 营业执照
-				"INC_ZZJGDM": user.enterAuth.orgId, // 组织机构代码
-				"TYSHXYDM": user.enterAuth.licenseId,
+				"EMAIL": user.email || "",
+				"INC_NAME": user.enterAuth.enterName || "", // 企业名称
+				"INC_TYPE": user.enterAuth.orgType || "", //"企业类型，1国有，2民营，3外资，4港澳台资，5其他",
+				"INC_PERMIT": user.enterAuth.licenseId || "", // 营业执照
+				"INC_ZZJGDM": user.enterAuth.orgId || "", // 组织机构代码
+				"TYSHXYDM": user.enterAuth.licenseId || "",
 				"INC_DEPUTY": "法人代表",
-				"INC_PID": user.enterAuth.corporationCardId, // 法人身份证号码
-				"INC_ADDR": user.enterAuth.address,
+				"INC_PID": user.enterAuth.corporationCardId || "", // 法人身份证号码
+				"INC_ADDR": user.enterAuth.address || "",
 				"INC_INDICIA": "000000",
-				"INC_PHONE": user.enterAuth.contactTelephone,
+				"INC_PHONE": user.enterAuth.contactTelephone || "",
 				"INC_FAX": "",
 				"INC_NETWORK": "",
 				"INC_EMAIL": "",
-				"AGE_NAME": user.name, // 经办人姓名
-				"AGE_PID": user.enterAuth.corporationCardId, // 经办人身份证
-				"AGE_EMAIL": user.email,
-				"AGE_MOBILE": user.enterAuth.contactTelephone,
-				"AGE_PHONE": user.enterAuth.contactTelephone,
+				"AGE_NAME": user.name || "", // 经办人姓名
+				"AGE_PID": user.enterAuth.corporationCardId || "", // 经办人身份证
+				"AGE_EMAIL": user.email || "",
+				"AGE_MOBILE": user.enterAuth.contactTelephone || "",
+				"AGE_PHONE": user.enterAuth.contactTelephone || "",
 				"AGE_INDICIA": "000000",
 				"USER_SOURCE": "2",
 				"AUTH_TYPE": "1,2",
-				"AUTH_MSG": JSON.stringify(user.enterAuth),
+				"AUTH_MSG": JSON.stringify(user.enterAuth || ""),
 				"INC_DEPUTY_TYPE": "1", // "法人类型，1企业法人，2事业单位，3行政机关，4社团，5其他",
-				"INC_DEPUTY_MOBILE": user.phone,
-				"INC_CARDTYPE": user.enterAuth.corporationCardId,
-				"AGE_CARDTYPE": user.enterAuth.corporationCardType,
+				"INC_DEPUTY_MOBILE": user.phone || "",
+				"INC_CARDTYPE": user.enterAuth.corporationCardId || "",
+				"AGE_CARDTYPE": user.enterAuth.corporationCardType || "",
 			}
 			method = 'registerInc'
+		} else {
+			// let user = {
+			// 	accountStatus: 0,
+			// 	address: null,
+			// 	appId: "21b6038d3f2a4373b064ede05308547a",
+			// 	city: null,
+			// 	country: null,
+			// 	email: null,
+			// 	enterAuth: null,
+			// 	gender: 0,
+			// 	id: "1632f80c937041ce8f0893b4c174ab14",
+			// 	introduction: null,
+			// 	isAgent: 0,
+			// 	isEnterprise: 0,
+			// 	isUserAuth: 0,
+			// 	mztLoginInfo: null,
+			// 	name: null,
+			// 	nickname: "U2167728001",
+			// 	phone: "15160418562",
+			// 	photoUrl: null,
+			// 	province: null,
+			// 	residentCityCode: null,
+			// 	residentCountyCode: null,
+			// 	residentProvinceCode: null,
+			// 	telephone: null,
+			// 	userAccountId: "1632f80c937041ce8f0893b4c174ab14",
+			// 	userAuth: null,
+			// 	userGrade: 0,
+			// 	userToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU1MjYyNTI3OTYsInVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0IiwiYWNjb3VudFVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0In0.IkVpCDAsRV2VUpdq4xhMWKHzJmsE9zG_ti9tVJj0tjXNrVbZzdk6pro3_Rz8txM0haNFlDVChNyXSOK-3g0miOAgls6_OKj6erkuM2Qd4TwpZ2NaGuRtkrec8ScymxIDCx-1JUuF8LjYv2_baDw8fYI0amgqJOtRCn0IdceG1hBz8X76IkJ8RFnxMCphaurCBFwlvOL3L3-BZ13_nQU_CGGNh0c9i8Yb8Rzvtr6x3I4XnRKGQbfdYUBB--6uQ53ig8GuE6G8plsyiuDF_-sdDwOFXxbmuTUAo-0RfFg--YAzCfqKlSFbimFPsgzIJuvkES9a5VM5XIlkNK1Gd1YWLA",
+			// 	zipCode: null,
+			// }
+			// 个人注册
+			// 从南威库里获取： 1:男 2:女 3:未知
+			// 南阳库： 性别，0女，1男，空表示保密
+			if (user.gender == 2) {
+				user.gender = 0;
+			}
+			debugger
+			console.log("user...:", user);
+			params = {
+				"USERNAME": user.id || "",
+				"PASSWORD": "123456",
+				"EMAIL": user.email || "",
+				// "REALNAME": user.userAuth.realName || "",
+				"USER_GENDER": user.gender || "",
+				"CERTIFICATETYPE": '1', // 证件类型
+				// "USER_PID": user.userAuth.cardId || "", // 证件号码
+				"USER_PHONE": user.phone || "",
+				"USER_MOBILE": user.phone || "",
+				"USER_ADDRESS": user.address || "",
+				"USER_SOURCE": "2",
+				// "AUTH_MSG": JSON.stringify(user.userAuth || ""),
+			}
+			if (user.userAuth) {
+				params["REALNAME"] = user.userAuth.realName || user.nickname || "";
+				params["USER_PID"] = user.userAuth.cardId || ""; // 证件号码
+				params["AUTH_MSG"] = JSON.stringify(user.userAuth || "");
+			}
+			method = 'registerUser'
 		}
-		debugger
 		let url = baseUrl + 'RestUserService'
+		console.log("用户信息提交:", params);
 		WebApi.soup(url, "registerUser", params).then(res => {
 			console.log("用户信息提交成功:", res);
 			resolve(res);
@@ -357,6 +399,23 @@ function registerUser(user) {
 	})
 }
 
+function checkUserByPid(type, idcardNum, isAgent) {
+	return new Promise(function(resolve, reject) {
+		let url = baseUrl + 'RestUserService'
+		let params = {
+			"TYPE": type,
+			"PID": idcardNum
+		}
+		if (isAgent) {
+			params['ISAGE'] = isAgent || "1"; // 选择个人时，该值为空，选择企业时，需判断，1企业法人，2经办人
+		}
+		WebApi.soup(url, "checkByPid", params).then(res => {
+			resolve(res);
+		}).catch(err => {
+			reject(err)
+		})
+	})
+}
 
 function getBusinessProcess(params) {
 	return new Promise(function(resolve, reject) {
@@ -366,6 +425,165 @@ function getBusinessProcess(params) {
 		}).catch(err => {
 			reject(err)
 		})
+	})
+}
+
+
+//我的办件
+function getMyBusiness(token, userId, type) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"token": token,
+			"APPLICANTID": userId,
+			"PAGENO": "1",
+			"PAGESIZE": "1000"
+		};
+		var method = "";
+		switch (type) {
+			case 0:
+				method = "zancunjian";
+				break;
+			case 1:
+				method = "zaibanjian";
+				break;
+			case 2:
+				method = "banjiejian"
+				break;
+			default:
+		}
+		let url_submit_apply = baseUrl + 'RestOnlineDeclareService'
+		WebApi.soup(url_submit_apply, method, params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+
+//预约
+//部门列表
+function getDeptList() {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"RESERVEONE": "",
+			"AREAID": regionId,
+			"PAGENO": "1",
+			"PAGESIZE": "1000"
+		};
+		let url = baseUrl + 'RestRegionService'
+		WebApi.soup(url, "getDeptlistByAreaid", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+//获取事项
+function getBusinessList(DEPTID) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"DEPTID": DEPTID,
+			"AREAID": regionId,
+			"SFYDSB": "0"
+		};
+		let url = baseUrl + "RestSysDeptService"
+		WebApi.soup(url, "getPermlistByDeptid", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+//获取日期
+function getAppointmentDate(DEPTID, PERMID, token) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"token": token,
+			"DEPTID": DEPTID,
+			"PERMID": PERMID
+		};
+		let url = baseUrl + 'RestOnlineReserveService'
+		WebApi.soup(url, "getReserveDay", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+//获取日期
+function getAppointmentTime(DEPTID, PERMID, DAY, token) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"DAY": DAY,
+			"PERMID": PERMID,
+			"token": token,
+			"DEPTID": DEPTID
+		};
+		let url = baseUrl + 'RestOnlineReserveService'
+		WebApi.soup(url, "GetReserveDayTime", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+//提交预约
+function submitAppointment(DEPTID, PERMID, DAY, RESERVETIME, token, APPLICANTID) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"DEPTID": DEPTID,
+			"APPLICANTID": APPLICANTID,
+			"RESERVEDATE": DAY,
+			"PERMID": PERMID,
+			"RESERVETIME": RESERVETIME,
+			"token": token
+		};
+		let url = baseUrl + 'RestOnlineReserveService'
+		WebApi.soup(url, "submit", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+//取消预约
+function cancelMyAppointment(ID, token) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"token": token,
+			"ID": ID,
+			"STATUS": "7"
+		};
+		let url = baseUrl + 'RestOnlineReserveService'
+		WebApi.soup(url, "comfirm", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
+	})
+}
+
+//我的预约
+function getMySubscribe(token, userId, type) {
+	return new Promise(function(resolve, reject) {
+		let params = {
+			"token": token,
+			"APPLICANTID": userId,
+			"PAGENO": '1',
+			"PAGESIZE": '1000',
+		};
+		let url = baseUrl + 'RestOnlineReserveService'
+		WebApi.soup(url, "list", params).then(res => {
+			resolve(res);
+		}).catch((err) => {
+			reject(err);
+		});
 	})
 }
 
@@ -387,5 +605,16 @@ module.exports = {
 	checkRes,
 	getPermByPermname,
 	registerUser,
+	checkUserByPid,
 	getBusinessProcess,
+
+	// mine.js
+	getMyBusiness,
+	getMySubscribe,
+	getDeptList,
+	getBusinessList,
+	getAppointmentDate,
+	getAppointmentTime,
+	submitAppointment,
+	cancelMyAppointment
 }

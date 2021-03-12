@@ -22,6 +22,7 @@
 		color: white !important;
 		background-color: rgb(63,122,255) !important;
 		-webkit-appearance: none !important;
+		padding: 10upx 0;
 	}
 	.normal-button-hover {background-color: rgba(0, 0, 0, 0.1); opacity: 0.7;}
 </style>

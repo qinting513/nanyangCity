@@ -118,12 +118,25 @@
 				flex-direction: row;
 				justify-content: space-between;
 				align-items: center;
-				padding: 30upx 0upx;
+				padding: 24upx 0upx;
 				margin: 0 30upx;
 				border-bottom: 1px solid #F1F1F1;
 				color: #222;
+				font-size: 30upx;
+				font-weight: 500;
+			
+				.item-left {
+					align-items: center;
+				}
+			
+				.item-icon {
+					width: 90upx;
+					height: 90upx;
+					margin-right: 20upx;
+					flex-shrink: 0;
+				}
 			}
-
+			
 			.item:last-child {
 				border-bottom: none;
 			}

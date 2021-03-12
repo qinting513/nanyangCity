@@ -32,7 +32,14 @@
 		},
 		methods: {
 			scanCode() {
-				// uni.
+				// 允许从相机和相册扫码
+				uni.scanCode({
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						this.bsnum = res.result;
+					}
+				});
 			},
 			searchProcess() {
 				if (!this.checkInputData()) {
@@ -41,7 +48,7 @@
 				uni.navigateTo({
 					url: `./schedule_query_result?id=${this.bsnum}&username=${this.userName}`
 				});
-				
+
 				// debugger
 				// 411323033210311A000003
 				// 杜廷广
@@ -72,14 +79,14 @@
 				// })
 			},
 			checkInputData() {
-				if (this.userName.trim().length == 0) {
+				if (!this.userName || this.userName.length == 0) {
 					uni.showToast({
 						title: "请输入搜索人姓名",
 						icon: "none"
 					})
 					return false
 				}
-				if (this.bsnum.trim().length == 0) {
+				if (!this.bsnum || this.bsnum.length == 0) {
 					uni.showToast({
 						title: '请输入业务流水号',
 						icon: "none"

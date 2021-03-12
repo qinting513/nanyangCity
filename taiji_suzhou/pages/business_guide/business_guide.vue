@@ -22,7 +22,7 @@
 			</view>
 		</view>
 		<view class="flex-row bottom-btns">
-			<view class="btn left left-line" @click="gotoZixun">
+			<!-- <view class="btn left left-line" @click="gotoZixun">
 				 咨询
 			</view>
 			<view class="btn left" @click="gotoPingjia">
@@ -30,8 +30,11 @@
 			</view>
 			<view class="btn r-gray" @click="gotoYuyue">
 				在线预约
-			</view>
-			<view class="btn r-blue" @click="gotoDeclare">
+			</view> -->
+			<!-- <view class="btn r-blue" @click="gotoDeclare">
+				在线办理
+			</view> -->
+			<view class="b-btn" @click="gotoDeclare">
 				在线办理
 			</view>
 		</view>
@@ -47,7 +50,7 @@
 			return {
 				dataList: [], //组装后要显示的数据
 				files: [], // 表格文件数据
-				itemInfo: null, 
+				itemInfo: null,
 				businessGuideModel: null,
 				expends: [],
 				ID: '',
@@ -58,7 +61,7 @@
 			this.itemInfo = JSON.parse(uni.getStorageSync('nItemInfo') || "{}");
 			console.log("事项ID：", this.itemInfo);
 			this.loadData();
-			
+
 		},
 		methods: {
 			expendCell(index) {
@@ -75,11 +78,11 @@
 						this.$store.commit('updateApplyItemInfo', this.itemInfo);
 						this.handleFiles(model.FORMS);
 						this.handleDatas(model);
-						// this.getItemInfo(model.SXZXNAME)
+						this.getItemInfo(model.SXZXNAME)
 					}
 				});
 			},
-			getItemInfo(name){
+			getItemInfo(name) {
 				Http.getPermByPermname(name).then(res => {
 					console.log("事项信息:", res);
 					if (res.code == 200 && res.ReturnValue.length > 0) {
@@ -87,7 +90,7 @@
 					}
 				});
 			},
-			
+
 			// 处理表格数据
 			handleFiles(forms) {
 				var files = [];
@@ -190,11 +193,18 @@
 			gotoYuyue() {},
 			gotoDeclare() {
 				console.log("banshi:", this.itemInfo);
+				if (!this.itemInfo) {
+					uni.showToast({
+						icon: 'none',
+						title: '事项信息为空'
+					})
+					return;
+				}
 				if (this.itemInfo.SFYDSB) {
 					// 先检查登录
 					console.log("userInfo", this.$store.getters.userInfo)
 					// debugger
-					if(this.$store.getters.hasLogin) {
+					if (this.$store.getters.hasLogin) {
 						let url = '../base_apply/base_apply_page'
 						url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
 						url += `&permId=${this.ID}`;
@@ -207,7 +217,7 @@
 							url: '../login/login'
 						});
 					}
-					
+
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -302,6 +312,14 @@
 				border-radius: 80upx;
 			}
 
+			.b-btn {
+				background-color: #007AFF;
+				color: #FFFFFF;
+				text-align: center;
+				padding: 26upx 20upx;
+				width: 90%;
+				border-radius: 10upx;
+			}
 		}
 	}
 </style>

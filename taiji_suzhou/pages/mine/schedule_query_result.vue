@@ -46,14 +46,14 @@
 		},
 		methods: {
 			checkData(username, bsnum) {
-				if (username.trim().length == 0) {
+				if (!username || username.length == 0) {
 					uni.showToast({
 						title: "搜索人姓名不能为空",
 						icon: "none"
 					})
 					return false
 				}
-				if (bsnum.trim().length == 0) {
+				if (!bsnum || bsnum.length == 0) {
 					uni.showToast({
 						title: '业务流水号不能为空',
 						icon: "none"
