@@ -2,7 +2,7 @@
 	<view class="hotlist">
 		<view class="list">
 			<view class="search">
-				<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
+				<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
 					v-model="searchKeyWord" @search="startSearch"></u-search>
 			</view>
 

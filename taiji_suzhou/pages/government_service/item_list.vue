@@ -1,7 +1,7 @@
 <template>
 	<view class="item-list">
 		<view class="search">
-			<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
+			<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
 				v-model="searchKeyWord" @search="startSearch"></u-search>
 		</view>
 		<view v-for="(item, index) in dataList" :key="index" class="flex-column cell">
@@ -129,7 +129,7 @@
 			},
 			loadData() {
 				Http.getItemList(this.pictureCode, this.userType).then(res => {
-					// console.log("getItemList:", JSON.stringify(res));
+					console.log("getItemList:", res);
 					if (res.ReturnValue != null) {
 						this.dataList = res.ReturnValue;
 					}

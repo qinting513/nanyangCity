@@ -212,7 +212,7 @@
 		{
 			"path": "pages/mine/schedule_query",
 			"style": {
-				"navigationBarTitleText": "进度查询",
+				"navigationBarTitleText": "我要查询",
 				"navigationStyle": "custom"
 			}
 		},

@@ -1,5 +1,5 @@
 <template>
-	<view style="overflow: hidden;">
+	<view class="business-page">
 		<view class="topNav">
 			<view @click="clickNav(item, index)" class="navItem" :class="item.check ? 'check' : ''" v-for="(item, index) in topNav" :key="index">{{ item.name }}</view>
 		</view>
@@ -115,7 +115,7 @@ export default {
 			);
 		},
 		getMyBusiness(type) {
-			return http.getMyBusiness(this.userInfo.TOKEN, this.userInfo.USER_ID, type);
+			return http.getMyBusiness(this.userInfo.userTOKEN, this.userInfo.id, type);
 		},
 		dealData(res) {
 			let data = res['ReturnValue'];
@@ -148,6 +148,9 @@ export default {
 		}
 	},
 	onShow() {
+		if(!this.userInfo) {
+			return;
+		}
 		this.getZancunjian();
 		this.getZaibanjian();
 		this.getBanjiejian();
@@ -156,7 +159,7 @@ export default {
 		if (options.isFromMine == 1) {
 			this.isFromMine = true
 		}
-		console.log(options)
+		console.log("我的办件参数:", options)
 	}
 };
 </script>

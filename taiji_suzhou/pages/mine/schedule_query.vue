@@ -8,15 +8,15 @@
 			<view class="flex-row s-search">
 				<u-search height="90" shape="square" :clearabled="true" placeholder="请输入业务流水号" :show-action="false"
 					search-icon="" v-model="bsnum"></u-search>
-				<view class="scan" @click="scanCode">
+				<!-- <view class="scan" @click="scanCode">
 					<u-icon name="scan" color="#2979ff" size="60"></u-icon>
-				</view>
+				</view> -->
 			</view>
+			<view class="button" @click="searchProcess">查 询</view>
 		</view>
-		<view class="button" @click="searchProcess">进度查询</view>
-		<view class="tips-view">
+		<!-- <view class="tips-view">
 			{{tip}}
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -26,8 +26,10 @@
 		data() {
 			return {
 				tip: "提示：可能点击二维码扫描按钮，扫描“业务受理回执单”上的二维码进行查询",
-				userName: '杜廷广',
-				bsnum: '411323033210311A000003'
+				// userName: '杜廷广',
+				// bsnum: '411323033210311A000003'
+				userName: "",
+				bsnum: '',
 			}
 		},
 		methods: {
@@ -122,7 +124,7 @@
 
 		.button {
 			background-color: $uni-main-theme-color;
-			margin: 30upx;
+			margin: 30upx 0;
 			text-align: center;
 			height: 90upx;
 			line-height: 90upx;

@@ -68,7 +68,10 @@
 			commonItemsClick(item) {
 				console.log("click item:", item.title);
 				switch (item.title) {
-					case '常办事项': {
+					case '我的办件': {
+						uni.navigateTo({
+							url:'/pages/mine/my_business_page/my_business_page'
+						})
 						break;
 					}
 					case '个人办事': {

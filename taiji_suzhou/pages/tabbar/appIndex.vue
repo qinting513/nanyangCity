@@ -5,13 +5,27 @@
 <script>
 	/*
 	访问地址: https://rtxxdj.linewell.com/nanyang/#/
-	https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/home
+	
+	原始地址：
+	1.个人办事(个人主题导航): https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=1
+	2.法人办事(法人主题导航): https://rtxxdj.linewell.com/nanyang/#/pages/government_service/business_page?userType=2
+	3.部门导航: https://rtxxdj.linewell.com/nanyang/#/pages/government_service/department_page
+	4.热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/hotlist/hotlist
+	5.事项搜索  https://rtxxdj.linewell.com/nanyang/#/pages/hotlist/hotlist?type=search
+	6.热门服务: https://rtxxdj.linewell.com/nanyang/#/pages/hotservice/hotservice
+	
+	1.事项跳转到办事指南的格式: "https://rtxxdj.linewell.com/nanyang/#/pages/business_guide/business_guide?ID=" + 事项ID
+	2.主题导航点击某一个进到的事项列表: (pictureCode传SORTCODE，pictureName传SORTNAME )
+	     https://rtxxdj.linewell.com/nanyang/#/pages/government_service/item_list?pictureCode=root_gr_ztfl_01&pictureName=生育收养
+    3.进度查询结果 https://rtxxdj.linewell.com/nanyang/#/pages/mine/schedule_query_result?id=xxx&username=用户名
 	
 	服务器访问的：
-	个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=grbs
-	企业办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=qybs
-	部门办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bmbs
-	热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmsx
+	1个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=grbs
+	2企业办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=qybs
+	3部门办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bmbs
+	4热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmsx
+	5事项搜索: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxss
+	6热门服务: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmfw
 	
 	本地调试的
 	个人办事: http://localhost:8080/#/pages/tabbar/appIndex?page=grbs

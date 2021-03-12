@@ -2,7 +2,7 @@
 	<view class="hot-service">
 		<view class="list">
 			<view class="search">
-				<u-search :focus="autoFocus" height="40" :show-action="true" action-text="搜索" :animation="true"
+				<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
 					v-model="searchKeyWord" @search="startSearch"></u-search>
 			</view>
 
@@ -65,6 +65,7 @@
 			},
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);
+				debugger
 				if (this.searchKeyWord.trim().length == 0) {
 					this.dataList = [];
 					this.loadData();
@@ -80,6 +81,11 @@
 					}
 				}
 				this.dataList = result;
+				if (this.dataList.length == 0) {
+					this.dataState = 'noData'
+				} else {
+					this.dataState = 'init'
+				}
 			},
 			gotoDetail(item) {
 				let url =

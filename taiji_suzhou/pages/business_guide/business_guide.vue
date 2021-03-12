@@ -1,25 +1,34 @@
 <template>
 	<view class="business-guide">
 		<view class="list-container">
-			<view v-for="(item,index) in dataList" :key="index" :class="{'cell':true,'cell-border':expends[index]}">
-				<view class="flex-row  top-section" @click="expendCell(index)">
-					<view class="flex-row left">
-						<image class="left-img" :src="item.img" mode="scaleToFill"></image>
-						<view>{{item.title}}</view>
+			<scroll-view scroll-y="true">
+				<view v-for="(item,index) in dataList" :key="index" :class="{'cell':true,'cell-border':expends[index]}">
+					<view class="flex-row  top-section" @click="expendCell(index)">
+						<view class="flex-row left">
+							<image class="left-img" :src="item.img" mode="scaleToFill"></image>
+							<view>{{item.title}}</view>
+						</view>
+						<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
 					</view>
-					<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
-				</view>
-				<view class="flex-row cell-bottom" v-if="expends[index]">
-					<view class="forms" v-if="item.id == 7 && files.length > 0">
-						<view v-for="(file,i) in files" :key="i" class="file">
-							<view>{{file.name}}</view>
+					<view class="flex-row cell-bottom" v-if="expends[index]">
+						<view class="forms" v-if="item.id == 7 && files.length > 0">
+							<view v-for="(file,i) in files" :key="i" class="file">
+								<a :href="file.downloadUrl">{{file.name}}</a>
+							</view>
+						</view>
+						<view class="cell-img" v-else-if="item.id == 2 || item.id == 6">
+							<image v-if="item.contentImg" :src="item.contentImg" mode="aspectFit"
+								@click="preView(item.contentImg)"></image>
+							<view class="" v-else>
+								{{item.data}}
+							</view>
+						</view>
+						<view v-else>
+							{{item.data}}
 						</view>
 					</view>
-					<view v-else>
-						{{item.data}}
-					</view>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 		<view class="flex-row bottom-btns">
 			<!-- <view class="btn left left-line" @click="gotoZixun">
@@ -64,9 +73,15 @@
 
 		},
 		methods: {
+			preView(url) {
+				uni.previewImage({
+					current: url,
+					urls: [url],
+				})
+			},
 			expendCell(index) {
 				this.$set(this.expends, index, !this.expends[index]);
-				console.log("expends:", this.expends);
+				// console.log("expends:", this.expends);
 			},
 			loadData() {
 				Http.getBusinessGuideData(this.ID).then(res => {
@@ -74,8 +89,6 @@
 					if (res.ReturnValue != null) {
 						let model = res.ReturnValue;
 						this.businessGuideModel = model;
-						// this.itemInfo = model.PERMISSION;
-						this.$store.commit('updateApplyItemInfo', this.itemInfo);
 						this.handleFiles(model.FORMS);
 						this.handleDatas(model);
 						this.getItemInfo(model.SXZXNAME)
@@ -87,6 +100,7 @@
 					console.log("事项信息:", res);
 					if (res.code == 200 && res.ReturnValue.length > 0) {
 						this.itemInfo = res.ReturnValue[0];
+						this.$store.commit('updateApplyItemInfo', this.itemInfo);
 					}
 				});
 			},
@@ -110,7 +124,8 @@
 							// 过滤掉这些空内容的东西
 							files.push({
 								"name": filename,
-								"id": id
+								"id": id,
+								"downloadUrl": Http.downloadFileURL + id
 							});
 						}
 					}
@@ -125,6 +140,17 @@
 				return str.replace(/&nbsp;/g, '');
 			},
 			handleDatas(model) {
+				let wangshangImg = ""; // 网上办理流程 可能是图片
+				let chaungkouImg = "" // 窗口办理流程
+
+				if (model.WLBLLC.indexOf('http') > -1) {
+					wangshangImg = model.WLBLLC;
+				} else {
+					model.WLBLLC = model.WLBLLC.replace(/&times;/g, 'X');
+				}
+				if (model.SPCX.indexOf('http') > -1) {
+					chaungkouImg = model.SPCX;
+				}
 				this.dataList = [{
 						"id": 0,
 						"title": "办理条件",
@@ -141,7 +167,9 @@
 						"id": 2,
 						"title": "网上办理流程",
 						"img": "../../static/images/banshi/icon_bs_wsbllc.png",
-						"data": model.WLBLLC || '暂无数据'
+						"data": model.WLBLLC || '',
+						"contentImg": wangshangImg,
+						// "contentImg": 'https://uploadmatter.hnzwfw.gov.cn/fileserver/download.jsp?filePath=/group1/M00/1C/12/rBQCQl-aVS6ADTYoAACsHtWcfow264.png'
 					},
 					{
 						"id": 3,
@@ -165,7 +193,9 @@
 						"id": 6,
 						"title": "窗口办理流程",
 						"img": "../../static/images/banshi/icon_bs_chuangkou_banli_liucheng.png",
-						"data": model.SPCX || '暂无数据'
+						"data": model.SPCX || '',
+						"contentImg": chaungkouImg,
+						// "contentImg": 'https://uploadmatter.hnzwfw.gov.cn/fileserver/download.jsp?filePath=/group1/M00/1C/12/rBQCQl-aVS6ADTYoAACsHtWcfow264.png'
 					},
 					{
 						"id": 7,
@@ -234,38 +264,51 @@
 	.business-guide {
 		background-color: #fff;
 
-		.cell-border {
-			border-top: 1upx solid #f1f1f1;
-			border-bottom: 1upx solid #f1f1f1;
-		}
+		.list-container {
+			// padding-bottom: 200upx;
+			overflow-y: scroll;
 
-		.cell {
-			padding: 30upx;
+			.cell-border {
+				border-top: 1upx solid #f1f1f1;
+				border-bottom: 1upx solid #f1f1f1;
+			}
 
-			.top-section {
-				justify-content: space-between;
 
-				.left {
+
+			.cell {
+				padding: 30upx;
+
+				.top-section {
+					justify-content: space-between;
+
+					.left {
+						font-size: 29upx;
+						color: #333;
+						justify-content: flex-start;
+
+						.left-img {
+							width: 86upx;
+							height: 86upx;
+							margin-right: 16upx;
+						}
+					}
+				}
+
+				.cell-bottom {
+					padding-top: 30upx;
 					font-size: 29upx;
-					color: #333;
-					justify-content: flex-start;
 
-					.left-img {
-						width: 86upx;
-						height: 86upx;
-						margin-right: 16upx;
+					.file {
+						padding: 16upx;
+					}
+
+					.cell-img {
+						width: 100%;
+						padding: 16upx;
 					}
 				}
 			}
 
-			.cell-bottom {
-				padding-top: 30upx;
-				font-size: 29upx;
-
-				.file {
-					padding: 16upx;
-				}
-			}
 		}
 
 		.bottom-btns {
