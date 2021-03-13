@@ -66,6 +66,9 @@
 			// let local = location.href;
 			console.log("appIndex options:", options);
 			this.getUserInfo(options);
+			/*
+				localStorage.setItem('nuser', '{"id":"1632f80c937041ce8f0893b4c174ab14","nickname":"U2167728001","photoUrl":null,"phone":"15160418562","gender":0,"province":null,"city":null,"country":null,"address":null,"email":null,"telephone":null,"name":null,"accountStatus":0,"userGrade":0,"zipCode":null,"introduction":null,"residentProvinceCode":null,"residentCityCode":null,"residentCountyCode":null,"isUserAuth":0,"isEnterprise":0,"isAgent":0,"appId":"21b6038d3f2a4373b064ede05308547a","userAccountId":"1632f80c937041ce8f0893b4c174ab14","mztLoginInfo":null,"userToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU1NjI0NTUxMjYsInVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0IiwiYWNjb3VudFVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0In0.bdR9_SLXghht-5G0cgJjGdeMpU2KpYTtpzxM0AqVVUkzAh2bY2_nwSrIp2BQbYVGpikw3vq8hntd5jeA6atdzK2sCrOLI9t4IRmy4qGvr4myih-01ZZ4Q9-kgGdlKaWZ2UBOxtMOA9XPp-6U_pH2ABYgFoaBVXZVrqIc1XEQXQTdUzgD51bKWganOHriX3qWspVviL-kbmd_gTRid0d_YYrfq-CRRR3WpBN9obdpcyy26W0eZrHGMXTRQ32nxSwKol6evGZvhPiCOchMtg9SW_ZpD2rxATiBeyx6G4GGgb82s3i92mbY9DPRZZKKJ6OCwJ6TTt8cGJNP83Sf3twmDw","userAuth":null,"enterAuth":null}')
+			*/
 		},
 		methods: {
 			getUserInfo(options) {

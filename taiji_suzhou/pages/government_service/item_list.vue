@@ -100,19 +100,19 @@
 							// 先检查登录
 							// console.log("userInfo", this.$store.getters.userInfo)
 
-							if (this.$store.getters.hasLogin) {
-								let url = '../base_apply/base_apply_page'
-								url += `?itemName=${item.SXZXNAME}`;
-								url += `&permId=${item.ID}`;
-								this.$store.commit('updateApplyItemInfo', item);
-								uni.navigateTo({
-									url: url
-								});
-							} else {
-								uni.navigateTo({
-									url: '../login/login'
-								})
-							}
+							// if (this.$store.getters.hasLogin) {
+							let url = '../base_apply/base_apply_page'
+							url += `?itemName=${item.SXZXNAME}`;
+							url += `&permId=${item.ID}`;
+							this.$store.commit('updateApplyItemInfo', item);
+							uni.navigateTo({
+								url: url
+							});
+							// } else {
+							// 	uni.navigateTo({
+							// 		url: '../login/login'
+							// 	})
+							// }
 						} else {
 							uni.showToast({
 								icon: 'none',
@@ -165,6 +165,7 @@
 	.item-list {
 		background-color: #fff;
 		padding: 10upx 0;
+
 		.search {
 			margin: 20upx 30upx;
 			border-radius: 50upx;

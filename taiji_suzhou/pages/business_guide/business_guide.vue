@@ -232,21 +232,21 @@
 				}
 				if (this.itemInfo.SFYDSB) {
 					// 先检查登录
-					console.log("userInfo", this.$store.getters.userInfo)
+					// console.log("userInfo", this.$store.getters.userInfo)
 					// debugger
-					if (this.$store.getters.hasLogin) {
-						let url = '../base_apply/base_apply_page'
-						url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
-						url += `&permId=${this.ID}`;
-						this.$store.commit('updateApplyItemInfo', this.itemInfo);
-						uni.navigateTo({
-							url: url
-						});
-					} else {
-						uni.navigateTo({
-							url: '../login/login'
-						});
-					}
+					// if (this.$store.getters.hasLogin) {
+					let url = '../base_apply/base_apply_page'
+					url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
+					url += `&permId=${this.ID}`;
+					this.$store.commit('updateApplyItemInfo', this.itemInfo);
+					uni.navigateTo({
+						url: url
+					});
+					// } else {
+					// 	uni.navigateTo({
+					// 		url: '../login/login'
+					// 	});
+					// }
 
 				} else {
 					uni.showToast({
