@@ -2,7 +2,6 @@
 	<view class="address-list">
 		<view class="cell-list">
 			<view class="cell" v-for="(item,i) in dataList" :key="i">
-				<view class="line"></view>
 				<view class="cell-content">
 					<view class="cell-top">
 						<view class="pd8">
@@ -13,14 +12,14 @@
 						</view>
 					</view>
 					<view class="cell-bottom">
-
-						<label class="flex-row radio" @click="changeRadio(i)">
-							<image class="radio-img" :src="item.isDefault ?  '../../static/images/home/icon_checkbox_on.png' : '../../static/images/home/icon_checkbox.png'"
-							 mode=""></image>
+						<label class="flex-row radio" @click="changeRadio(item)">
+							<image class="radio-img"
+								:src="item.isDefault ?  '../../static/images/home/icon_checkbox_on.png' : '../../static/images/home/icon_checkbox.png'"
+								mode=""></image>
 							<text class="ml-8">{{item.isDefault ? '默认地址' : '设为默认'}}</text>
 						</label>
 						<view class="c-right">
-							<label @click="edit(i)">
+							<label @click="edit(item)">
 								<u-icon name="edit-pen" color="#878787" size="30"></u-icon>
 								<text class="ml-8">编辑</text>
 							</label>
@@ -30,8 +29,8 @@
 							</label>
 						</view>
 					</view>
-
 				</view>
+				<view class="line"></view>
 			</view>
 
 		</view>
@@ -50,7 +49,7 @@
 		components: {},
 		data() {
 			return {
-				dataList: [],
+				dataList: {},
 			}
 		},
 		onShow() {
@@ -58,24 +57,28 @@
 		},
 		methods: {
 			loadData() {
-				console.log("地址列表");
 				this.dataList = JSON.parse(uni.getStorageSync("addressList") || '[]');
+				console.log("地址列表", this.dataList);
 			},
-			edit(i) {
+			edit(item) {
+				// console.log(item)
 				uni.navigateTo({
-					url: './add_address?id=' + i,
+					url: './add_address?id=' + item.id,
 				})
 			},
 			trash(i) {
 
 			},
-			changeRadio(i) {
-				this.dataList.forEach(item => {
-					item.isDefault = false;
-				})
-				let item = this.dataList[i]
+			changeRadio(item) {
+				for (let key in this.dataList) {
+					this.dataList[key].isDefault = false;
+				}
 				item.isDefault = !item.isDefault;
 				uni.setStorageSync('addressList', JSON.stringify(this.dataList));
+				if (item.isDefault) {
+					console.log("设置为默认的", item);
+					uni.setStorageSync('defaultAddress', JSON.stringify(item));
+				}
 			},
 			addNew() {
 				uni.navigateTo({

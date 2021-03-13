@@ -18,7 +18,7 @@
 					@next="nextStep"></material-page>
 			</swiper-item>
 			<swiper-item>
-				<mail-express-page ref="express" @pre="preStep" @tempStore="tempStore" @next="nextStep">
+				<mail-express-page ref="express" :defaultAddress="defaultAddress" @pre="preStep" @tempStore="tempStore" @next="nextStep">
 				</mail-express-page>
 			</swiper-item>
 			<swiper-item>
@@ -36,7 +36,7 @@
 	import BaseForm from './base_form_uni.vue';
 	import BaseFormWeb from './base_form_web.vue';
 	import MaterialPage from './material_page.vue';
-	import MailExpressPage from './mail_express_page.vue';
+	import MailExpressPage from './mail_express_view.vue';
 	import ComfirmPage from './comfirm_page.vue';
 	import {
 		mapState
@@ -53,6 +53,7 @@
 		},
 		data() {
 			return {
+				defaultAddress: null,
 				hasToken: false,
 				autoplay: false,
 				currentNav: 0,
@@ -96,6 +97,11 @@
 
 			//省统一身份认证对接
 			// this.handleToken(currentPage.options);
+			
+			let defaultAddress = uni.getStorageSync("defaultAddress");
+			if (defaultAddress != null && defaultAddress != '') {
+				this.defaultAddress = JSON.parse(defaultAddress);
+			}
 		},
 		methods: {
 			handleToken: function(options) {
@@ -203,7 +209,7 @@
 						return;
 					}
 				}
-
+				// debugger
 				// 2.进行参数拼接
 				const businessXml = Apply.getBusinessXml(type, this.businessModel, this.userInfo);
 				const formXml = Apply.getFormXml(formData);
@@ -222,6 +228,10 @@
 				var that = this
 				Apply.tempStore(params)
 					.then(res => {
+						console.log('申报成功:', res);
+						if(res.code == 200 && res.ReturnValue){
+							that.businessModel.bsnum = res.ReturnValue.bsnum;
+						}
 						uni.showToast({
 							icon: 'success',
 							title: type == 9 ? '暂存成功!' : '申报成功!',
@@ -245,7 +255,7 @@
 								}, 1500);
 							}
 						});
-						console.log('申报成功:', res);
+						
 					})
 					.catch(err => {
 						console.log('err:', err);
@@ -293,12 +303,10 @@
 					this.businessModel.bsnum = null;
 				}
 				// TODO： applicantid 应该传递什么
-				this.businessModel.applicantid = this.userInfo.id;
-				// debugger
+				this.businessModel.applicantid = this.userInfo.userAuth.cardId;
 				this.$store.commit('updateBusinessModel', this.businessModel);
 			},
 			initModels(options) {
-				// debugger
 				// 加载材料列表数据
 				this.loadMaterialData();
 				// 获取表单URL
@@ -375,6 +383,7 @@
 				if (itemInfo == null) {
 					return;
 				}
+				// debugger
 				this.businessModel.largeitemid = itemInfo.LARGEITEMID;
 				this.businessModel.smallitemid = itemInfo.SMALLITEMID;
 				this.businessModel.smallitemname = itemInfo.SXZXNAME;

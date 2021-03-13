@@ -26,9 +26,9 @@
 			<view class="btn bg" @click="gotoBusiness">
 				查看我的办事
 			</view>
-			<view class="btn" @click="goHome">
+			<!-- <view class="btn" @click="goHome">
 				返回首页
-			</view>
+			</view> -->
 		</view>
 	</view>
 </template>

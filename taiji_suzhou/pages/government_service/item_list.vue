@@ -57,10 +57,10 @@
 						name: '申报',
 						img: "../../static/images/home/icon_banshi_shenbao.png"
 					},
-					// {
-					// 	name: '预约',
-					// 	img: "../../static/images/home/icon_banshi_yuyue.png"
-					// },
+					{
+						name: '预约',
+						img: "../../static/images/home/icon_banshi_yuyue.png"
+					},
 				]
 			}
 		},

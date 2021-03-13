@@ -2,19 +2,19 @@
 var isFlag = true;
 
 function checkResponse(res) {
-	if (res.code == "403" || res.code == "401") {
-		if (isFlag) {
-			isFlag = false;
-			setTimeout(() => {
-				isFlag = true
-			}, 3000)
-			uni.navigateTo({
-				url: '/pages/login/login'
-			})
-		}
+	// if (res.code == "403" || res.code == "401") {
+	// 	if (isFlag) {
+	// 		isFlag = false;
+	// 		setTimeout(() => {
+	// 			isFlag = true
+	// 		}, 3000)
+	// 		uni.navigateTo({
+	// 			url: '/pages/login/login'
+	// 		})
+	// 	}
 
-		return false;
-	}
+	// 	return false;
+	// }
 	return true;
 }
 

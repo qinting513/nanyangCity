@@ -11,9 +11,9 @@
 			</view>
 		</view>
 		<view class="materials" :style="[materialStyle]">
-			<view v-for="(m,i) in materialList" :key="i" class="cell">
+			<view v-for="(m,i) in materialList" :key="i" class="cell" v-if="m.SFBY == '1'">
 				<view class="flex-row top">
-					<image :src="uploadMaterialsNum[m.ID] != null && uploadMaterialsNum[m.ID]['uploaded']>0 ? '/static/images/banshi/icon_bs_success.png' : '/static/images/banshi/icon_bs_unupload.png'"
+					<image  :src="uploadMaterialsNum[m.ID] != null && uploadMaterialsNum[m.ID]['uploaded']>0 ? '/static/images/banshi/icon_bs_success.png' : '/static/images/banshi/icon_bs_unupload.png'"
 					 mode="aspectFit" class="left-img"></image>
 					<view class="title">{{m.CLMC}}</view>
 				</view>
@@ -27,7 +27,7 @@
 			<view class="tempstore" @click="tempStore">
 				存为草稿
 			</view>
-			<view class="next" @click="apply">
+			<view class="next " @click="apply">
 				申报
 			</view>
 		</view>

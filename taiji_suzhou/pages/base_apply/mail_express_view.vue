@@ -1,117 +1,30 @@
 <template>
 	<view class="mail-express-page">
 		<view class="blms">{{blmsTitle}}</view>
-		<view class="flex-row ywgsd">
-			<view class="left">
-				业务归属地:
-			</view>
-			<view class="right">
-				<picker :range='guishudiTitlesList' mode='selector' @change="getItemData">
-					<view class="flex-row picker-area">
-						<view class="">{{selectedGuiShuDiModel.AREANAME || '暂无'}}</view>
-						<view class="right-arrow"></view>
-					</view>
-				</picker>
-			</view>
-		</view>
-		<view class="djcl">
-			<view class="">
-				请选择递交材料方式:
-			</view>
-			<view v-if="djzzclList.length > 0">
-				<radio-group @change="radioChange">
-					<view class="flex-row radio-list">
-						<block v-for="(item, index) in djzzclList" :key="index">
-							<view class="flex-row one-radio">
-								<radio :value="item" :checked="item === currentDjzzcl" />
-								<view>{{djzzclValueList[item] || ''}} </view>
-							</view>
-						</block>
-					</view>
-				</radio-group>
-				<view class="djcl-detail">
-					<view class="" v-if="currentDjzzcl == '1' || currentDjzzcl == '2'">
-						<view class="" v-for="(net, i) in networkItems" :key="i">
-							<view class="one-net">
-								<view class="">
-									网点名称: {{net.NETWORKNAME || '暂无数据'}}
-								</view>
-								<view class="">
-									网点地址: {{net.NETWORKADDRESS || '暂无数据'}}
-								</view>
-								<view class="">
-									网点电话: {{net.NETWORKPHONE || '暂无数据'}}
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="" v-if="currentDjzzcl == '3'">
-						说明:业务办理无须递交纸质材料
-					</view>
+
+		<!-- 领取方式 -->
+		<view class="lqfs">
+			<view class="top">
+				<view class="">
+					领取方式
+				</view>
+				<view class="" @click="gotoAddress">
+					邮递领取 <text class="right-arrow"></text>
 				</view>
 			</view>
-			<view class="djcl-nodata" v-else>
-				暂无
-			</view>
-		</view>
-		<view class="lzfs">
-			<view class="">
-				请选择领取证照方式:
-			</view>
-			<view v-if="lqspjgList.length > 0">
-				<radio-group @change="radioChangeLq">
-					<view class="flex-row radio-list">
-						<block v-for="(item, index) in lqspjgList" :key="index">
-							<view class="flex-row one-radio">
-								<radio :value="item" :checked="item === currentLqspjg" />
-								<view>{{lqspjgValueList[item] || ''}} </view>
-							</view>
-						</block>
+			<view class="bottom" v-if="defaultAddress" @click="gotoEditAddress">
+				<view class="left">
+					<view class="title">
+						{{defaultAddress.name}} {{defaultAddress.mobile}}
 					</view>
-				</radio-group>
-				<view class="djcl-detail">
-					<!-- 1. 网点领取 -->
-					<view class="" v-if="currentLqspjg === '1'">
-						<view class="" v-for="(net, i) in networkItems" :key="i">
-							<view class="one-net">
-								<view class="">
-									承诺办结时限: {{applyItemInfo.ITEMLIMITTIME || "1"}}个工作日，具体时间以短信通知为主
-								</view>
-								<view class="">
-									网点名称: {{net.NETWORKNAME || '暂无数据'}}
-								</view>
-								<view class="">
-									网点地址: {{net.NETWORKADDRESS || '暂无数据'}}
-								</view>
-								<view class="">
-									网点电话: {{net.NETWORKPHONE || '暂无数据'}}
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="" v-if="currentLqspjg === '2'">
-						<view class="flex-row add-address" @click="gotoSelectAddress">
-							<view v-if="userAddressModel != null">
-								<view>收件人: {{userAddressModel.RECEIVE || '暂无数据'}}</view>
-								<view>联系方式: {{userAddressModel.MOBILE || '暂无数据'}}</view>
-								<view>地址: {{userAddressModel.ADDRESS || '暂无数据'}}</view>
-							</view>
-							<view class="" v-else>
-								添加地址
-							</view>
-							<view class="right-arrow">
-							</view>
-						</view>
-					</view>
-					<view v-if="currentLqspjg === '3'">
-						说明: 请申请人于业务办结登录PC网厅“我的办事”点击“我的证照”栏目下载电子证照并打印"
+					<view class="subtitle">
+						{{defaultAddress.region}} {{defaultAddress.detail}}
 					</view>
 				</view>
-			</view>
-			<view class="djcl-nodata" v-else>
-				暂无
+				<view class="right-arrow"></view>
 			</view>
 		</view>
+
 		<view class="flex-row bottom-btns">
 			<view class="pre" @click="pre">
 				上一步
@@ -135,9 +48,17 @@
 	} from "vuex";
 
 	export default {
-		name: "MailExpressPage",
+		name: "MailExpressView",
 		components: {
 			InputCell
+		},
+		props: {
+			defaultAddress: {
+				type: Object,
+				default: function(){
+					return null
+				}
+			}
 		},
 		data() {
 			return {
@@ -169,6 +90,8 @@
 			'businessModel', 'formsModel', 'materialsModel',
 			'postModel', 'materialList'
 		]),
+		created() {
+		},
 		mounted() {
 			// 获取办理模式
 			this.getPermWsfwsd();
@@ -176,6 +99,16 @@
 			this.getRegionByPermidBsnum();
 		},
 		methods: {
+			gotoAddress() {
+				uni.navigateTo({
+					url: '../address/address_list'
+				})
+			},
+			gotoEditAddress(){
+				uni.navigateTo({
+					url: '../address/add_address?id=' + this.defaultAddress.id
+				})
+			},
 			// 1.获取办理模式
 			getPermWsfwsd: function() {
 				let business = this.businessModel;
@@ -286,7 +219,7 @@
 						for (let i in returnValue.PARENTS) {
 							// console.log("归属地model: ", i);
 							if (returnValue.PARENTS[i]) {
-							    titles.push(returnValue.PARENTS[i].AREANAME || "");
+								titles.push(returnValue.PARENTS[i].AREANAME || "");
 							}
 						}
 						this.guishudiTitlesList = titles;
@@ -391,6 +324,42 @@
 		.blms {
 			@extend base;
 			margin-top: 0;
+		}
+
+		.lqfs {
+			margin-top: 20upx;
+			background-color: #FFFFFF;
+
+			.top {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				padding: 26upx;
+				border-bottom: 1px solid #F1F1F1;
+			}
+
+			.bottom {
+				padding: 26upx;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+
+				.title {
+					color: #333;
+					font-size: 34upx;
+					font-weight: 500;
+					padding-bottom: 10upx;
+				}
+
+				.subtitle {
+					color: #999999;
+					font-size: 28upx;
+					font-weight: 400;
+					text-align: left;
+				}
+			}
 		}
 
 		.ywgsd {

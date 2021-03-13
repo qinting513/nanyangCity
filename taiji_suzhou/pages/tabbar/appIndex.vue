@@ -29,6 +29,7 @@
 	7.事项列表: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxlb&pictureCode=主题的SORTCODE&pictureName=主题名称SORTNAME 
 	8.进度查询: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=jdcx
 	9.我的办件：https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=wdbj&index=页签枚举值(0暂存件 1在办件 2办结件)
+	10.热门服务:https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmfw
 	
 	本地调试的
 	1.个人办事: http://localhost:8080/#/pages/tabbar/appIndex?page=grbs
@@ -40,6 +41,7 @@
 	7.事项列表: http://localhost:8080/#/pages/tabbar/appIndex?page=sxlb&pictureCode=主题的SORTCODE&pictureName=主题名称SORTNAME 
 	8.进度查询: http://localhost:8080/#/pages/tabbar/appIndex?page=jdcx&bsnum=411323033210311A000003&username=杜廷广
 	9.我的办件：http://localhost:8080/#/pages/tabbar/appIndex?page=wdbj&index=页签枚举值(0暂存件 1在办件 2办结件)
+	10.热门服务:http://localhost:8080/#/pages/tabbar/appIndex/#/pages/tabbar/appIndex?page=rmfw
 	
 	
 	
@@ -51,6 +53,9 @@
 	登录账号: 15160418562 111111a
 	
 	2.在appForward页面，根据返回的code和page 进行获取accessToken（并保存accessToken），再根据accessToken获取用户信息，获取成功后根据page跳转到不同的页面
+	
+		localStorage.setItem('nuser', '{"id":"bf4eaef9769e47da894a950d40a0566d","nickname":"hshande","photoUrl":null,"phone":"15160418562","gender":0,"province":null,"city":null,"country":null,"address":null,"email":null,"telephone":null,"name":null,"accountStatus":0,"userGrade":0,"zipCode":null,"introduction":null,"residentProvinceCode":null,"residentCityCode":null,"residentCountyCode":null,"isUserAuth":0,"isEnterprise":0,"isAgent":0,"appId":"21b6038d3f2a4373b064ede05308547a","userAccountId":"bf4eaef9769e47da894a950d40a0566d","mztLoginInfo":null,"userToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU2MDg4NjYxMDYsInVzZXJJZCI6ImJmNGVhZWY5NzY5ZTQ3ZGE4OTRhOTUwZDQwYTA1NjZkIiwiYWNjb3VudFVzZXJJZCI6ImJmNGVhZWY5NzY5ZTQ3ZGE4OTRhOTUwZDQwYTA1NjZkIn0.GkoOaJv8ae6HJDA1AWtLNpel8ype1EBzKhErd8fEsRnzVaO5Rwurg1aACFWjYTbPZaS7WhZ4zJQ1a2Vt7IUMcH9TdWNgulORUu-OaS5yPNpAFABMVaXp-e-cMw3pWXryeHxoRkUa9su-qfpJNJYSzlntRIQfKoLsv1vqxS1nE4rtWi7BLh_Ayy-PyuxBkOIdt-y68sDU3b1cHR-oTdnYKpQeaHErUvsiGqzcZH50Oj_Z4Rpicrr0y0Mcl1l446faliAC5kAK-g99JtH5K0yY1Y2Tm9wwy15pRbmNOx8KYA5A1Bre2XcrCwkEn3cy9MWBfDsIn48f-_dDF716alxo7Q","userAuth":{"realName":"黄山德","cardId":"350500199309043016","cardType":0,"cardTypeCn":null,"status":2,"cardFrontPicUrl":null,"cardBackPicUrl":null,"cardFrontBase64":null,"cardBackBase64":null},"enterAuth":null}')
+	
 	*/
 
 	import Http from '../../static/js/nanyang_auth.js';
@@ -66,9 +71,7 @@
 			// let local = location.href;
 			console.log("appIndex options:", options);
 			this.getUserInfo(options);
-			/*
-				localStorage.setItem('nuser', '{"id":"1632f80c937041ce8f0893b4c174ab14","nickname":"U2167728001","photoUrl":null,"phone":"15160418562","gender":0,"province":null,"city":null,"country":null,"address":null,"email":null,"telephone":null,"name":null,"accountStatus":0,"userGrade":0,"zipCode":null,"introduction":null,"residentProvinceCode":null,"residentCityCode":null,"residentCountyCode":null,"isUserAuth":0,"isEnterprise":0,"isAgent":0,"appId":"21b6038d3f2a4373b064ede05308547a","userAccountId":"1632f80c937041ce8f0893b4c174ab14","mztLoginInfo":null,"userToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU1NjI0NTUxMjYsInVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0IiwiYWNjb3VudFVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0In0.bdR9_SLXghht-5G0cgJjGdeMpU2KpYTtpzxM0AqVVUkzAh2bY2_nwSrIp2BQbYVGpikw3vq8hntd5jeA6atdzK2sCrOLI9t4IRmy4qGvr4myih-01ZZ4Q9-kgGdlKaWZ2UBOxtMOA9XPp-6U_pH2ABYgFoaBVXZVrqIc1XEQXQTdUzgD51bKWganOHriX3qWspVviL-kbmd_gTRid0d_YYrfq-CRRR3WpBN9obdpcyy26W0eZrHGMXTRQ32nxSwKol6evGZvhPiCOchMtg9SW_ZpD2rxATiBeyx6G4GGgb82s3i92mbY9DPRZZKKJ6OCwJ6TTt8cGJNP83Sf3twmDw","userAuth":null,"enterAuth":null}')
-			*/
+			
 		},
 		methods: {
 			getUserInfo(options) {

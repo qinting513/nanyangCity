@@ -93,6 +93,70 @@ const materialNameList = [
 	"材料"
 ];
 
+const certificateTypes = {
+	"10": "身份证",
+	"20": "护照",
+	"11": "军官证",
+	"12": "士兵证",
+	"13": "警官证",
+	"14": "港澳居民来往内地通行证",
+	"15": "台湾居民来往大陆通行证",
+	"16": "香港身份证",
+	"17": "澳门身份证",
+	"18": "台湾身份证",
+}
+
+const cerArr = [{
+		id: 0,
+		label: '身份证',
+		value: '10'
+	},
+	{
+		id: 1,
+		label: '护照',
+		value: '20'
+	},
+	{
+		id: 2,
+		label: '军官证',
+		value: '11'
+	},
+	{
+		id: 3,
+		label: '士兵证',
+		value: '12'
+	},
+	{
+		id: 4,
+		label: '警官证',
+		value: '13'
+	},
+	{
+		id: 5,
+		label: '港澳居民来往内地通行证',
+		value: '14'
+	},
+	{
+		id: 6,
+		label: '台湾居民来往大陆通行证',
+		value: '15'
+	},
+	{
+		id: 7,
+		label: '香港身份证',
+		value: '16'
+	},
+	{
+		id: 8,
+		label: '澳门身份证',
+		value: '17'
+	},
+	{
+		id: 9,
+		label: '台湾身份证',
+		value: '18'
+	},
+]
 
 // 获取个人办事或法人办事事项
 function getBusinessItems(userType, areaId) {
@@ -286,6 +350,7 @@ function registerUser(user) {
 	if (user == null || user == undefined) {
 		return;
 	}
+	// debugger
 	return new Promise(function(resolve, reject) {
 		let method = "";
 		let params = {};
@@ -328,44 +393,13 @@ function registerUser(user) {
 			}
 			method = 'registerInc'
 		} else {
-			// let user = {
-			// 	accountStatus: 0,
-			// 	address: null,
-			// 	appId: "21b6038d3f2a4373b064ede05308547a",
-			// 	city: null,
-			// 	country: null,
-			// 	email: null,
-			// 	enterAuth: null,
-			// 	gender: 0,
-			// 	id: "1632f80c937041ce8f0893b4c174ab14",
-			// 	introduction: null,
-			// 	isAgent: 0,
-			// 	isEnterprise: 0,
-			// 	isUserAuth: 0,
-			// 	mztLoginInfo: null,
-			// 	name: null,
-			// 	nickname: "U2167728001",
-			// 	phone: "15160418562",
-			// 	photoUrl: null,
-			// 	province: null,
-			// 	residentCityCode: null,
-			// 	residentCountyCode: null,
-			// 	residentProvinceCode: null,
-			// 	telephone: null,
-			// 	userAccountId: "1632f80c937041ce8f0893b4c174ab14",
-			// 	userAuth: null,
-			// 	userGrade: 0,
-			// 	userToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU1MjYyNTI3OTYsInVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0IiwiYWNjb3VudFVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0In0.IkVpCDAsRV2VUpdq4xhMWKHzJmsE9zG_ti9tVJj0tjXNrVbZzdk6pro3_Rz8txM0haNFlDVChNyXSOK-3g0miOAgls6_OKj6erkuM2Qd4TwpZ2NaGuRtkrec8ScymxIDCx-1JUuF8LjYv2_baDw8fYI0amgqJOtRCn0IdceG1hBz8X76IkJ8RFnxMCphaurCBFwlvOL3L3-BZ13_nQU_CGGNh0c9i8Yb8Rzvtr6x3I4XnRKGQbfdYUBB--6uQ53ig8GuE6G8plsyiuDF_-sdDwOFXxbmuTUAo-0RfFg--YAzCfqKlSFbimFPsgzIJuvkES9a5VM5XIlkNK1Gd1YWLA",
-			// 	zipCode: null,
-			// }
 			// 个人注册
 			// 从南威库里获取： 1:男 2:女 3:未知
 			// 南阳库： 性别，0女，1男，空表示保密
 			if (user.gender == 2) {
 				user.gender = 0;
 			}
-			debugger
-			console.log("user...:", user);
+			// debugger
 			params = {
 				"USERNAME": user.id || "",
 				"PASSWORD": "123456",
@@ -574,7 +608,7 @@ function getMySubscribe(token, userId, type) {
 	return new Promise(function(resolve, reject) {
 		let params = {
 			"token": token,
-			"APPLICANTID": userId,
+			"APPLICANTID": userId, // 身份证
 			"PAGENO": '1',
 			"PAGESIZE": '1000',
 		};
@@ -593,13 +627,14 @@ module.exports = {
 	baseUrl,
 	downloadFileURL,
 	uploadFileURL,
-
+	certificateTypes,
+	cerArr,
+	materialNameList,
 
 	getBusinessItems,
 	getDepartmentItems,
 	getItemList,
 	getBusinessGuideData,
-	materialNameList,
 	getHotPermList,
 	login,
 	checkRes,

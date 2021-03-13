@@ -11,7 +11,8 @@
 					</u-form-item>
 
 					<u-form-item label="所在地区" prop="region">
-						<u-input v-model="form.region" placeholder="请选择所在地区" :disabled="true" @click="isShowRegion = true" />
+						<u-input v-model="form.region" placeholder="请选择所在地区" :disabled="true"
+							@click="isShowRegion = true" />
 						<view class="right-arrow">
 
 						</view>
@@ -49,19 +50,20 @@
 		},
 		data() {
 			return {
-				editIndex: -1,
+				editId: -1,
 				type: 'textarea',
 				height: 150,
 				autoHeight: true,
 				isShowRegion: false,
 				errorType: ['toast'],
 				form: {
-					name: 'qinting',
-					mobile: "13058053850",
+					name: '覃挺',
+					mobile: "13058058350",
 					region: '',
-					detail: "999",
+					detail: "详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址",
 					isDefault: true,
 				},
+				addressList: {}, // 是一个对象
 				rules: {
 					name: [{
 						required: true,
@@ -88,12 +90,11 @@
 			}
 		},
 		onLoad(options) {
-			let index = parseInt(options.id);
-			this.editIndex = index;
-			console.log("index:", index);
-			if (index > 0) {
-				let addressList = JSON.parse(uni.getStorageSync("addressList") || '[]');
-				this.form = addressList[index];
+			this.editId = options.id;
+			this.addressList = JSON.parse(uni.getStorageSync("addressList") || '{}');
+			let form = addressList[this.editId];
+			if (form != null) {
+				this.form = form;
 			}
 		},
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
@@ -101,6 +102,22 @@
 			this.$refs.uForm.setRules(this.rules);
 		},
 		methods: {
+			getUUID() { // 生成唯一的ID
+				const now = new Date()
+				const year = now.getFullYear();
+				let month = now.getMonth() + 1;
+				let day = now.getDate();
+				let hour = now.getHours();
+				let minutes = now.getMinutes();
+				let seconds = now.getSeconds();
+				String(month).length < 2 ? (month = Number("0" + month)) : month;
+				String(day).length < 2 ? (day = Number("0" + day)) : day;
+				String(hour).length < 2 ? (hour = Number("0" + hour)) : hour;
+				String(minutes).length < 2 ? (minutes = Number("0" + minutes)) : minutes;
+				String(seconds).length < 2 ? (seconds = Number("0" + seconds)) : seconds;
+				const yyyyMMddHHmmss = `${year}${month}${day}${hour}${minutes}${seconds}`;
+				return yyyyMMddHHmmss + '_' + Math.random().toString(36).substr(2, 9);
+			},
 			save() {
 				console.log("form:", this.form);
 				this.$refs.uForm.validate(valid => {
@@ -116,19 +133,19 @@
 				uni.showLoading({
 					title: '正在保存中'
 				})
-				let addressList = JSON.parse(uni.getStorageSync("addressList") || '[]');
-				if (this.form.isDefault) { // 先清除默认地址
-					addressList.forEach(item => {
-						item.isDefault = false;
-					})
-				}
-				if (this.editIndex > 0) {
-					addressList[this.editIndex] = this.form;
-				} else {
-					addressList.push(this.form);
+				// debugger
+				if (!this.form.id) { // 首次加的 要加id
+					this.form.id = this.getUUID();
 				}
 
-				uni.setStorageSync('addressList', JSON.stringify(addressList));
+				if (this.form.isDefault) { // 先清除默认地址
+					for (let key in this.addressList) {
+						this.addressList[key].isDefault = false;
+					}
+					uni.setStorageSync('defaultAddress', JSON.stringify(this.form));
+				}
+				this.addressList[this.form.id] = this.form;
+				uni.setStorageSync('addressList', JSON.stringify(this.addressList));
 				uni.hideLoading();
 				uni.showToast({
 					title: '保存成功!'

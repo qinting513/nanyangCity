@@ -182,6 +182,10 @@ function gotoPage(paramsStr) {
 			fullUrl = fullUrl + `/#/pages/mine/my_business_page/my_business_page?index=${params.index || ''}`
 			break;
 		}
+		case 'rmfw': {  // 热门服务
+			fullUrl = fullUrl + `/#/pages/hotservice/hotservice`
+			break;
+		}
 		default: {
 			// uni.showToast({
 			// 	title: '没有找到该页面',

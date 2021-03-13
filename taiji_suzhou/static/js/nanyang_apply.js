@@ -166,7 +166,7 @@ function tempStore(params) {
 		console.log("申报参数:", params);
 		const url_submit_apply = Http.baseUrl + "RestOnlineDeclareService";
 		// return;
-		WebApi.soup(url_submit_apply, "submit", params).then(res => {
+		WebApi.soup(url_submit_apply, "submit1", params).then(res => {
 			resolve(res);
 		}).catch((err) => {
 			reject(err);
@@ -236,7 +236,7 @@ function getBusinessXml(type, business, userInfo) {
 		String(type) +
 		"]]></status>" +
 		"<applicantid><![CDATA[" +
-		(userInfo.id || '') +
+		(userInfo.userAuth.cardId || '') +
 		"]]></applicantid>" +
 		"<state>5</state>" +
 		"<sqr_type><![CDATA[" +
