@@ -4,10 +4,10 @@
 			<u-form :model="form" label-width="200" ref="uForm" :error-type="errorType">
 				<view class="add-cell">
 					<u-form-item label="姓名" prop="name">
-						<u-input v-model="form.name" maxlength="20" />
+						<u-input placeholder="请输入姓名" v-model="form.name" maxlength="20" />
 					</u-form-item>
 					<u-form-item label="手机号码" prop="mobile">
-						<u-input v-model="form.mobile" />
+						<u-input placeholder="请输入手机号码" v-model="form.mobile" />
 					</u-form-item>
 
 					<u-form-item label="所在地区" prop="region">
@@ -57,10 +57,10 @@
 				isShowRegion: false,
 				errorType: ['toast'],
 				form: {
-					name: '覃挺',
-					mobile: "13058058350",
+					name: '',
+					mobile: "",
 					region: '',
-					detail: "详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址详细地址",
+					detail: "",
 					isDefault: true,
 				},
 				addressList: {}, // 是一个对象
@@ -92,7 +92,7 @@
 		onLoad(options) {
 			this.editId = options.id;
 			this.addressList = JSON.parse(uni.getStorageSync("addressList") || '{}');
-			let form = addressList[this.editId];
+			let form = this.addressList[this.editId];
 			if (form != null) {
 				this.form = form;
 			}

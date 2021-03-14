@@ -13,10 +13,13 @@ import store from '../../store/index.js'
 
 // 正式的 账号： 15160418562  111111a
 const orginAuth = "http://111.6.77.67:6443/"
+
 // const authUrl = "http://111.6.77.67:6443/"
 // const authUserUrl = "http://111.6.77.66:6443/"
+
 const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/" // http://111.6.77.67:6443/
 const authUserUrl = "https://rtxxdj.linewell.com/nanyang-authUser/" //获取用户 http://111.6.77.66:6443/
+
 const redirectBaseUrl = "https://rtxxdj.linewell.com/nanyang" // 回调地址
 const client_id = '5b51040cf71b4c09808dac61653d3c36'
 const client_secret = '9f711e6124c543d69b5a472cfd1b1f0c';
@@ -115,11 +118,11 @@ function getAppAuthUserInfo(accessToken, callback) {
 			let userInfo = res.content;
 			console.log("userInfo:", userInfo);
 			store.commit('updateUserInfo', userInfo); // 保存用户信息
-			// try {
-			// 	Http.registerUser(userInfo);
-			// } catch (e) {
-			// 	console.log("提交用户信息报错", e);
-			// }
+			try {
+				Http.registerUser(userInfo);
+			} catch (e) {
+				console.log("提交用户信息报错", e);
+			}
 		}
 		// debugger
 		if (callback) {
@@ -133,18 +136,7 @@ function getAppAuthUserInfo(accessToken, callback) {
 	})
 }
 
-function gotoPage(paramsStr) {
-	if (paramsStr == null || paramsStr == '') {
-		console.log("参数为空，不知道跳转去哪里");
-		return;
-	}
-	let params = JSON.parse(Util.base64Decode(decodeURIComponent(paramsStr)));
-	if (!params.page) {
-		console.log("page 为空")
-		return;
-	}
-	console.log("携带的参数:", params);
-	// return ;
+function gotoPageWithOriginParams(params) {
 	let fullUrl = redirectBaseUrl;
 	switch (params.page) {
 		case 'grbs': { // 1.个人办事
@@ -184,20 +176,29 @@ function gotoPage(paramsStr) {
 			fullUrl = fullUrl + `/#/pages/mine/my_business_page/my_business_page?index=${params.index || ''}`
 			break;
 		}
-		case 'rmfw': {  // 热门服务
+		case 'rmfw': { // 热门服务
 			fullUrl = fullUrl + `/#/pages/hotservice/hotservice`
 			break;
-		}
-		default: {
-			// uni.showToast({
-			// 	title: '没有找到该页面',
-			// 	icon: 'none'
-			// });
 		}
 	}
 	// 处理好跳转的页面 进行跳转
 	window.location.replace(fullUrl)
 }
+
+function gotoPage(paramsStr) {
+	if (paramsStr == null || paramsStr == '') {
+		console.log("参数为空，不知道跳转去哪里");
+		return;
+	}
+	let params = JSON.parse(Util.base64Decode(decodeURIComponent(paramsStr)));
+	if (!params.page) {
+		console.log("page 为空")
+		return;
+	}
+	console.log("携带的参数:", params);
+	gotoPageWithOriginParams(params);
+}
+
 
 module.exports = {
 	client_id,
@@ -213,5 +214,5 @@ module.exports = {
 	getAccessToken,
 	getAppAuthUserInfo, // 根据access_token获取用户信息
 	gotoPage,
-
+	gotoPageWithOriginParams,
 }

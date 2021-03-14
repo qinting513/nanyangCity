@@ -24,10 +24,10 @@
 	3.部门导航: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bmbs
 	4.热门事项: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmsx
 	5.事项搜索: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxss
-	6.办事指南: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bszn&ID=事项ID 005998375QR13609003
-	7.事项列表: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxlb&pictureCode=主题的SORTCODE&pictureName=主题名称SORTNAME 
+	6.办事指南: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bszn&ID=005998375QR13609003
+	7.事项列表: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=sxlbpictureCode=root_gr_ztfl_01&pictureName=生育收养
 	8.进度查询: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=jdcx
-	9.我的办件：https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=wdbj&index=页签枚举值(0暂存件 1在办件 2办结件)
+	9.我的办件：https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=wdbj&index=1   页签枚举值(0暂存件 1在办件 2办结件)
 	10.热门服务:https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=rmfw
 	
 	本地调试的
@@ -57,7 +57,8 @@
 	
 	*/
 
-	import Http from '../../static/js/nanyang_auth.js';
+	import HttpAuth from '../../static/js/nanyang_auth.js';
+	import Http from '../../static/js/nanyang_http.js';
 	import Util from '../../static/js/util.js';
 	export default {
 		name: "index",
@@ -67,36 +68,63 @@
 		onLoad(options) {
 			// let local = location.href;
 			console.log("appIndex options:", options);
-			this.getUserInfo(options);
+			let user = uni.getStorageSync('nuser');
+			console.log('commitUser user', user);
+			// debugger
+			if (null != user && undefined != user && '' != user) {
+				user = JSON.parse(user);
+				debugger
+				this.$store.commit('updateUserInfo', user);
+				if (!this.checkIsRegister(user)) {
+					// debugger
+					// console.log('registerUser user');
+					Http.registerUser(user);
+				}
+				HttpAuth.gotoPageWithOriginParams(options);
+			} else {
+				this.getUserInfo(options);
+			}
 		},
 		methods: {
+			checkIsRegister(user) {
+				// let list = uni.getStorageSync('nRegiterIds') || [];
+				// list.push("bf4eaef9769e47da894a950d40a0566d");
+				// uni.setStorageSync('nRegiterIds', list);
+				// return true;
+				// debugger
+				// // 如果本地有注册过(注册过返回true)，则不再注册, 没有注册过才调用
+				let list = uni.getStorageSync('nRegiterIds') || [];
+				if (list.length > 0 && list.includes(user.id)) {
+					return true;
+				}
+				return false;
+			},
 			getUserInfo(options) {
 				// debugger
 				let params = ''
 				if (options.page != null && options.page != '') {
 					// 将传递的参数都加密一下，到appForward再解密来使用
-					params = encodeURIComponent(Util.base64Encode(Util.utf16to8(JSON.stringify(options))));
+					params = Util.base64Encode(Util.utf16to8(JSON.stringify(options)));
 					uni.setStorageSync('nparams', params);
-					// 是不是加密引起的 
-					// params = encodeURIComponent(JSON.stringify(options));
 				}
-				
+
 				console.log("params:", options, params);
 				let accessToken = uni.getStorageSync('ntoken');
 				console.log("accessToken:", accessToken);
 				if (null != accessToken && undefined != accessToken && '' != accessToken) {
 					// 如果有accessToken则直接通过accessToken获取信息即可
 					let that = this;
-					Http.getAppAuthUserInfo(accessToken, () => {
+					HttpAuth.getAppAuthUserInfo(accessToken, () => {
 						console.log("page....:", params);
-						Http.gotoPage(params);
+						HttpAuth.gotoPage(params);
 					});
 				} else {
-					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${params}`;
+					let redirect_uri = `${HttpAuth.redirectBaseUrl}/#/pages/tabbar/appForward?source=${params}`;
+					redirect_uri = encodeURIComponent(redirect_uri);
 					console.log("重定向地址:", redirect_uri)
 					// 否则先打开一个地址 来重定向
 					let url =
-						`${Http.orginAuth}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=${redirect_uri}`
+						`${HttpAuth.orginAuth}oauth/authorize?client_id=${HttpAuth.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=${redirect_uri}`
 					console.log('url:', url);
 					// 个人办事的: http://111.6.77.67:6443/oauth/authorize?client_id=5b51040cf71b4c09808dac61653d3c36&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appForward?source=eyJwYWdlIjoiZ3JicyJ9
 					location.replace(url);

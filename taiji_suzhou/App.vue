@@ -3,8 +3,12 @@
 	export default {
 		onLaunch: function(options) {
 			console.log('App Launch options:', options);
-			this.commitUser();
-			// debugger
+			
+			let user = uni.getStorageSync('nuser');
+			if (null != user && undefined != user && '' != user) {
+				user = JSON.parse(user);
+				this.$store.commit('updateUserInfo', user);
+			}
 		},
 		onShow: function() {
 			console.log('App Show');
@@ -16,15 +20,6 @@
 			saveParams(options){
 				if(options.page) {
 					uni.setStorageSync('nparams', JSON.stringify(options));
-				}
-			},
-			commitUser() {
-				let user = uni.getStorageSync('nuser');
-				console.log('commitUser user', user);
-				// debugger
-				if (null != user && undefined != user && '' != user) {
-					this.$store.commit('updateUserInfo', JSON.parse(user));
-					Http.registerUser(JSON.parse(user));
 				}
 			},
 		}

@@ -2,7 +2,7 @@
 	<view class="s-query">
 		<view class="search-wrap">
 			<view class="s-search">
-				<u-search height="90" shape="square" :clearabled="true" placeholder="请输入搜索人姓名" :show-action="false"
+				<u-search height="90" shape="square" :clearabled="true" placeholder="请输入办理人姓名" :show-action="false"
 					search-icon="" v-model="userName"></u-search>
 			</view>
 			<view class="flex-row s-search">
@@ -22,6 +22,7 @@
 
 <script>
 	import Http from "@/static/js/nanyang_http.js"
+	import { mapState } from 'vuex';
 	export default {
 		data() {
 			return {
@@ -30,6 +31,12 @@
 				// bsnum: '411323033210311A000003'
 				userName: "",
 				bsnum: '',
+			}
+		},
+		computed: mapState(['userInfo']),
+		onLoad(options) {
+			if (this.userInfo && this.userInfo.userAuth) {
+				this.userName = this.userInfo.userAuth.realName;
 			}
 		},
 		methods: {

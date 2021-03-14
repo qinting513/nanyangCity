@@ -85,6 +85,12 @@
 			'uploadMaterials', 'uploadMaterialsNum', 'materialList'
 		]),
 		onLoad(options) {
+			// debugger
+			let user = uni.getStorageSync('nuser');
+			if (null != user && undefined != user && '' != user) {
+				user = JSON.parse(user);
+				this.$store.commit('updateUserInfo', user);
+			}
 			// 初始化数据
 			this.initPage(options);
 			// 加载数据
@@ -307,6 +313,7 @@
 				this.$store.commit('updateBusinessModel', this.businessModel);
 			},
 			initModels(options) {
+				debugger
 				// 加载材料列表数据
 				this.loadMaterialData();
 				// 获取表单URL

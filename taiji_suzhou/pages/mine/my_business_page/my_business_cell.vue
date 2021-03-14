@@ -1,9 +1,9 @@
 <template>
-	<view class="contaner">
-		<view class="date">2020-06-30 17:44</view>
+	<view class="my_business_cell">
+		<view class="date">{{item.CREATETIME || ""}}</view>
 		<view class="content" @click="$emit('click', item)">
 			<view class="item" v-for="(v,k,index) in itemInfo" :key="index">
-				<view class="item-title">{{k}}</view>：
+				<view class="item-title">{{k}}:</view>
 				<view class="item-detail">{{v}}</view>
 			</view>
 		</view>
@@ -36,23 +36,22 @@
 </script>
 
 <style lang="scss">
-	.contaner {
+	.my_business_cell {
 		display: flex;
 		flex-direction: column;
-		margin-top: 35upx;
 		align-items: center;
-		height: 200px;
-		margin-left: 30upx;
-		margin-right: 30upx;
-		border-radius: 5px;
-		margin-bottom: 20upx;
+		// height: 200px;
+		margin: 50upx 30upx;
+		
 		.date {
 			text-align: center;
-			font-size: 20upx;
+			font-size: 28upx;
 			color: rgb(181,181,181);
-			margin-bottom: 30upx;
+			margin-bottom: 16upx;
 		}
 		.content {
+			background-color: #FFFFFF;
+			border-radius: 10upx;
 			font-size: 30upx;
 			box-shadow: 1px 1px 5px #DDD;
 			padding: 20upx;
@@ -60,11 +59,14 @@
 			height: 100%;
 			.item {
 				display: flex;
-				align-items: center;
+				align-items: flex-start;
 				margin-top: 10upx;
+				padding: 10upx 0;
 				.item-title{
-					width: 180upx;
-					text-align-last: justify;
+					flex-shrink: 0;
+					width: 160upx;
+					text-align: right;
+					margin-right: 20upx;
 				}
 			}
 		}

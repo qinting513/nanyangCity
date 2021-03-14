@@ -6,7 +6,8 @@ const regionId = "411300";
 const regionName = "南阳市";
 
 // 注意一个斜扛已经写在后面了
-// const rootUrl = "http://111.6.77.4:9001/" // 南阳的
+// const rootUrl = "http://111.6.77.4:9001/" // 南阳的外网
+// const rootUrl = "http://192.168.130.4:9001/" // 南阳的内网
 const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/" // 映射的地址是 http://111.6.77.4:9001/
 const baseUrl = rootUrl + "services/";
 
@@ -423,8 +424,12 @@ function registerUser(user) {
 		}
 		let url = baseUrl + 'RestUserService'
 		console.log("用户信息提交:", params);
+		debugger
 		WebApi.soup(url, "registerUser", params).then(res => {
 			console.log("用户信息提交成功:", res);
+			let list = uni.getStorageSync('nRegiterIds') || [];
+			list.push(user.id);
+			uni.setStorageSync('nRegiterIds', list)
 			resolve(res);
 		}).catch((err) => {
 			console.log("用户信息提交失败:", err);
@@ -467,7 +472,7 @@ function getBusinessProcess(params) {
 function getMyBusiness(token, userId, type) {
 	return new Promise(function(resolve, reject) {
 		let params = {
-			"token": token,
+			// "token": token,
 			"APPLICANTID": userId,
 			"PAGENO": "1",
 			"PAGESIZE": "1000"

@@ -81,7 +81,6 @@
 			}
 		},
 		onLoad: function(option) {
-			console.log(option);
 			if (option.pictureName.length > 0) {
 				uni.setNavigationBarTitle({
 					title: option.pictureName
@@ -93,12 +92,15 @@
 			if (option.userType != null) {
 				this.userType = option.userType
 			}
-			this.loadData();
+			// this.loadData();
+			setTimeout(function() {
+				uni.startPullDownRefresh()
+			}, 200)
 		},
 		methods: {
 			expendCell(index) {
 				this.$set(this.expends, index, !this.expends[index]);
-				console.log("expends:", this.expends);
+				// console.log("expends:", this.expends);
 			},
 			btnClick(index, item) {
 				console.log("index:", index, item);
@@ -144,29 +146,32 @@
 					}
 				}
 			},
-			// onPullDownRefresh() {
-			// 	this.pageNum = 1;
-			// 	this.totalNum = 0;
-			// 	this.searchName = "";
-			// 	var params = {};
-			// 	this.loadData(params);
-			// },
+			onPullDownRefresh() {
+				this.pageNum = 1;
+				this.totalNum = 0;
+				// this.searchKeyWord = "";
+				this.dataList = [];
+				this.loadData();
+			},
 			loadData() {
-				Http.getItemList(this.pictureCode, this.userType).then(res => {
+				Http.getItemList(this.pictureCode, this.userType, this.pageNum, this.pageSize).then(res => {
+					uni.stopPullDownRefresh();
 					console.log("getItemList:", res);
 					if (res.ReturnValue != null) {
-						this.dataList = res.ReturnValue;
+						this.dataList = this.dataList.concat(res.ReturnValue);
+						// this.totalNum = this.dataList.length;
+						console.log("数组长度:", this.dataList.length);
 					}
 				});
 
 			},
-			// onReachBottom() {
-			// 	if (this.showData.length < this.totalNum) {
-			// 		this.pageNum++;
-			// 		this.loadData(this.params);
-			// 		this.loadmore = "loading";
-			// 	}
-			// },
+			onReachBottom() {
+				// console.log("rebottom/....");
+				// if (this.dataList.length < this.totalNum) {
+				this.pageNum++;
+				this.loadData();
+				// }
+			},
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);
 				if (this.searchKeyWord.trim().length == 0) {
@@ -215,7 +220,7 @@
 			margin: 0 30upx;
 			padding: 30upx 0;
 			border-bottom: 1upx solid #F1F1F1;
-			overflow: hidden;
+			// overflow: hidden;
 			background-color: #fff;
 
 			.top-section {

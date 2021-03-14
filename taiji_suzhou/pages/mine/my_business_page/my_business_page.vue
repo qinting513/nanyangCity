@@ -22,7 +22,7 @@
 					</view>
 					<scroll-view v-else class="list" scroll-y="true">
 						<view v-for="(item, index) in zaibanjian" :key="index" class="item">
-							<myBusinessCell :item="item"></myBusinessCell>
+							<myBusinessCell :item="item" @click="clickZaiban"></myBusinessCell>
 						</view>
 					</scroll-view>
 				</swiper-item>
@@ -32,7 +32,7 @@
 					</view>
 					<scroll-view v-else class="list" scroll-y="true">
 						<view v-for="(item, index) in banjiejian" :key="index" class="item">
-							<myBusinessCell :item="item"></myBusinessCell>
+							<myBusinessCell :item="item" @click="clickZaiban"></myBusinessCell>
 						</view>
 					</scroll-view>
 				</swiper-item>
@@ -95,7 +95,7 @@
 			},
 			getZancunjian() {
 				// console.log(this.userInfo)
-				debugger
+				// debugger
 				this.getMyBusiness(0).then(
 					res => {
 						this.zancunjian = this.dealData(res);
@@ -154,12 +154,23 @@
 				// 	residentProvinceCode: null,
 				// 	telephone: null,
 				// 	userAccountId: "1632f80c937041ce8f0893b4c174ab14",
-				// 	userAuth: null,
+				// 	userAuth: {
+				// 		"realName": "黄山德",
+				// 		"cardId": "350500199309043016",
+				// 		"cardType": 0,
+				// 		"cardTypeCn": null,
+				// 		"status": 2,
+				// 		"cardFrontPicUrl": null,
+				// 		"cardBackPicUrl": null,
+				// 		"cardFrontBase64": null,
+				// 		"cardBackBase64": null
+				// 	},
 				// 	userGrade: 0,
 				// 	userToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU1MjYyNTI3OTYsInVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0IiwiYWNjb3VudFVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0In0.IkVpCDAsRV2VUpdq4xhMWKHzJmsE9zG_ti9tVJj0tjXNrVbZzdk6pro3_Rz8txM0haNFlDVChNyXSOK-3g0miOAgls6_OKj6erkuM2Qd4TwpZ2NaGuRtkrec8ScymxIDCx-1JUuF8LjYv2_baDw8fYI0amgqJOtRCn0IdceG1hBz8X76IkJ8RFnxMCphaurCBFwlvOL3L3-BZ13_nQU_CGGNh0c9i8Yb8Rzvtr6x3I4XnRKGQbfdYUBB--6uQ53ig8GuE6G8plsyiuDF_-sdDwOFXxbmuTUAo-0RfFg--YAzCfqKlSFbimFPsgzIJuvkES9a5VM5XIlkNK1Gd1YWLA",
 				// 	zipCode: null,
 				// }
-				// this.userInfo = user;
+				
+				let user = this.userInfo;
 				return Http.getMyBusiness(user.userToken, user.userAuth.cardId, type);
 			},
 			dealData(res) {
@@ -183,9 +194,20 @@
 				uni.navigateTo({
 					url: url
 				});
+			},
+			clickZaiban(item) {
+				console.log("clickZaiban", item);
+				// debugger
+				let url = '../schedule_query_result';
+				url += `?username=${item.APPLICANT}`;
+				url += `&id=${item.BSNUM}`;
+				uni.navigateTo({
+					url: url
+				});
 			}
 		},
 		onShow() {
+			// debugger
 			// if (!this.userInfo) {
 			// 	return;
 			// }
@@ -197,12 +219,12 @@
 			// let params = JSON.parse(Util.base64Decode( decodeURIComponent(options.params)));
 			// console.log("参数：", params);
 			// debugger
-			
+
 			if (options.isFromMine == 1) {
 				this.isFromMine = true
 			}
-			if (options.pageIndex) {
-				this.current = parseInt(options.pageIndex) || 0;
+			if (options.index) {
+				this.current = parseInt(options.index) || 0;
 				this.navIndex = this.current;
 			}
 			console.log("我的办件参数:", this.current)
