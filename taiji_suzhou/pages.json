@@ -64,7 +64,8 @@
 			"path": "pages/government_service/item_list",
 			"style": {
 				"navigationBarTitleText": "事项列表",
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{

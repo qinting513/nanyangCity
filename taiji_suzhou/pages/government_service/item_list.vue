@@ -4,32 +4,35 @@
 			<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
 				v-model="searchKeyWord" @search="startSearch"></u-search>
 		</view>
-		<view v-for="(item, index) in dataList" :key="index" class="flex-column cell">
-			<view class="flex-row top-section" @click="expendCell(index)">
-				<view>
-					<view :class="['name',expends[index]?'name-on':'']">
-						{{item.SXZXNAME}}
+		<view class="cell-list">
+			<view v-for="(item, index) in dataList" :key="index" class="flex-column cell">
+				<view class="flex-row top-section" @click="expendCell(index)">
+					<view>
+						<view :class="['name',expends[index]?'name-on':'']">
+							{{item.SXZXNAME}}
+						</view>
+						<view class="desc" v-if="item.ISRESERVE">
+							<text class="yuyue">
+								可预约
+							</text>
+							<text class="shenbao" v-if="item.SFYDSB">
+								可申报
+							</text>
+							<text class="ellipsis bumen">
+								{{item.DEPTNAME || ''}}
+							</text>
+						</view>
 					</view>
-					<view class="desc" v-if="item.ISRESERVE">
-						<text class="yuyue">
-							可预约
-						</text>
-						<text class="shenbao" v-if="item.SFYDSB">
-							可申报
-						</text>
-						<text class="ellipsis bumen">
-							{{item.DEPTNAME || ''}}
-						</text>
+					<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
+				</view>
+				<view class="flex-row cell-bottom" v-if="expends[index]">
+					<view v-for="(it,i) in btns" :key="i" class="flex-column btn" @click="btnClick(i, item)">
+						<image :src="it.img" mode="scaleToFill" class="btn-img"></image>
+						<view class="">{{it.name}}</view>
 					</view>
 				</view>
-				<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
 			</view>
-			<view class="flex-row cell-bottom" v-if="expends[index]">
-				<view v-for="(it,i) in btns" :key="i" class="flex-column btn" @click="btnClick(i, item)">
-					<image :src="it.img" mode="scaleToFill" class="btn-img"></image>
-					<view class="">{{it.name}}</view>
-				</view>
-			</view>
+
 		</view>
 	</view>
 </template>
@@ -40,6 +43,9 @@
 		name: "ItemList",
 		data() {
 			return {
+				pageNum: 1,
+				pageSize: 20,
+				totalNum: 0,
 				searchKeyWord: '',
 				autoFocus: false,
 				dataState: 'noData',
@@ -127,6 +133,13 @@
 					}
 				}
 			},
+			// onPullDownRefresh() {
+			// 	this.pageNum = 1;
+			// 	this.totalNum = 0;
+			// 	this.searchName = "";
+			// 	var params = {};
+			// 	this.loadData(params);
+			// },
 			loadData() {
 				Http.getItemList(this.pictureCode, this.userType).then(res => {
 					console.log("getItemList:", res);
@@ -136,6 +149,13 @@
 				});
 
 			},
+			// onReachBottom() {
+			// 	if (this.showData.length < this.totalNum) {
+			// 		this.pageNum++;
+			// 		this.loadData(this.params);
+			// 		this.loadmore = "loading";
+			// 	}
+			// },
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);
 				if (this.searchKeyWord.trim().length == 0) {
@@ -173,6 +193,10 @@
 			border: 1upx solid #F1F1F1;
 			padding: 20upx 30upx;
 			font-size: 29upx;
+		}
+
+		.cell:last-child {
+			border: none;
 		}
 
 		.cell {
