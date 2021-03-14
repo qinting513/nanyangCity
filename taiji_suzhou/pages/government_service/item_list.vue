@@ -11,8 +11,8 @@
 						<view :class="['name',expends[index]?'name-on':'']">
 							{{item.SXZXNAME}}
 						</view>
-						<view class="desc" v-if="item.ISRESERVE">
-							<text class="yuyue">
+						<view class="desc">
+							<text class="yuyue" v-if="item.ISRESERVE">
 								可预约
 							</text>
 							<text class="shenbao" v-if="item.SFYDSB">
@@ -26,7 +26,8 @@
 					<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
 				</view>
 				<view class="flex-row cell-bottom" v-if="expends[index]">
-					<view v-for="(it,i) in btns" :key="i" class="flex-column btn" @click="btnClick(i, item)">
+					<view v-for="(it,i) in (item.ISRESERVE ? btnsAll : btns)" :key="i" class="flex-column btn"
+						@click="btnClick(i, item)">
 						<image :src="it.img" mode="scaleToFill" class="btn-img"></image>
 						<view class="">{{it.name}}</view>
 					</view>
@@ -55,7 +56,7 @@
 				pictureCode: '', // 用于网络请求的ID(部门办事时就是departmentId)
 				pictureName: "", // 用于标题栏进行显示的
 				expends: [],
-				btns: [{
+				btnsAll: [{
 						name: '指南',
 						img: "../../static/images/home/icon_banshi_zhinan.png"
 					},
@@ -67,7 +68,16 @@
 						name: '预约',
 						img: "../../static/images/home/icon_banshi_yuyue.png"
 					},
-				]
+				],
+				btns: [{
+						name: '指南',
+						img: "../../static/images/home/icon_banshi_zhinan.png"
+					},
+					{
+						name: '申报',
+						img: "../../static/images/home/icon_banshi_shenbao.png"
+					}
+				],
 			}
 		},
 		onLoad: function(option) {
@@ -129,6 +139,7 @@
 					}
 					case 2: {
 						console.log("预约");
+						window.location.href = "http://111.6.77.68:8888/system/channel/getForm?id=845"
 						break;
 					}
 				}
@@ -251,7 +262,7 @@
 				justify-content: space-around;
 				height: 120upx;
 				width: 100%;
-				padding: 0 40upx;
+				// padding: 0 40upx;
 				margin-top: 30upx;
 
 				.btn {
