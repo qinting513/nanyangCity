@@ -4,7 +4,7 @@
 			<view class="flex-row top-section" @click="expendCell(index)">
 				<view>
 					<view :class="['name', expends[index] ? 'name-on' : '']">{{ item.SXZXNAME }}</view>
-					<view class="desc" v-if="item.ISRESERVE">
+					<view class="desc" v-if="item.ISRESERVE == '1'">
 						<text class="yuyue">可预约</text>
 						<text class="shenbao" v-if="item.SFYDSB">可申报</text>
 						<text class="ellipsis bumen">{{ item.DEPTNAME || '' }}</text>

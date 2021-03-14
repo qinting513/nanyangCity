@@ -189,8 +189,8 @@ function getBusinessItems(userType, areaId) {
 function getDepartmentItems() {
 	return new Promise(function(resolve, reject) {
 		let params = {
-			"PAGESIZE": 1000,
-			"PAGENO": 1,
+			"PAGESIZE": "1000",
+			"PAGENO": "1",
 			"SFYDSB": "1",
 			"AREAID": regionId
 		};

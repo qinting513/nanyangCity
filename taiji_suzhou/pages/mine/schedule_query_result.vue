@@ -8,8 +8,7 @@
 			<view v-else>
 				<view class="schedule-info" @click="showApply">
 					<view class="item-row" v-for="(title, index) in titleList" :key="index">
-						<view class="item-title">{{ title }}</view>
-						：
+						<view class="item-title">{{ title }}:</view>
 						<view class="item-detail">{{ getDetail(index) }}</view>
 					</view>
 				</view>
@@ -148,22 +147,24 @@
 		.item-row {
 			display: flex;
 			flex-wrap: nowrap;
-			align-items: center;
+			align-items: flex-start;
 			margin: 20upx auto;
-			height: 60upx;
+			// height: 60upx;
+			padding: 10upx 0;
 		}
 
 		.item-title {
 			width: 160upx;
 			text-align: right;
 			flex-shrink: 0;
+			color: #666;
 		}
 
 		.item-detail {
 			margin-left: 10upx;
 			flex: 1;
 			word-break: break-all;
-			color: #666;
+			color: #000;
 		}
 
 		.schedule-step {

@@ -12,7 +12,7 @@
 							{{item.SXZXNAME}}
 						</view>
 						<view class="desc">
-							<text class="yuyue" v-if="item.ISRESERVE">
+							<text class="yuyue" v-if="item.ISRESERVE == '1'">
 								可预约
 							</text>
 							<text class="shenbao" v-if="item.SFYDSB">
@@ -26,7 +26,7 @@
 					<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
 				</view>
 				<view class="flex-row cell-bottom" v-if="expends[index]">
-					<view v-for="(it,i) in (item.ISRESERVE ? btnsAll : btns)" :key="i" class="flex-column btn"
+					<view v-for="(it,i) in (item.ISRESERVE == '1' ? btnsAll : btns)" :key="i" class="flex-column btn"
 						@click="btnClick(i, item)">
 						<image :src="it.img" mode="scaleToFill" class="btn-img"></image>
 						<view class="">{{it.name}}</view>
@@ -54,7 +54,7 @@
 				searchKeyWord: '',
 				autoFocus: false,
 				dataState: 'noData',
-
+				noMoreData: false,
 				dataList: [],
 				userType: '1', // 1是个人 2是企业 3是部门
 				pictureCode: '', // 用于网络请求的ID(部门办事时就是departmentId)
@@ -131,7 +131,7 @@
 			},
 			gotoApply(item) {
 				// debugger
-				if (item.SFYDSB && item.TYPE) {
+				if (item.SFYDSB) {
 					// P个人，C企业，A全部
 					if (item.TYPE == 'C' && this.userInfo.userAuth) { // 企业事项，个人不能办理
 						uni.showToast({
@@ -164,18 +164,26 @@
 				this.pageNum = 1;
 				this.totalNum = 0;
 				// this.searchKeyWord = "";
+				this.noMoreData = false;
 				this.dataList = [];
 				this.loadData();
 			},
 			loadData() {
-				Http.getItemList(this.pictureCode, this.userType, this.pageNum, this.pageSize).then(res => {
+				Http.getItemList(this.pictureCode, this.userType, this.pageNum + '', this.pageSize + '').then(res => {
 					uni.stopPullDownRefresh();
 					console.log("getItemList:", res);
 					if (res.code == 200 && res.ReturnValue != null) {
-						this.dataList = this.dataList.concat(res.ReturnValue);
-						// this.totalNum = this.dataList.length;
+						let list = res.ReturnValue;
+						if (list.length > 0 && !this.noMoreData) {
+							this.dataList = this.dataList.concat(list);
+						}
+						if (list.length < this.pageSize) { // 已经到最后一页了,页数不再加
+							this.pageNum--;
+							this.noMoreData = true;
+						}
 						console.log("数组长度:", this.dataList.length);
 					} else {
+						this.noMoreData = false;
 						uni.showToast({
 							icon: 'none',
 							title: '网络异常，请稍后重试'
@@ -186,8 +194,15 @@
 
 			},
 			onReachBottom() {
-				this.pageNum++;
-				this.loadData();
+				if (this.noMoreData) {
+					uni.showToast({
+						icon: 'none',
+						title: '没有更多数据了'
+					})
+				} else {
+					this.pageNum++;
+					this.loadData();
+				}
 			},
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);

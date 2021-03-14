@@ -36,7 +36,7 @@ export default {
 	},
 	methods: {
 		requestData() {
-			http.getMySubscribe(this.userInfo.userTOKEN, this.userInfo.USER_ID).then(res => {
+			http.getMySubscribe(this.userInfo.userToken, this.userInfo.USER_ID).then(res => {
 				console.log(res.ReturnValue);
 				this.dataList = res.ReturnValue ? res.ReturnValue : [];
 			});
@@ -73,7 +73,7 @@ export default {
 				content:'确定要取消该预约吗？',
 				success(res) {
 					if (res.confirm) {
-						http.cancelMyAppointment(item.BSNUM, that.userInfo.userTOKEN).then(res => {
+						http.cancelMyAppointment(item.BSNUM, that.userInfo.userToken).then(res => {
 							if (res.code == 200) {
 								uni.showToast({
 									title:"取消预约成功",

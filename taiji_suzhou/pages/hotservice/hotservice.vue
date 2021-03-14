@@ -2,7 +2,7 @@
 	<view class="hot-service">
 		<view class="list">
 			<view class="search">
-				<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
+				<u-search :focus="autoFocus" height="40" :show-action="false" placeholder="请输入事项名称"
 					v-model="searchKeyWord" @search="startSearch"></u-search>
 			</view>
 
@@ -53,13 +53,13 @@
 							item.PIC = `../../static/images/business/${item.SORTCODE}.png`
 						});
 						this.dataList = result;
-						if (this.dataList.length == 0) {
-							this.dataState = 'noData'
-						} else {
+						if (this.dataList && this.dataList.length > 0) {
 							this.dataState = 'init'
+						} else {
+							this.dataState = 'noData'
 						}
 					}, err => {
-
+						this.dataState = 'noData'
 					});
 				}
 			},

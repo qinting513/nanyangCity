@@ -70,16 +70,8 @@
 				console.log("click item:", item.title);
 				switch (item.title) {
 					case '我的办件': {
-						let op = {
-							page: 'jdcx',
-							username: "杜廷气你",
-							bsnum: '411323033210311A000003'
-						}
-						let params = encodeURIComponent(Util.base64Encode(Util.utf16to8(JSON.stringify(op))));
-						console.log("base64", params);
-						debugger
 						uni.navigateTo({
-							url: '/pages/mine/my_business_page/my_business_page?pageIndex=2&params=' + params
+							url: '/pages/mine/my_business_page/my_business_page?index=1'
 						})
 						break;
 					}

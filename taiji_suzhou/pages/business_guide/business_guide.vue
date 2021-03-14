@@ -1,51 +1,58 @@
 <template>
 	<view class="business-guide">
-		<view class="list-container">
-			<scroll-view scroll-y="true">
-				<view v-for="(item,index) in dataList" :key="index" :class="{'cell':true,'cell-border':expends[index]}">
-					<view class="flex-row  top-section" @click="expendCell(index)">
-						<view class="flex-row left">
-							<image class="left-img" :src="item.img" mode="scaleToFill"></image>
-							<view>{{item.title}}</view>
-						</view>
-						<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
-					</view>
-					<view class="flex-row cell-bottom" v-if="expends[index]">
-						<view class="forms" v-if="item.id == 7 && files.length > 0">
-							<view v-for="(file,i) in files" :key="i" class="file">
-								<a :href="file.downloadUrl">{{file.name}}</a>
+		<view class="">
+			<view class="list-container">
+				<scroll-view scroll-y="true">
+					<view v-for="(item,index) in dataList" :key="index"
+						:class="{'cell':true,'cell-border':expends[index]}">
+						<view class="flex-row  top-section" @click="expendCell(index)">
+							<view class="flex-row left">
+								<image class="left-img" :src="item.img" mode="scaleToFill"></image>
+								<view>{{item.title}}</view>
 							</view>
+							<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
 						</view>
-						<view class="cell-img" v-else-if="item.id == 2 || item.id == 6">
-							<image v-if="item.contentImg" :src="item.contentImg" mode="aspectFit"
-								@click="preView(item.contentImg)"></image>
-							<view class="" v-else>
+						<view class="flex-row cell-bottom" v-if="expends[index]">
+							<view class="forms" v-if="item.id == 7 && files.length > 0">
+								<view v-for="(file,i) in files" :key="i" class="file">
+									<a :href="file.downloadUrl">{{file.name}}</a>
+								</view>
+							</view>
+							<view class="cell-img" v-else-if="item.id == 2 || item.id == 6">
+								<image v-if="item.contentImg" :src="item.contentImg" mode="aspectFit"
+									@click="preView(item.contentImg)"></image>
+								<view class="" v-else>
+									{{item.data}}
+								</view>
+							</view>
+							<view v-else>
 								{{item.data}}
 							</view>
 						</view>
-						<view v-else>
-							{{item.data}}
-						</view>
 					</view>
+				</scroll-view>
+			</view>
+			<view class="flex-row bottom-btns" v-if="businessGuideModel">
+				<!-- <view class="btn left left-line" @click="gotoZixun">
+					 咨询
 				</view>
-			</scroll-view>
+				<view class="btn left" @click="gotoPingjia">
+					 评价
+				</view>
+				<view class="btn r-gray" @click="gotoYuyue">
+					在线预约
+				</view> -->
+				<!-- <view class="btn r-blue" @click="gotoDeclare">
+					在线办理
+				</view> -->
+				<view class="b-btn" @click="gotoDeclare">
+					在线办理
+				</view>
+			</view>
+
 		</view>
-		<view class="flex-row bottom-btns">
-			<!-- <view class="btn left left-line" @click="gotoZixun">
-				 咨询
-			</view>
-			<view class="btn left" @click="gotoPingjia">
-				 评价
-			</view>
-			<view class="btn r-gray" @click="gotoYuyue">
-				在线预约
-			</view> -->
-			<!-- <view class="btn r-blue" @click="gotoDeclare">
-				在线办理
-			</view> -->
-			<view class="b-btn" @click="gotoDeclare">
-				在线办理
-			</view>
+		<view class="no-data">
+			<nodata-view :dataState="dataState"></nodata-view>
 		</view>
 	</view>
 </template>
@@ -55,7 +62,7 @@
 	import {
 		mapState
 	} from 'vuex';
-	
+
 	export default {
 		name: "BusinessGuide",
 		data() {
@@ -66,6 +73,7 @@
 				businessGuideModel: null,
 				expends: [],
 				ID: '',
+				dataState: 'init',
 			}
 		},
 		computed: mapState(['userInfo']),
@@ -90,12 +98,15 @@
 			loadData() {
 				Http.getBusinessGuideData(this.ID).then(res => {
 					console.log("getBusinessGuideData", res);
-					if (res.ReturnValue != null) {
+					if (res.code == 200 && res.ReturnValue != null) {
 						let model = res.ReturnValue;
 						this.businessGuideModel = model;
 						this.handleFiles(model.FORMS);
 						this.handleDatas(model);
 						this.getItemInfo(model.SXZXNAME)
+						this.dataState = "init"
+					} else {
+						this.dataState = "noData"
 					}
 				});
 			},
@@ -235,7 +246,7 @@
 					return;
 				}
 				if (this.itemInfo.SFYDSB) {
-					debugger
+					// debugger
 					// P个人，C企业，A全部
 					if (this.itemInfo.TYPE == 'C' && this.userInfo.userAuth) { // 企业事项，个人不能办理
 						uni.showToast({

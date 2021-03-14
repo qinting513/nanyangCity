@@ -2,7 +2,7 @@
 	<view class="hotlist">
 		<view class="list">
 			<view class="search">
-				<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
+				<u-search :focus="autoFocus" height="40" :show-action="false" placeholder="请输入关键字"
 					v-model="searchKeyWord" @search="startSearch"></u-search>
 			</view>
 
@@ -27,7 +27,7 @@
 				dataList: [],
 				searchKeyWord: '',
 				autoFocus: false,
-				dataState: 'init',
+				dataState: 'noData',
 			}
 		},
 		onLoad(options) {
@@ -49,17 +49,17 @@
 						if (res.code == 200) {
 							this.dataList = res.ReturnValue.Items || [];
 						}
-						if (this.dataList.length == 0) {
-							this.dataState = 'noData'
-						} else {
+						if (this.dataList && this.dataList.length > 0) {
 							this.dataState = 'init'
+						} else {
+							this.dataState = 'noData'
 						}
 					});
 				}
 			},
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);
-				if (this.searchKeyWord.trim().length == 0) {
+				if (this.searchKeyWord && this.searchKeyWord.trim().length == 0) {
 					// uni.showToast({
 					// 	icon: 'none',
 					// 	title: '请输入关键词'
@@ -124,11 +124,11 @@
 				color: #222;
 				font-size: 30upx;
 				font-weight: 500;
-			
+
 				.item-left {
 					align-items: center;
 				}
-			
+
 				.item-icon {
 					width: 90upx;
 					height: 90upx;
@@ -136,7 +136,7 @@
 					flex-shrink: 0;
 				}
 			}
-			
+
 			.item:last-child {
 				border-bottom: none;
 			}

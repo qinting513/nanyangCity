@@ -413,7 +413,8 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				Apply.getWebhallbusiness(this.userInfo.userTOKEN, this.businessModel.bsnum).then(res => {
+				debugger
+				Apply.getWebhallbusiness(this.userInfo.userToken, this.businessModel.bsnum).then(res => {
 					console.log('getWebhallbusiness result:', res);
 					if (res['code'] == 200) {
 						this.initBusinessModel(res.ReturnValue);
@@ -425,7 +426,7 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				Apply.getInsFormData(this.userInfo.userTOKEN, this.businessModel.bsnum).then(res => {
+				Apply.getInsFormData(this.userInfo.userToken, this.businessModel.bsnum).then(res => {
 					console.log('getInsFormData result:', res);
 					// if (res['code'] == 200) {
 					let result = res;
@@ -450,7 +451,7 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				Apply.getInsMaterialInfo(this.userInfo.userTOKEN, this.businessModel.bsnum).then(res => {
+				Apply.getInsMaterialInfo(this.userInfo.userToken, this.businessModel.bsnum).then(res => {
 					console.log('getInsMaterialInfo result:', res);
 					var materials = {};
 					var materialsNumber = {};

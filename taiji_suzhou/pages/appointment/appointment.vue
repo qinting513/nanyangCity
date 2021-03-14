@@ -234,7 +234,7 @@
 					return;
 				}
 				Http.submitAppointment(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this
-					.nowSelectTime, this.userInfo.userTOKEN, this.userInfo.USER_ID).then(res => {
+					.nowSelectTime, this.userInfo.userToken, this.userInfo.USER_ID).then(res => {
 					if (res.code == 200) {
 						uni.showToast({
 							title: '预约成功!',
@@ -339,7 +339,7 @@
 					this.showDateView = true
 					return
 				}
-				Http.getAppointmentDate(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.userInfo.userTOKEN)
+				Http.getAppointmentDate(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.userInfo.userToken)
 					.then(res => {
 						if (res.code == 200) {
 							this.dateList = res.ReturnValue.Items
@@ -372,7 +372,7 @@
 					return
 				}
 				Http.getAppointmentTime(this.nowSelectDept.DEPTID, this.nowSelectBusiness.ID, this.nowSelectDate, this
-					.userInfo.userTOKEN).then(res => {
+					.userInfo.userToken).then(res => {
 					if (res.code == 200) {
 						this.timeList = res.ReturnValue.Items
 						this.showPopupview = true
