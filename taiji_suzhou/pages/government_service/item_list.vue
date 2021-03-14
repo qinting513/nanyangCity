@@ -40,6 +40,10 @@
 
 <script>
 	import Http from '../../static/js/nanyang_http.js';
+	import {
+		mapState
+	} from 'vuex';
+
 	export default {
 		name: "ItemList",
 		data() {
@@ -80,6 +84,7 @@
 				],
 			}
 		},
+		computed: mapState(['userInfo']),
 		onLoad: function(option) {
 			if (option.pictureName.length > 0) {
 				uni.setNavigationBarTitle({
@@ -114,29 +119,7 @@
 					}
 					case 1: {
 						// 申报
-						if (item.SFYDSB) {
-							// 先检查登录
-							// console.log("userInfo", this.$store.getters.userInfo)
-
-							// if (this.$store.getters.hasLogin) {
-							let url = '../base_apply/base_apply_page'
-							url += `?itemName=${item.SXZXNAME}`;
-							url += `&permId=${item.ID}`;
-							this.$store.commit('updateApplyItemInfo', item);
-							uni.navigateTo({
-								url: url
-							});
-							// } else {
-							// 	uni.navigateTo({
-							// 		url: '../login/login'
-							// 	})
-							// }
-						} else {
-							uni.showToast({
-								icon: 'none',
-								title: '该事项暂不支持在线申报'
-							})
-						}
+						this.gotoApply(item);
 						break;
 					}
 					case 2: {
@@ -144,6 +127,37 @@
 						window.location.href = "http://111.6.77.68:8888/system/channel/getForm?id=845"
 						break;
 					}
+				}
+			},
+			gotoApply(item) {
+				// debugger
+				if (item.SFYDSB && item.TYPE) {
+					// P个人，C企业，A全部
+					if (item.TYPE == 'C' && this.userInfo.userAuth) { // 企业事项，个人不能办理
+						uni.showToast({
+							icon: 'none',
+							title: '该事项不支持个人办理'
+						})
+						return;
+					} else if (item.TYPE == 'P' && this.userInfo.enterAuth) { // 个人事项，企业不能办理
+						uni.showToast({
+							icon: 'none',
+							title: '该事项不支持法人办理'
+						})
+						return;
+					}
+					let url = '../base_apply/base_apply_page'
+					url += `?itemName=${item.SXZXNAME}`;
+					url += `&permId=${item.ID}`;
+					this.$store.commit('updateApplyItemInfo', item);
+					uni.navigateTo({
+						url: url
+					});
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: '该事项暂不支持在线办理'
+					})
 				}
 			},
 			onPullDownRefresh() {
@@ -157,20 +171,23 @@
 				Http.getItemList(this.pictureCode, this.userType, this.pageNum, this.pageSize).then(res => {
 					uni.stopPullDownRefresh();
 					console.log("getItemList:", res);
-					if (res.ReturnValue != null) {
+					if (res.code == 200 && res.ReturnValue != null) {
 						this.dataList = this.dataList.concat(res.ReturnValue);
 						// this.totalNum = this.dataList.length;
 						console.log("数组长度:", this.dataList.length);
+					} else {
+						uni.showToast({
+							icon: 'none',
+							title: '网络异常，请稍后重试'
+						})
+						this.pageNum--;
 					}
 				});
 
 			},
 			onReachBottom() {
-				// console.log("rebottom/....");
-				// if (this.dataList.length < this.totalNum) {
 				this.pageNum++;
 				this.loadData();
-				// }
 			},
 			startSearch() {
 				console.log("searchWord:", this.searchKeyWord);

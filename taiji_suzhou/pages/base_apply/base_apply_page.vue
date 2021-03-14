@@ -18,7 +18,8 @@
 					@next="nextStep"></material-page>
 			</swiper-item>
 			<swiper-item>
-				<mail-express-page ref="express" :defaultAddress="defaultAddress" @pre="preStep" @tempStore="tempStore" @next="nextStep">
+				<mail-express-page ref="express" :defaultAddress="defaultAddress" @pre="preStep" @tempStore="tempStore"
+					@next="nextStep">
 				</mail-express-page>
 			</swiper-item>
 			<swiper-item>
@@ -103,7 +104,7 @@
 
 			//省统一身份认证对接
 			// this.handleToken(currentPage.options);
-			
+
 			let defaultAddress = uni.getStorageSync("defaultAddress");
 			if (defaultAddress != null && defaultAddress != '') {
 				this.defaultAddress = JSON.parse(defaultAddress);
@@ -195,23 +196,25 @@
 				console.log('apply', data);
 				this.goApply(0);
 			},
+			//  0是申报 9是暂存
 			goApply: function(type) {
 				// 1.先检查各个状态
 				let formData = this.cacheBaseInfo();
-
-				let stateBaseForm = this.$refs.baseForm.checkBaseInfo(true);
-				if (stateBaseForm === false) {
-					// uni.showToast({
-					// 	icon: 'none',
-					// 	title: '基本表单带*的选项为必填内容'
-					// });
-					return;
-				}
-
 				if (type == 0) {
+					let stateBaseForm = this.$refs.baseForm.checkBaseInfo(true);
+					if (stateBaseForm === false) {
+						if (this.currentNav != 0) {
+							this.currentNav = 0;
+						}
+						return;
+					}
+
 					// 申报时则检测带*是否都填写了
 					// 先检查状态 如果*有某一个没完成 则提示
 					if (!this.$refs.material.checkMaterial(true)) {
+						if (this.currentNav != 1) {
+							this.currentNav = 1;
+						}
 						return;
 					}
 				}
@@ -235,7 +238,7 @@
 				Apply.tempStore(params)
 					.then(res => {
 						console.log('申报成功:', res);
-						if(res.code == 200 && res.ReturnValue){
+						if (res.code == 200 && res.ReturnValue) {
 							that.businessModel.bsnum = res.ReturnValue.bsnum;
 						}
 						uni.showToast({
@@ -261,7 +264,7 @@
 								}, 1500);
 							}
 						});
-						
+
 					})
 					.catch(err => {
 						console.log('err:', err);
@@ -313,7 +316,7 @@
 				this.$store.commit('updateBusinessModel', this.businessModel);
 			},
 			initModels(options) {
-				debugger
+				// debugger
 				// 加载材料列表数据
 				this.loadMaterialData();
 				// 获取表单URL
@@ -513,6 +516,7 @@
 
 		.scroll-view-x .scroll-view-item {
 			display: inline-block;
+			box-sizing: border-box;
 			margin: 0 30rpx;
 			line-height: 45px;
 			cursor: pointer;
@@ -545,4 +549,13 @@
 	}
 
 	.apply-title {}
+</style>
+<style lang="scss">
+	.base-apply {
+		 /deep/ .uni-scroll-view-content {
+			display: flex !important;
+			flex-direction: row;
+			justify-content: space-between !important;
+		}
+	}
 </style>

@@ -216,9 +216,10 @@
 			// 	this.$store.commit('updateFormsModel', form);
 			// },
 			tempStore: function() {
-				console.log("mine this.inputData:", JSON.stringify(this.inputData));
-				this.checkBaseInfo(true);
-				return;
+				// console.log("mine this.inputData:", JSON.stringify(this.inputData));
+				
+				// 暂存则不检查
+				// this.checkBaseInfo(true);
 				this.$emit('tempStore', {
 					page: 'baseFormPage'
 				});

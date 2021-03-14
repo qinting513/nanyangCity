@@ -52,7 +52,10 @@
 
 <script>
 	import Http from '../../static/js/nanyang_http.js';
-
+	import {
+		mapState
+	} from 'vuex';
+	
 	export default {
 		name: "BusinessGuide",
 		data() {
@@ -65,6 +68,7 @@
 				ID: '',
 			}
 		},
+		computed: mapState(['userInfo']),
 		onLoad: function(options) {
 			this.ID = options.ID;
 			this.itemInfo = JSON.parse(uni.getStorageSync('nItemInfo') || "{}");
@@ -231,10 +235,21 @@
 					return;
 				}
 				if (this.itemInfo.SFYDSB) {
-					// 先检查登录
-					// console.log("userInfo", this.$store.getters.userInfo)
-					// debugger
-					// if (this.$store.getters.hasLogin) {
+					debugger
+					// P个人，C企业，A全部
+					if (this.itemInfo.TYPE == 'C' && this.userInfo.userAuth) { // 企业事项，个人不能办理
+						uni.showToast({
+							icon: 'none',
+							title: '该事项不支持个人办理'
+						})
+						return;
+					} else if (this.itemInfo.TYPE == 'P' && this.userInfo.enterAuth) { // 个人事项，企业不能办理
+						uni.showToast({
+							icon: 'none',
+							title: '该事项不支持法人办理'
+						})
+						return;
+					}
 					let url = '../base_apply/base_apply_page'
 					url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
 					url += `&permId=${this.ID}`;
@@ -242,16 +257,10 @@
 					uni.navigateTo({
 						url: url
 					});
-					// } else {
-					// 	uni.navigateTo({
-					// 		url: '../login/login'
-					// 	});
-					// }
-
 				} else {
 					uni.showToast({
 						icon: 'none',
-						title: '该事项暂不支持在线申报'
+						title: '该事项暂不支持在线办理'
 					})
 				}
 
