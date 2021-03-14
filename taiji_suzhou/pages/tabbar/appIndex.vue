@@ -1,5 +1,4 @@
 <template>
-	<view></view>
 </template>
 
 <script>
@@ -63,15 +62,12 @@
 	export default {
 		name: "index",
 		data() {
-			return {
-				// page: ''
-			}
+			return {}
 		},
 		onLoad(options) {
 			// let local = location.href;
 			console.log("appIndex options:", options);
 			this.getUserInfo(options);
-			
 		},
 		methods: {
 			getUserInfo(options) {
@@ -80,25 +76,28 @@
 				if (options.page != null && options.page != '') {
 					// 将传递的参数都加密一下，到appForward再解密来使用
 					params = encodeURIComponent(Util.base64Encode(Util.utf16to8(JSON.stringify(options))));
+					// 是不是加密引起的 
+					// params = encodeURIComponent(JSON.stringify(options));
 				}
+				
 				console.log("params:", options, params);
 				let accessToken = uni.getStorageSync('ntoken');
-				// debugger
+				console.log("accessToken:", accessToken);
 				if (null != accessToken && undefined != accessToken && '' != accessToken) {
 					// 如果有accessToken则直接通过accessToken获取信息即可
 					let that = this;
 					Http.getAppAuthUserInfo(accessToken, () => {
-						console.log("page....:", that.params);
+						console.log("page....:", params);
 						Http.gotoPage(params);
 					});
 				} else {
 					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${params}`;
-					console.log("重定向地址:",redirect_uri)
+					console.log("重定向地址:", redirect_uri)
 					// 否则先打开一个地址 来重定向
 					let url =
 						`${Http.orginAuth}oauth/authorize?client_id=${Http.client_id}&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=${redirect_uri}`
 					console.log('url:', url);
-					// debugger
+					// 个人办事的: http://111.6.77.67:6443/oauth/authorize?client_id=5b51040cf71b4c09808dac61653d3c36&response_type=code&grant_type=authorization_code&scope=snsapi_userinfo&redirect_uri=https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appForward?source=eyJwYWdlIjoiZ3JicyJ9
 					location.replace(url);
 				}
 			},

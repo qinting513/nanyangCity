@@ -115,11 +115,11 @@ function getAppAuthUserInfo(accessToken, callback) {
 			let userInfo = res.content;
 			console.log("userInfo:", userInfo);
 			store.commit('updateUserInfo', userInfo); // 保存用户信息
-			try {
-				Http.registerUser(userInfo);
-			} catch (e) {
-				console.log("提交用户信息报错", e);
-			}
+			// try {
+			// 	Http.registerUser(userInfo);
+			// } catch (e) {
+			// 	console.log("提交用户信息报错", e);
+			// }
 		}
 		// debugger
 		if (callback) {
@@ -143,6 +143,8 @@ function gotoPage(paramsStr) {
 		console.log("page 为空")
 		return;
 	}
+	console.log("携带的参数:", params);
+	// return ;
 	let fullUrl = redirectBaseUrl;
 	switch (params.page) {
 		case 'grbs': { // 1.个人办事

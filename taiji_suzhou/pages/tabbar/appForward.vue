@@ -26,6 +26,7 @@
 			let local = location.href;
 			console.log("forwards options:", options, local);
 			// https://rtxxdj.linewell.com/nanyang/?code=oMjB1A#/pages/tabbar/appForward?source=base64加密的信息
+			
 			if (local.indexOf("?code=") == -1) {
 				uni.showToast({
 					title: "获取CODE失败,请检查网络",
@@ -33,43 +34,34 @@
 				})
 				return;
 			} else {
+				// ?code= oMjB1A#/pages/tabbar/appForward?source=base64加密的信息
 				let codes = local.split('?code=');
+				// codes[1]是code后面部分  根据井号获得code
 				let parms = codes[1].split('#');
+			
 				this.code = parms[0];
+				let sourceStr = parms[1];
+				this.source  = sourceStr.split('source=')[1]
 			}
-			this.source = options.source;
-			console.log("page code", this.source, this.code);
+			// this.source = options.source; // source信息从URL去获取
+			console.log("appforward code:", this.source, this.code);
 			this.loadUserInfo();
 		},
 		methods: {
 			loadUserInfo() {
-				debugger
+				// debugger
 				if (this.code != null && this.code != '') {
 					uni.showLoading({
 						title: '数据加载中...'
 					})
-					// debugger
+					
+					// TODO: 很有可能这一步的source没带过去
 					let redirect_uri = `${Http.redirectBaseUrl}/#/pages/tabbar/appForward?source=${this.source}`;
-					let that = this;
+					console.log("重定向的URL:", redirect_uri);
 					Http.getAccessToken(this.code, redirect_uri, (res) => {
 						uni.hideLoading();
-						// debugger
-						/*
-							{
-							    "status": 1,
-							    "code": 0,
-							    "content": {
-							        "id": "7ab3c10915054d24a80ebdebde93f342",
-							        "nickname": "188****4000",
-							        "photoUrl": null,
-							        "phone": "18859504000",
-							        "gender": 1
-							    },
-							    "message": null
-							}
-						*/
-					   console.log("source.....:", that.source);
-						Http.gotoPage(that.source);
+					    console.log("source.....:", this.source);
+						Http.gotoPage(this.source);
 					});
 				}
 			}
