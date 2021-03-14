@@ -76,6 +76,7 @@
 				if (options.page != null && options.page != '') {
 					// 将传递的参数都加密一下，到appForward再解密来使用
 					params = encodeURIComponent(Util.base64Encode(Util.utf16to8(JSON.stringify(options))));
+					uni.setStorageSync('nparams', params);
 					// 是不是加密引起的 
 					// params = encodeURIComponent(JSON.stringify(options));
 				}
