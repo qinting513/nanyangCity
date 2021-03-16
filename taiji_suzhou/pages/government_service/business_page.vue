@@ -64,15 +64,32 @@
 					return;
 				}
 				this.isLoading = true;
+				if (this.userTypeFlag == 1) {
+					// 个人办事
+					this.dataList = uni.getStorageSync('nListGrbs');
+				} else {
+					// 企业办事
+					this.dataList = uni.getStorageSync('nListQybs');
+				}
 				if (this.dataList == null || this.dataList.length == 0) {
 					Http.getBusinessItems(this.userTypeFlag).then(res => {
 						this.isLoading = false;
 						console.log("事项列表", res);
-						let result = res.ReturnValue;
-						result.forEach(item => {
-							item.PIC = `../../static/images/business/${item.SORTCODE}.png`
-						});
-						this.dataList = result;
+						if (res.code == 200 && res.ReturnValue) {
+							let result = res.ReturnValue;
+							result.forEach(item => {
+								item.PIC = `../../static/images/business/${item.SORTCODE}.png`
+							});
+							this.dataList = result;
+							if (this.userTypeFlag == 1) {
+								// 个人办事
+								uni.setStorageSync('nListGrbs', this.dataList);
+							} else {
+								// 企业办事
+								uni.setStorageSync('nListQybs', this.dataList);
+							}
+						}
+						
 					}, err => {
 						this.isLoading = false;
 						uni.showToast({

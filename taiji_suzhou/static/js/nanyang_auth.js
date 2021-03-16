@@ -2,24 +2,22 @@ import Http from './nanyang_http.js'
 import Util from './util.js'
 import store from '../../store/index.js'
 
-// 测试的
-// const authUrl = "http://59.61.216.120:18891/" // 获取AccessToken的
-// const authUserUrl = "http://59.61.216.120:18892/" //获取用户信息是92端口
-// const redirectBaseUrl = "http://192.168.100.59:8080" // 回调地址
-// const client_id = 'd30778ad7ff04bf389e747cf5ceb3e6c'
-// const client_secret = '5610cbdcf959486da22796d64e82f82e';
-
-// http://localhost:8080/#/pages/tabbar/appIndex?page=grbs
-
 // 正式的 账号： 15160418562  111111a
 const orginAuth = "http://111.6.77.67:6443/"
-
 // const authUrl = "http://111.6.77.67:6443/"
 // const authUserUrl = "http://111.6.77.66:6443/"
 
+//  内网部署 需要设置的代理
+// const authUrl = "/zwfw/auth/";  // 代理地址："http://111.6.77.67:6443/"
+// const authUserUrl = "/zwfw/authUser/"; // 代理地址:  "http://111.6.77.66:6443/"
+// const redirectBaseUrl = "http://192.168.130.109:7443" // 重定向到这个服务器下
+// const client_id = ''
+// const client_secret = '';
+
+
+//  南威服务器部署 需要设置的代理
 const authUrl = "https://rtxxdj.linewell.com/nanyang-auth/" // http://111.6.77.67:6443/
 const authUserUrl = "https://rtxxdj.linewell.com/nanyang-authUser/" //获取用户 http://111.6.77.66:6443/
-
 const redirectBaseUrl = "https://rtxxdj.linewell.com/nanyang" // 回调地址
 const client_id = '5b51040cf71b4c09808dac61653d3c36'
 const client_secret = '9f711e6124c543d69b5a472cfd1b1f0c';
@@ -176,7 +174,7 @@ function gotoPageWithOriginParams(params) {
 			fullUrl = fullUrl + `/#/pages/mine/my_business_page/my_business_page?index=${params.index || ''}`
 			break;
 		}
-		case 'rmfw': { // 热门服务
+		case 'rmfw': { // 10.热门服务
 			fullUrl = fullUrl + `/#/pages/hotservice/hotservice`
 			break;
 		}

@@ -57,10 +57,14 @@
 				}
 			},
 			loadData() {
+				this.dataList = uni.getStorageSync('nListDept');
 				if (this.dataList == null || this.dataList.length == 0) {
 					Http.getDepartmentItems().then(res => {
 						console.log("getDepartmentItems:", res);
-						this.dataList = res.ReturnValue;
+						if (res.code == 200 && res.ReturnValue) {
+							this.dataList = res.ReturnValue;
+							uni.setStorageSync('nListDept', this.dataList);
+						}
 					});
 				}
 			},
