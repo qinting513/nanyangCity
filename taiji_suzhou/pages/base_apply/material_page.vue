@@ -123,6 +123,8 @@
 					sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
 					sourceType: index == 1 ? ['album'] : ['camera'], // 可以指定来源是相册还是相机，默认二者都有
 					success: function(res) {
+						console.log("上传的图片:", res);
+						debugger
 						// 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 						if (res.tempFilePaths.length > 0) {
 							let materials = that.materials || {};
@@ -263,6 +265,7 @@
 						break;
 					}
 				}
+				
 				// 提交文件
 				let that = this;
 				uni.uploadFile({

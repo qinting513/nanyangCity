@@ -155,13 +155,17 @@
 						})
 						return;
 					}
-					let url = '../base_apply/base_apply_page'
-					url += `?itemName=${item.SXZXNAME}`;
-					url += `&permId=${item.ID}`;
-					this.$store.commit('updateApplyItemInfo', item);
 					uni.navigateTo({
-						url: url
-					});
+						url: `/pages/business_guide/user_instructions?ID=${item.ID}`
+					})
+					// return ;
+					// let url = '../base_apply/base_apply_page'
+					// url += `?itemName=${item.SXZXNAME}`;
+					// url += `&permId=${item.ID}`;
+					// this.$store.commit('updateApplyItemInfo', item);
+					// uni.navigateTo({
+					// 	url: url
+					// });
 				} else {
 					uni.showToast({
 						icon: 'none',

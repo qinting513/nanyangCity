@@ -3,16 +3,19 @@ import Util from './util.js'
 import store from '../../store/index.js'
 
 // 正式的 账号： 15160418562  111111a
-const orginAuth = "http://111.6.77.67:6443/"
-// const authUrl = "http://111.6.77.67:6443/"
+const orginAuth = "http://111.6.77.67:6443/" // 外网地址，这个不能变, 下面2个是 111是
+// const authUrl = "http://111.6.77.67:6443/"  
 // const authUserUrl = "http://111.6.77.66:6443/"
 
+// const authUrl = "http://192.168.130.101:6443/"   // 打包的时候要用内网
+// const authUserUrl = "http://192.168.130.100:6443/"
+
 //  内网部署 需要设置的代理
-// const authUrl = "/zwfw/auth/";  // 代理地址："http://111.6.77.67:6443/"
-// const authUserUrl = "/zwfw/authUser/"; // 代理地址:  "http://111.6.77.66:6443/"
-// const redirectBaseUrl = "http://192.168.130.109:7443" // 重定向到这个服务器下
-// const client_id = ''
-// const client_secret = '';
+// const authUrl = "/zwfw/auth/"; // 代理地址："http://192.168.130.101:6443/"
+// const authUserUrl = "/zwfw/authUser/"; // 代理地址:  "http://192.168.130.100:6443/"
+// const redirectBaseUrl = "http://111.6.77.68:7443/zwfw/" // 重定向到这个服务器下，因为H5部署到这个下
+// const client_id = '2f84bf2c427c4f14a6466c1ece877120'
+// const client_secret = '7a7c56bddb9c4502b8d20f700617fe6e';
 
 
 //  南威服务器部署 需要设置的代理

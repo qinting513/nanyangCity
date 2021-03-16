@@ -37,7 +37,7 @@
 	import BaseForm from './base_form_uni.vue';
 	import BaseFormWeb from './base_form_web.vue';
 	import MaterialPage from './material_page.vue';
-	import MailExpressPage from './mail_express_view.vue';
+	import MailExpressPage from './mail_express_page.vue';
 	import ComfirmPage from './comfirm_page.vue';
 	import {
 		mapState

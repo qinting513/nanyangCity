@@ -8,7 +8,6 @@ const regionName = "南阳市";
 // 注意一个斜扛已经写在后面了
 // const rootUrl = "http://111.6.77.4:9001/" // 南阳的外网
 const rootUrl = "https://rtxxdj.linewell.com/nanyang-api/" // 映射的地址是 http://111.6.77.4:9001/
-
 // const rootUrl = "/zwfw/api/"  // 打包到内网用这个，部署到的是 http://192.168.130.109:7443/
 
 const baseUrl = rootUrl + "services/";

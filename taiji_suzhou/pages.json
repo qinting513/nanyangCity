@@ -232,6 +232,20 @@
 				"navigationBarTitleText": "进度查询结果",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/business_guide/user_instructions",
+			"style": {
+				"navigationBarTitleText": "用户须知",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/business_guide/agreement",
+			"style": {
+				"navigationBarTitleText": "协议",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

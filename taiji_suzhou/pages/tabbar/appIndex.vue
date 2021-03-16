@@ -19,6 +19,18 @@
     3.进度查询结果 https://rtxxdj.linewell.com/nanyang/#/pages/mine/schedule_query_result?id=xxx&username=用户名
 	
 	服务器访问的：
+	    1.个人办事: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=grbs
+		2.企业办事: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=qybs
+		3.部门导航: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=bmbs
+		4.热门事项: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=rmsx
+		5.事项搜索: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=sxss
+		6.办事指南: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=bszn&ID=005998375QR13609003
+		7.事项列表: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=sxlb&pictureCode=root_gr_ztfl_01&pictureName=生育收养
+		8.进度查询: http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=jdcx
+		9.我的办件：http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=wdbj&index=1   页签枚举值(0暂存件 1在办件 2办结件)
+		10.热门服务:http://111.6.77.68:7443/zwfw/#/pages/tabbar/appIndex?page=rmfw
+		
+								
 	1.个人办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=grbs
 	2.企业办事: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=qybs
 	3.部门导航: https://rtxxdj.linewell.com/nanyang/#/pages/tabbar/appIndex?page=bmbs

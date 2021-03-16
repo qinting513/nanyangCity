@@ -6,8 +6,8 @@
 			</view>
 			<view class="top-list">
 				<view class="top-cell" v-for="(item, index) in topList" :key="index">
-					<view class="">
-						{{item.data}}
+					<view class="title">
+						{{item.data}}<text v-if="item.unit" class="unit">{{item.unit}}</text>
 					</view>
 					<view class="name">
 						{{item.name}}
@@ -15,6 +15,7 @@
 				</view>
 			</view>
 		</view>
+
 		<view class="content">
 			<view class="header">
 				<view @click="clickNav(index)" class="navItem" :class="current == index ? 'check' : ''"
@@ -121,24 +122,7 @@
 						name: '更多信息'
 					}
 				],
-				topList: [
-					// {
-					// 	name: '到现场次数',
-					// 	data: "无"
-					// },
-					// {
-					// 	name: '法定办结时限',
-					// 	data: "无期限"
-					// },
-					// {
-					// 	name: '承诺办结时限',
-					// 	data: "无期限"
-					// },
-					// {
-					// 	name: '通办范围',
-					// 	data: "无"
-					// },
-				],
+				topList: [],
 				baseList: [],
 				stepList: [],
 				materailList: [],
@@ -330,75 +314,40 @@
 						"data": model.PERMISSION.bLDD || '暂无数据'
 					}
 				];
+				//  通办范围： 1全国 2全省 3全市 4全县 5全镇(乡、街道)  6跨村(社区)
+
 				this.topList = [{
-							name: '到现场次数',
-							data: this.itemInfo.NUMCOUNT ? (this.itemInfo.NUMCOUNT + '次') : "无"
-						},
-						{
-							name: '法定办结时限',
-							data: this.itemInfo.ITEMLIMITTIME ? (this.itemInfo.ITEMLIMITTIME + '个工作日') : "无期限"
-						},
-						{
-							name: '承诺办结时限',
-							data: this.itemInfo.ITEMLIMITTIME ? (this.itemInfo.ITEMLIMITTIME + '个工作日') : "无期限"
-						},
-						{
-							name: '通办范围',
-							data: "全市"
-						},
-					],
-					this.dataList = [{
-							"id": 0,
-							"title": "办理条件",
-							"img": "../../static/images/banshi/icon_bs_banli_tiaojian.png",
-							"data": this.replaceStr(model.SPTJ)
-						},
-						{
-							"id": 1,
-							"title": "申请材料",
-							"img": "../../static/images/banshi/icon_bs_shenqing_cailiao.png",
-							"data": model.SQCL || '暂无数据'
-						},
+						name: '到现场次数',
+						data: this.itemInfo.YCBT ? this.itemInfo.YCBT : "0",
+						unit: '次'
 
-						{
-							"id": 3,
-							"title": "办理时限",
-							"img": "../../static/images/banshi/icon_bs_banli_shixian.png",
-							"data": model.LIMITDAYS || '暂无数据'
-						},
-						{
-							"id": 4,
-							"title": "收费标准",
-							"img": "../../static/images/banshi/icon_bs_shoufei_biaozhun.png",
-							"data": model.CHARGE || '暂无数据'
-						},
-						{
-							"id": 5,
-							"title": "办理依据",
-							"img": "../../static/images/banshi/icon_bs_banli_yiju.png",
-							"data": model.LAWPRODUCE || '暂无数据'
-						},
-
-						{
-							"id": 7,
-							"title": "审批表格下载",
-							"img": "../../static/images/banshi/icon_bs_biaoge_xiazai.png",
-							"data": '暂无审批表格数据', // 这个现实form表格
-						},
-						{
-							"id": 8,
-							"title": "常见问题解答",
-							"img": "../../static/images/banshi/icon_bs_changjian_wenti.png",
-							"data": model.CJWTJD || '暂无数据'
-						},
-						{
-							"id": 9,
-							"title": "事项办理地点",
-							"img": "../../static/images/banshi/icon_bs_banli_chuangkou.png",
-							"data": model.PERMISSION.bLDD || '暂无数据'
-						}
-					];
-				// console.log("dataList:", this.dataList);
+					},
+					{
+						name: '法定办结时限',
+						data: this.itemInfo.ITEMLIMITTIME ? this.itemInfo.ITEMLIMITTIME : "无期限",
+						unit: '个工作日'
+					},
+					{
+						name: '承诺办结时限',
+						data: this.itemInfo.ITEMLIMITTIME ? this.itemInfo.ITEMLIMITTIME : "无期限",
+						unit: '个工作日'
+					},
+					{
+						name: '通办范围',
+						data: this.getRegion(this.itemInfo.HANDLE_SCOPE),
+						unit: ''
+					},
+				]
+			},
+			getRegion(i) {
+				// 1全国 2全省 3全市 4全县 5全镇(乡、街道)  6跨村(社区)
+				let arr = ['全国', '全省', '全市', '全县', '全镇(乡、街道)', '跨村(社区)']
+				i = parseInt(i) // i 如果为null，则是NaN 但是不报错
+				if (i > 0 && i < arr.length) {
+					return arr[i - 1]
+				} else {
+					return '全市'
+				}
 			},
 			gotoZixun() {},
 			gotoPingjia() {},
@@ -428,13 +377,17 @@
 						})
 						return;
 					}
-					let url = '../base_apply/base_apply_page'
-					url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
-					url += `&permId=${this.ID}`;
-					this.$store.commit('updateApplyItemInfo', this.itemInfo);
+
 					uni.navigateTo({
-						url: url
-					});
+						url: `/pages/business_guide/user_instructions?ID=${this.ID}`
+					})
+
+					// let url = '../base_apply/base_apply_page'
+					// url += `?itemName=${this.businessGuideModel.SXZXNAME}`;
+					// url += `&permId=${this.ID}`;
+					// uni.navigateTo({
+					// 	url: url
+					// });
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -469,12 +422,22 @@
 			align-items: center;
 			justify-content: space-between;
 			color: #222222;
-			font-size: 33upx;
 			text-align: center;
+
+			.title {
+				font-size: 36upx;
+				font-weight: 500;
+				color: #222;
+			}
 
 			.name {
 				color: #999999;
-				font-size: 28upx;
+				font-size: 24upx;
+			}
+
+			.unit {
+				color: #222;
+				font-size: 24upx;
 			}
 		}
 
