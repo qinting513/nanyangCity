@@ -12,16 +12,17 @@
 					邮递领取 <text class="right-arrow"></text>
 				</view>
 			</view>
-			<view class="bottom" v-if="defaultAddress" @click="gotoEditAddress">
+			<view class="bottom" v-if="defaultAddress" @click="gotoAddress">
 				<view class="left">
 					<view class="title">
-						{{defaultAddress.name}} {{defaultAddress.mobile}}
+						{{defaultAddress.userName || ""}} {{defaultAddress.phone || ""}}
 					</view>
 					<view class="subtitle">
-						{{defaultAddress.region}} {{defaultAddress.detail}}
+						{{defaultAddress.province || ""}}{{defaultAddress.city || ""}}{{defaultAddress.country || ""}}{{defaultAddress.detailAddress || ""}}
 					</view>
 				</view>
 				<view class="right-arrow"></view>
+				<!-- <u-icon name="trash" size="40" color="#888"></u-icon> -->
 			</view>
 		</view>
 
@@ -52,14 +53,6 @@
 		components: {
 			InputCell
 		},
-		props: {
-			defaultAddress: {
-				type: Object,
-				default: function(){
-					return null
-				}
-			}
-		},
 		data() {
 			return {
 				blmsModel: null, // 办理模式model,
@@ -88,10 +81,9 @@
 		},
 		computed: mapState(['applyItemInfo', 'userInfo',
 			'businessModel', 'formsModel', 'materialsModel',
-			'postModel', 'materialList'
+			'postModel', 'materialList', 'isAndroid', 'isIOS', 'defaultAddress'
 		]),
-		created() {
-		},
+		created() {},
 		mounted() {
 			// 获取办理模式
 			this.getPermWsfwsd();
@@ -99,15 +91,35 @@
 			this.getRegionByPermidBsnum();
 		},
 		methods: {
+
 			gotoAddress() {
-				uni.navigateTo({
-					url: '../address/address_list'
-				})
+				// uni.navigateTo({
+				// 	url: '../address/address_list'
+				// })
+				// 对于ios设备，将js函数传递给方法，例如var callback = function(data) {},innoPlus.native.selectAddress(callback);
+				// 定义的js函数需要设置一个参数来接收传递的地址数据；
+				// Android方法：android.selectAddress("functionName")
+				// iOS方法：innoPlus.native.selectAddress(callback)
+				console.log("window:", window);
+				if (this.isAndroid) {
+					android.selectAddress("getAppAddress");
+				} else if (this.isIOS) {
+					var callback = function(data) {
+						// alert('IOS地址是'+ JSON.stringify(data));
+						if (data != null && data != '') {
+							let address = JSON.stringify(data);
+							uni.setStorageSync('defaultAddress', address);
+							this.$store.commit('updateDefaultAddress', JSON.parse(address));
+						}
+					}
+					innoPlus.native.selectAddress(callback);
+				}
 			},
-			gotoEditAddress(){
-				uni.navigateTo({
-					url: '../address/add_address?id=' + this.defaultAddress.id
-				})
+
+			gotoEditAddress() {
+				// uni.navigateTo({
+				// 	url: '../address/add_address?id=' + this.defaultAddress.id
+				// })
 			},
 			// 1.获取办理模式
 			getPermWsfwsd: function() {
@@ -233,9 +245,6 @@
 				this.selectedGuiShuDiModel = this.guishudiModelList[index];
 				// console.log("eee:", index, this.selectedGuiShuDiModel);
 			},
-			gotoSelectAddress: function() {
-				console.log("跳转去选择地址");
-			},
 			pre: function() {
 				this.$emit('pre', {
 					page: 'MailExpressPage'
@@ -251,9 +260,9 @@
 					page: 'MailExpressPage'
 				});
 			},
-			getPostXmlData: function() {
-				var emsInfo;
-				var postInfo;
+			getPostXmlDataOld: function() { // 旧的方法
+				var emsInfo; // 邮寄给用户的
+				var postInfo; // 递交材料的
 				// 2 表示 邮寄递交
 				if ((this.currentDjzzcl == '2' || this.currentDjzzcl == '1') &&
 					this.networkItems != null) {
@@ -279,6 +288,32 @@
 						MOBILE: this.userAddressModel.mobile,
 						PHONE: this.userAddressModel.phone,
 						POSTCODE: this.userAddressModel.postcode,
+					};
+					emsInfo = this.getXmlByType(map);
+				} else {
+					emsInfo = "";
+				}
+				if (postInfo == "" && emsInfo == "") {
+					this.postXml = "";
+				} else {
+					this.postXml = `<emsinfos>${postInfo}${emsInfo}</emsinfos>`;
+				}
+				console.log("===> postXML:", this.postXml);
+				return this.postXml;
+			},
+			getPostXmlData: function() { // 新的方法
+				var emsInfo; // 邮寄给用户的
+				var postInfo = ""; // 递交材料的
+				if (this.defaultAddress) {
+					let fullAddress =
+						`${this.defaultAddress.province || ""}${this.defaultAddress.city || ""}${this.defaultAddress.county || ""}${this.defaultAddress.detailAddress || ""}`
+					let map = {
+						type: "2",
+						RECEIVE: this.defaultAddress.userName,
+						ADDRESS: fullAddress,
+						MOBILE: this.defaultAddress.phone,
+						PHONE: this.defaultAddress.phone,
+						POSTCODE: '000000', // 没有邮政编码
 					};
 					emsInfo = this.getXmlByType(map);
 				} else {

@@ -83,6 +83,13 @@
 			}
 		},
 		{
+			"path": "pages/business_guide/guide_page",
+			"style": {
+				"navigationBarTitleText": "办事指南",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/base_apply/base_apply_page",
 			"style": {
 				"navigationStyle": "custom"

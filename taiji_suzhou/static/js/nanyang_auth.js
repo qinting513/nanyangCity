@@ -160,7 +160,7 @@ function gotoPageWithOriginParams(params) {
 			break;
 		}
 		case 'bszn': { // 6.办事指南
-			fullUrl = fullUrl + `/#/pages/business_guide/business_guide?ID=${params.ID || ""}`
+			fullUrl = fullUrl + `/#/pages/business_guide/guide_page?ID=${params.ID || ""}`
 			break;
 		}
 		case 'sxlb': { // 7.事项列表

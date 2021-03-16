@@ -82,7 +82,7 @@
 			},
 			gotoDetail(item) {
 				uni.navigateTo({
-					url: `../business_guide/business_guide?ID=${item.ID}`
+					url: `../business_guide/guide_page?ID=${item.ID}`
 				});
 			}
 		}

@@ -271,7 +271,7 @@
 				} else {
 					uni.showToast({
 						icon: 'none',
-						title: '该事项暂不支持在线办理'
+						title: '该事项不支持在线办理'
 					})
 				}
 

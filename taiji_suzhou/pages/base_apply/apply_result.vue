@@ -26,20 +26,25 @@
 			<view class="btn bg" @click="gotoBusiness">
 				查看我的办事
 			</view>
-			<!-- <view class="btn" @click="goHome">
+			<view class="btn" @click="goHome">
 				返回首页
-			</view> -->
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
+	
 	export default {
 		data() {
 			return {
 				bsnum: null
 			}
 		},
+		computed: mapState(['isAndroid', 'isIOS']),
 		onLoad(options) {
 			if (options.bsnum) {
 				this.bsnum = options.bsnum;
@@ -48,9 +53,15 @@
 		methods: {
 			goHome() {
 				// 回到App首页
-				uni.navigateBack({
-					delta: -2
-				})
+				// 4.4.关闭
+				// 说明：此方法用于调用APP关闭webview窗口的方法。
+				// Android方法：android.close()
+				// iOS方法：innoPlus.native.close()
+				if(this.isAndroid) {
+					android.close();
+				} else if(this.isIOS) {
+					innoPlus.native.close();
+				}
 			},
 			gotoBusiness() {
 				let url = "/pages/mine/my_business_page/my_business_page"

@@ -129,47 +129,6 @@
 				);
 			},
 			getMyBusiness(type) {
-				// let user = {
-				// 	accountStatus: 0,
-				// 	address: null,
-				// 	appId: "21b6038d3f2a4373b064ede05308547a",
-				// 	city: null,
-				// 	country: null,
-				// 	email: null,
-				// 	enterAuth: null,
-				// 	gender: 0,
-				// 	id: "1632f80c937041ce8f0893b4c174ab14",
-				// 	introduction: null,
-				// 	isAgent: 0,
-				// 	isEnterprise: 0,
-				// 	isUserAuth: 0,
-				// 	mztLoginInfo: null,
-				// 	name: null,
-				// 	nickname: "U2167728001",
-				// 	phone: "15160418562",
-				// 	photoUrl: null,
-				// 	province: null,
-				// 	residentCityCode: null,
-				// 	residentCountyCode: null,
-				// 	residentProvinceCode: null,
-				// 	telephone: null,
-				// 	userAccountId: "1632f80c937041ce8f0893b4c174ab14",
-				// 	userAuth: {
-				// 		"realName": "黄山德",
-				// 		"cardId": "350500199309043016",
-				// 		"cardType": 0,
-				// 		"cardTypeCn": null,
-				// 		"status": 2,
-				// 		"cardFrontPicUrl": null,
-				// 		"cardBackPicUrl": null,
-				// 		"cardFrontBase64": null,
-				// 		"cardBackBase64": null
-				// 	},
-				// 	userGrade: 0,
-				// 	userToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpblRpbWUiOjE2MTU1MjYyNTI3OTYsInVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0IiwiYWNjb3VudFVzZXJJZCI6IjE2MzJmODBjOTM3MDQxY2U4ZjA4OTNiNGMxNzRhYjE0In0.IkVpCDAsRV2VUpdq4xhMWKHzJmsE9zG_ti9tVJj0tjXNrVbZzdk6pro3_Rz8txM0haNFlDVChNyXSOK-3g0miOAgls6_OKj6erkuM2Qd4TwpZ2NaGuRtkrec8ScymxIDCx-1JUuF8LjYv2_baDw8fYI0amgqJOtRCn0IdceG1hBz8X76IkJ8RFnxMCphaurCBFwlvOL3L3-BZ13_nQU_CGGNh0c9i8Yb8Rzvtr6x3I4XnRKGQbfdYUBB--6uQ53ig8GuE6G8plsyiuDF_-sdDwOFXxbmuTUAo-0RfFg--YAzCfqKlSFbimFPsgzIJuvkES9a5VM5XIlkNK1Gd1YWLA",
-				// 	zipCode: null,
-				// }
-				
 				let user = this.userInfo;
 				return Http.getMyBusiness(user.userToken, user.userAuth.cardId, type);
 			},

@@ -1,39 +1,48 @@
 <template>
-	<view class="item-list">
-		<view class="search">
-			<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
-				v-model="searchKeyWord" @search="startSearch"></u-search>
-		</view>
-		<view class="cell-list">
-			<view v-for="(item, index) in dataList" :key="index" class="flex-column cell">
-				<view class="flex-row top-section" @click="expendCell(index)">
-					<view>
-						<view :class="['name',expends[index]?'name-on':'']">
-							{{item.SXZXNAME}}
+	<view class="item-list-wrap">
+		<view class="item-list">
+			<view class="search">
+				<u-search :focus="autoFocus" height="40" :show-action="false" action-text="搜索" :animation="true"
+					v-model="searchKeyWord" @search="startSearch"></u-search>
+			</view>
+			<view class="cell-list">
+				<view v-for="(item, index) in dataList" :key="index" class="flex-column cell">
+					<view class="flex-row top-section" @click="expendCell(index)">
+						<view>
+							<view :class="['name',expends[index]?'name-on':'']">
+								{{item.SXZXNAME}}
+							</view>
+							<view class="desc">
+								<text class="yuyue" v-if="item.ISRESERVE == '1'">
+									可预约
+								</text>
+								<text class="shenbao" v-if="item.SFYDSB">
+									可申报
+								</text>
+								<text class="ellipsis bumen">
+									{{item.DEPTNAME || ''}}
+								</text>
+							</view>
 						</view>
-						<view class="desc">
-							<text class="yuyue" v-if="item.ISRESERVE == '1'">
-								可预约
-							</text>
-							<text class="shenbao" v-if="item.SFYDSB">
-								可申报
-							</text>
-							<text class="ellipsis bumen">
-								{{item.DEPTNAME || ''}}
-							</text>
-						</view>
+						<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
 					</view>
-					<view :class="[expends[index] ? 'bottom-arrow':'right-arrow']"></view>
-				</view>
-				<view class="flex-row cell-bottom" v-if="expends[index]">
-					<view v-for="(it,i) in (item.ISRESERVE == '1' ? btnsAll : btns)" :key="i" class="flex-column btn"
-						@click="btnClick(i, item)">
-						<image :src="it.img" mode="scaleToFill" class="btn-img"></image>
-						<view class="">{{it.name}}</view>
+					<view class="flex-row cell-bottom" v-if="expends[index]">
+						<view v-for="(it,i) in  btnsAll" :key="i" class="flex-column btn" @click="btnClick(i, item)">
+							<image
+								:src="((i== 1 &&item.SFYDSB) || (i == 2 && item.ISRESERVE == '1')) ? it.enableImg : it.disableImg"
+								mode="scaleToFill" class="btn-img"></image>
+							<view
+								:class="[(i == 0 || (i == 1 && item.SFYDSB) || (i == 2 && item.ISRESERVE == '1')) ? 'enable' : 'disable']">
+								{{it.name}}
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
 
+		</view>
+		<view class="no-more" v-if="noMoreData && dataList.length > 10">
+			没有更多数据了
 		</view>
 	</view>
 </template>
@@ -62,25 +71,19 @@
 				expends: [],
 				btnsAll: [{
 						name: '指南',
-						img: "../../static/images/home/icon_banshi_zhinan.png"
+						enableImg: "../../static/images/home/icon_banshi_zhinan.png",
+						disableImg: "../../static/images/home/icon_banshi_zhinan.png",
 					},
 					{
 						name: '申报',
-						img: "../../static/images/home/icon_banshi_shenbao.png"
+						enableImg: "../../static/images/home/icon_banshi_shenbao.png",
+						disableImg: "../../static/images/home/icon_banshi_ash_shenbao.png",
 					},
 					{
 						name: '预约',
-						img: "../../static/images/home/icon_banshi_yuyue.png"
+						enableImg: "../../static/images/home/icon_banshi_yuyue.png",
+						disableImg: "../../static/images/home/icon_banshi_ash_yuyue.png"
 					},
-				],
-				btns: [{
-						name: '指南',
-						img: "../../static/images/home/icon_banshi_zhinan.png"
-					},
-					{
-						name: '申报',
-						img: "../../static/images/home/icon_banshi_shenbao.png"
-					}
 				],
 			}
 		},
@@ -113,7 +116,7 @@
 					case 0: {
 						uni.setStorageSync('nItemInfo', JSON.stringify(item));
 						uni.navigateTo({
-							url: `../business_guide/business_guide?ID=${item.ID}`
+							url: `../business_guide/guide_page?ID=${item.ID}`
 						});
 						break;
 					}
@@ -123,8 +126,14 @@
 						break;
 					}
 					case 2: {
-						console.log("预约");
-						window.location.href = "http://111.6.77.68:8888/system/channel/getForm?id=845"
+						if (item.ISRESERVE == '1') {
+							window.location.href = "http://111.6.77.68:8888/system/channel/getForm?id=845"
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: '该事项不支持在线预约'
+							})
+						}
 						break;
 					}
 				}
@@ -156,7 +165,7 @@
 				} else {
 					uni.showToast({
 						icon: 'none',
-						title: '该事项暂不支持在线办理'
+						title: '该事项不支持在线办理'
 					})
 				}
 			},
@@ -304,7 +313,6 @@
 
 				.btn {
 					justify-content: center;
-					color: #333;
 					font-size: 25upx;
 
 					.btn-img {
@@ -313,7 +321,22 @@
 						margin-bottom: 6upx;
 					}
 				}
+
+				.enable {
+					color: #000;
+				}
+
+				.disable {
+					color: #999999;
+				}
 			}
 		}
+	}
+
+	.no-more {
+		padding: 30upx 0;
+		text-align: center;
+		color: #999999;
+		background-color: #F1F1F1;
 	}
 </style>

@@ -18,7 +18,7 @@
 					@next="nextStep"></material-page>
 			</swiper-item>
 			<swiper-item>
-				<mail-express-page ref="express" :defaultAddress="defaultAddress" @pre="preStep" @tempStore="tempStore"
+				<mail-express-page ref="express" @pre="preStep" @tempStore="tempStore"
 					@next="nextStep">
 				</mail-express-page>
 			</swiper-item>
@@ -54,7 +54,6 @@
 		},
 		data() {
 			return {
-				defaultAddress: null,
 				hasToken: false,
 				autoplay: false,
 				currentNav: 0,
@@ -86,11 +85,14 @@
 			'uploadMaterials', 'uploadMaterialsNum', 'materialList'
 		]),
 		onLoad(options) {
-			// debugger
 			let user = uni.getStorageSync('nuser');
 			if (null != user && undefined != user && '' != user) {
 				user = JSON.parse(user);
 				this.$store.commit('updateUserInfo', user);
+			}
+			let defaultAddress = uni.getStorageSync("defaultAddress");
+			if (defaultAddress != null && defaultAddress != '') {
+				this.$store.commit('updateDefaultAddress', JSON.parse(defaultAddress));
 			}
 			// 初始化数据
 			this.initPage(options);
@@ -98,17 +100,14 @@
 			this.initModels(options);
 		},
 		onShow() {
+			// window.getAppAddress();
 			// let pagearr = getCurrentPages(); //获取应用页面栈
 			// let currentPage = pagearr[pagearr.length - 1]; //获取当前页面信息
 			// console.log('option:', currentPage.options) //获取页面传递的信息
 
 			//省统一身份认证对接
 			// this.handleToken(currentPage.options);
-
-			let defaultAddress = uni.getStorageSync("defaultAddress");
-			if (defaultAddress != null && defaultAddress != '') {
-				this.defaultAddress = JSON.parse(defaultAddress);
-			}
+			
 		},
 		methods: {
 			handleToken: function(options) {
@@ -235,6 +234,7 @@
 					POSTXML: postXml
 				};
 				var that = this
+				// debugger
 				Apply.tempStore(params)
 					.then(res => {
 						console.log('申报成功:', res);
@@ -393,7 +393,6 @@
 				if (itemInfo == null) {
 					return;
 				}
-				// debugger
 				this.businessModel.largeitemid = itemInfo.LARGEITEMID;
 				this.businessModel.smallitemid = itemInfo.SMALLITEMID;
 				this.businessModel.smallitemname = itemInfo.SXZXNAME;
@@ -413,7 +412,6 @@
 				if (this.businessModel.bsnum == null || this.businessModel.bsnum.length == 0) {
 					return;
 				}
-				debugger
 				Apply.getWebhallbusiness(this.userInfo.userToken, this.businessModel.bsnum).then(res => {
 					console.log('getWebhallbusiness result:', res);
 					if (res['code'] == 200) {
@@ -553,7 +551,7 @@
 </style>
 <style lang="scss">
 	.base-apply {
-		 /deep/ .uni-scroll-view-content {
+		/deep/ .uni-scroll-view-content {
 			display: flex !important;
 			flex-direction: row;
 			justify-content: space-between !important;

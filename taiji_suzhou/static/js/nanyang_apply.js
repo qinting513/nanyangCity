@@ -59,6 +59,7 @@ function getInsFormData(token, bsnum) {
 			"BSNUM": bsnum
 		}
 		WebApi.soup(url_submit_apply, "getInsFormData", params).then(res => {
+			console.log("获取填报过的表单:", res);			
 			if (res["code"] == 200 && res["ReturnValue"] != null) {
 				let returnValue = res["ReturnValue"];
 				let forms = returnValue["FORMS"];
@@ -82,6 +83,7 @@ function getInsMaterialInfo(token, bsnum) {
 			"BSNUM": bsnum
 		}
 		WebApi.soup(url_submit_apply, "getInsMaterialInfo", params).then(res => {
+			console.log("获取填报过的材料:", res);
 			if (res["code"] == 200 && res["ReturnValue"] != null) {
 				let returnValue = res["ReturnValue"];
 				let forms = returnValue["MATERIALS"];
@@ -160,12 +162,9 @@ function getUserPostInfo(userId) {
 	})
 }
 /** 申报部分数据请求 end */
-
 function tempStore(params) {
 	return new Promise(function(resolve, reject) {
 		console.log("申报参数:", params);
-		const url_submit_apply = Http.baseUrl + "RestOnlineDeclareService";
-		// return;
 		WebApi.soup(url_submit_apply, "submit1", params).then(res => {
 			resolve(res);
 		}).catch((err) => {

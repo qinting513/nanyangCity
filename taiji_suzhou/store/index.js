@@ -16,6 +16,9 @@ const store = new Vuex.Store({
 		materialList:[], // 网络请求到的材料列表数据
 		uploadMaterials: {}, // 上传的材料数据
 		uploadMaterialsNum: {}, // 上传的材料数据数量
+		isAndroid: false , // 判断是否是安卓设备，
+		isIOS: false , // 判断是否是ios设备，
+		defaultAddress: null,
 	},
 	getters: {
 		hasLogin: state => state.hasLogin,
@@ -28,6 +31,9 @@ const store = new Vuex.Store({
 		materialList: state => state.materialList,
 		uploadMaterials: state => state.uploadMaterials,
 		uploadMaterialsNum: state => state.uploadMaterialsNum,
+		isAndroid: state => state.isAndroid,
+		isIOS: state => state.isIOS,
+		defaultAddress: state => state.defaultAddress,
 	},
 	mutations: {
 		// 更新用户状态 登录后有用户信息，此时hasLogin设置为true
@@ -60,6 +66,15 @@ const store = new Vuex.Store({
 		updateUploadMaterialsNum(state, num){
 			state.uploadMaterialsNum = num;
 		},
+		updateIsAndriod(state, flag) {
+			state.isAndroid = flag
+		},
+		updateIsIOS(state, flag) {
+			state.isIOS = flag
+		},
+		updateDefaultAddress(state, address) {
+			state.defaultAddress = address;
+		}
 	},
 	actions: {
 

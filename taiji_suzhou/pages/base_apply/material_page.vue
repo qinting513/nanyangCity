@@ -9,10 +9,13 @@
 					<view class="title">{{ m.CLMC }}</view>
 				</view>
 				<view class="flex-row center">
-					<view class="upload-img" v-for="(imgObj, imgIndex) in (materials ? materials[m.ID] : [])" :key="imgIndex" @click="previewImg(materials[m.ID], imgIndex)">
+					<view class="upload-img" v-for="(imgObj, imgIndex) in (materials ? materials[m.ID] : [])"
+						:key="imgIndex" @click="previewImg(materials[m.ID], imgIndex)">
 						<image :src="imgObj.filepath || imgObj.localImg" mode="scaleToFill"></image>
 					</view>
-					<view class="flex-column add-btn" @click="addImages(m)"><view class="add">+</view></view>
+					<view class="flex-column add-btn" @click="addImages(m)">
+						<view class="add">+</view>
+					</view>
 					<!-- <u-upload :action="action" max-count="6" :max-size="6 * 1024 * 1024" :file-list="fileList">
 					</u-upload> -->
 
@@ -208,7 +211,6 @@
 					}
 				);
 			},
-
 			/*** 上传图片到后台 1.整合所需的数据提交后台 2.刷新UI */
 			upload2wx: function(imgPath, imgName, model, successBlock, failBlock, completeBlock) {
 				let oneFile = {
